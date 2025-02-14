@@ -87,7 +87,10 @@
 
         <main class="py-4">
             @yield('content')
+           
         </main>
     </div>
+    @yield('js-libraries')
+    @yield('js-page')
 </body>
 </html>

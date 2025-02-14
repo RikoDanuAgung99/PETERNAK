@@ -16,7 +16,7 @@
                 <h2 class="card-title"><strong>Table Data Kematian</strong></h2>
                 <div class="form-group float-right">
                 <a href="{{ route('kematian.create') }}" class="btn btn-primary btn-md"> Tambah Kematian</a>
-                <a href="{{ route('print.kematian') }}" class="btn btn-success btn-md"> Print Kematian</a>
+                <a href="{{ route('print.kematian') }}" target="_blank" class="btn btn-success btn-md"> Print Kematian</a>
                 </div>
             </div>
             <div class="card-body">

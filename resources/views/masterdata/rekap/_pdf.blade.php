@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Laporan Data Kematian</title>
+    <title>Laporan Data Rekap</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -87,36 +87,42 @@
 
 <body>
     @php
-        $chunks = $kematian->chunk(5);
+        $chunks = $rekap->chunk(5); 
     @endphp
+
     @foreach ($chunks as $index => $chunk)
         <div class="kop">
-            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/cv.PNG'))) }}"
-                alt="Logo">
+            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/cv.PNG'))) }}" alt="Logo">
             <div class="kop-text">
                 <h2>CV MILENIA SARANA INFORMATIKA</h2>
                 <p>Jl. Kupang No. 93, Tanah Bumbu, Indonesia</p>
-                <p>Telp: (851) 61651610 </p>
+                <p>Telp: (851) 61651610</p>
             </div>
         </div>
-        <hr>
-        <h2 style="text-align: center;">Laporan Data Kematian</h2>
+
+        <hr class="separator">
+        <h2 style="text-align: center;">Laporan Data Rekap</h2>
+
         <table>
             <tr>
                 <th>NO.</th>
                 <th>TANGGAL</th>
                 <th>UMUR (HARI)</th>
-                <th>KEMATIAN (EKOR)</th>
-                <th>STANDAR KEMATIAN (EKOR)</th>
+                <th>JUMLAH KEMATIAN</th>
+                <th>JUMLAH PAKAN</th>
+                <th>JUMLAH OBAT</th>
+                <th>BW ACTUAL</th>
             </tr>
             @php $no = $index * 5 + 1; @endphp
-            @foreach ($chunk as $km)
+            @foreach ($chunk as $item)
                 <tr>
                     <td>{{ $no++ }}</td>
-                    <td>{{ $km->tanggal }}</td>
-                    <td>{{ $km->umur }}</td>
-                    <td>{{ $km->kematian }}</td>
-                    <td>{{ $km->std_kematian }}</td>
+                    <td>{{ $item->tanggal }}</td>
+                    <td>{{ $item->umur }}</td>
+                    <td>{{ $item->kematian }}</td>
+                    <td>{{ $item->jumlah }}</td>
+                    <td>{{ $item->jumlahObat }}</td>
+                    <td>{{ $item->bw_act }}</td>
                 </tr>
             @endforeach
         </table>
@@ -126,12 +132,13 @@
     @endforeach
 
     <div class="signature">
-        <p><strong>TANAH BUMBU, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FEBRUARI 2025</strong></p>
+        <p><strong>TANAH BUMBU, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FEBRUARI 2025</strong></p>
         <p><strong>MANAGER CV MILENIA SARANA INFORMATIKA</strong></p>
         <br><br><br>
         <p>_________________________________________</p>
         <p><strong>RIKO DANU AGUNG</strong></p>
     </div>
 </body>
+
 
 </html>
