@@ -16,7 +16,7 @@
                 <h2 class="card-title"><strong>Table Data Penggunaan Pakan </strong></h2>
                 <div class="form-group float-right">
                 <a href="{{ route('pakan.create') }}" class="btn btn-primary btn-md"> Tambah Penggunaan Pakan</a>
-                <a href="{{ route('print.pakan') }}" class="btn btn-success btn-md"> Print Penggunaan Pakan</a>
+                <a href="{{ route('print.pakan') }}" target="_blank" class="btn btn-success btn-md"> Print Penggunaan Pakan</a>
                 </div>
             </div>
             <div class="card-body">
