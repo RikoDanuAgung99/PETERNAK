@@ -1,11 +1,11 @@
 @extends('adminlte::page')
 
-@section('title', 'Data Kematian')
+@section('title', 'Data Bedah')
 
 @section('plugins.Datatables', true)
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Data Kematian</h1>
+    <h1 class="m-0 text-dark">Data Bedah</h1>
 @stop
 
 @section('content')
@@ -13,22 +13,22 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h2 class="card-title"><strong>Table Data Kematian</strong></h2>
+                <h2 class="card-title"><strong>Table Data Bedah</strong></h2>
                 <div class="form-group float-right">
-                <a href="{{ route('kematian.create') }}" class="btn btn-primary btn-md"> Tambah Kematian</a>
-                <a href="{{ route('print.kematian') }}" class="btn btn-success btn-md"> Print Kematian</a>
+                <a href="{{ route('bedah.create') }}" class="btn btn-primary btn-md"> Tambah Bedah</a>
+                <a href="{{ route('print.bedah') }}" class="btn btn-success btn-md"> Print Bedah</a>
                 </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped" id="kematian">
+                    <table class="table table-bordered table-striped" id="bedah">
                         <thead>
                             <tr>
                                 <th>NO.</th>
                                 <th>TANGGAL</th>
                                 <th>UMUR (HARI)</th>
-                                <th>KEMATIAN (EKOR)</th>
-                                <th>STANDAR KEMATIAN (EKOR)</th>
+                                <th>GEJALA</th>
+                                <th>DIAGNOSIS</th>
                                 <th class="text-center">AKSI</th>
                             </tr>
                         </thead>
@@ -43,7 +43,7 @@
 @push('js')
 <script type="text/javascript">
     $(document).ready(function() {
-        var dataTable = $('#kematian').DataTable({
+        var dataTable = $('#bedah').DataTable({
             processing: true,
             serverSide: true,
             autoWidth: false,
@@ -52,7 +52,7 @@
             "order": [
                 [0, "desc"]
             ],
-            ajax: '{{ route('get.kematian') }}',
+            ajax: '{{ route('get.bedah') }}',
             columns: [
                 {
                     data: 'DT_RowIndex',
@@ -69,12 +69,12 @@
                     name: 'umur'
                 },
                 {
-                    data: 'kematian',
-                    name: 'kematian'
+                    data: 'gejala',
+                    name: 'gejala'
                 },
                 {
-                    data: 'std_kematian',
-                    name: 'std_kematian'
+                    data: 'diagnosis',
+                    name: 'diagnosis'
                 },
                 {
                     data: 'aksi',

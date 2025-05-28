@@ -105,13 +105,13 @@
 
         <table>
             <tr>
-                <th>NO.</th>
-                <th>TANGGAL</th>
-                <th>UMUR (HARI)</th>
-                <th>JUMLAH KEMATIAN</th>
-                <th>JUMLAH PAKAN</th>
-                <th>JUMLAH OBAT</th>
-                <th>BW ACTUAL</th>
+                                    <th>NO.</th>
+                                    <th>TANGGAL</th>
+                                    <th>UMUR (HARI)</th>
+                                    <th>JUMLAH KEMATIAN (EKOR)</th>
+                                    <th>JUMLAH PAKAN (SAK)</th>
+                                    <th>JUMLAH OBAT (BUNGKUS@100g)</th>
+                                    <th>BOBOT ACTUAL (g)</th>
             </tr>
             @php $no = $index * 5 + 1; @endphp
             @foreach ($chunk as $item)

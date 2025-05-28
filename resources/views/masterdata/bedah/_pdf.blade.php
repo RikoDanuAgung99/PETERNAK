@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Laporan Data Pakan</title>
+    <title>Laporan Data Bedah</title>
     <style>
         body {
             font-family: Arial, sans-serif;
         }
 
+        /* Styling Kop Surat */
         .kop {
             display: flex;
             align-items: center;
@@ -32,12 +33,14 @@
             margin: 5px 0;
         }
 
+        /* Menurunkan garis agar lebih jauh dari kop */
         .separator {
             border: 2px solid black;
             margin-top: 20px;
             margin-bottom: 10px;
         }
 
+        /* Tabel */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -51,6 +54,7 @@
             background-color: #f2f2f2;
         }
 
+        /* Styling Tanda Tangan */
         .signature {
             width: 50%;
             text-align: center;
@@ -58,6 +62,7 @@
             margin-left: auto;
         }
 
+        /* CSS Print */
         @media print {
             .kop img {
                 display: block !important;
@@ -79,25 +84,23 @@
 
     <hr class="separator">
 
-    <h2 style="text-align: center;">Laporan Data Penggunaan Pakan</h2>
+    <h2 style="text-align: center;">Laporan Data Bedah</h2>
     <table>
         <tr>
             <th>NO.</th>
             <th>TANGGAL</th>
             <th>UMUR (HARI)</th>
-            <th>NAMA PAKAN</th>
-            <th>JENIS PAKAN</th>
-            <th>JUMLAH PAKAN</th>
+            <th>GEJALA</th>
+            <th>DIAGNOSIS</th>
         </tr>
         @php $no = 1; @endphp
-        @foreach ($pakan as $pk)
+        @foreach ($bedah as $bd)
         <tr>
             <td>{{ $no++ }}</td>
-            <td>{{ $pk->tanggal }}</td>
-            <td>{{ $pk->umur }}</td>
-            <td>{{ $pk->nama }}</td>
-            <td>{{ $pk->jenis }}</td>
-            <td>{{ $pk->jumlah }}</td>
+            <td>{{ $bd->tanggal }}</td>
+            <td>{{ $bd->umur }}</td>
+            <td>{{ $bd->gejala }}</td>
+            <td>{{ $bd->diagnosis }}</td>
         </tr>
         @endforeach
     </table>

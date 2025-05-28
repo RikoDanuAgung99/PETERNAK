@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kematian;
 use App\Models\Pakan;
+use DataTables;
 use PDF;
 use Illuminate\Http\Request;
 

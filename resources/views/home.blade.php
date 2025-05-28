@@ -9,23 +9,19 @@
 
 @section('content')
 <div class="container">
-    <div class="row text-center">
-        @php
-            $images = [
-                'kandang.jpg', 'ayam1.jpg', 'ayam2.jpg',
-                'ayam3.jpg', 'nekropsi.jpg', 'nota.jpg'
-            ];
-        @endphp
-        
-        @foreach ($images as $image)
-            <div class="col-md-4 mb-3">
-                <div class="card shadow">
-                    <div class="card-body text-center">
-                        <img src="{{ asset('images/' . $image) }}" class="img-fluid fixed-size rounded" alt="Gambar">
-                    </div>
+    <!-- Carousel -->
+    <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @php
+                $images = ['ayam3.jpg', 'kandang.3.jpg', 'ayam2.jpg'];
+            @endphp
+            
+            @foreach ($images as $index => $image)
+                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                    <img src="{{ asset('images/' . $image) }}" class="d-block w-100 rounded img-carousel" alt="Slide {{ $index + 1 }}">
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
     </div>
     
     <!-- Visi & Misi -->
@@ -38,9 +34,9 @@
                     <hr>
                     <h3 class="text-center">Misi</h3>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Menerapkan solusi teknologi informasi canggih, seperti aplikasi recording harian berbasis web, untuk meningkatkan efisiensi dan akurasi dalam manajemen peternakan.</li>
+                        <li class="list-group-item">Menerapkan solusi teknologi informasi canggih untuk meningkatkan efisiensi dan akurasi dalam manajemen peternakan.</li>
                         <li class="list-group-item">Menghasilkan ayam broiler berkualitas tinggi melalui sistem manajemen terintegrasi dan prosedur operasional standar yang ketat.</li>
-                        <li class="list-group-item">Menyediakan layanan yang profesional dan responsif kepada pelanggan serta mitra usaha, dengan dukungan tim yang kompeten.</li>
+                        <li class="list-group-item">Menyediakan layanan yang profesional dan responsif kepada pelanggan serta mitra usaha.</li>
                         <li class="list-group-item">Mengembangkan usaha peternakan dengan mengedepankan prinsip keberlanjutan, baik dari sisi ekonomi maupun lingkungan.</li>
                     </ul>
                 </div>
@@ -52,10 +48,20 @@
 
 @section('css')
     <style>
-        .fixed-size {
-            width: 100%;
-            height: 200px; /* Sesuaikan ukuran sesuai kebutuhan */
+        .img-carousel {
+            height: 400px;
             object-fit: cover;
         }
     </style>
+@stop
+
+@section('js')
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let carousel = new bootstrap.Carousel(document.querySelector('#imageCarousel'), {
+                interval: 3000,
+                wrap: true
+            });
+        });
+    </script>
 @stop

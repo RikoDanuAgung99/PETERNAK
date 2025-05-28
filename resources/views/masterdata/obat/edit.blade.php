@@ -18,31 +18,29 @@
                         @method('PUT')
                         @csrf
                         
-                        <div class="form-group row mb-3">
-                            <label class="form-label col-sm-3 col-form-label">TANGGAL</label>
-                            <div class="col-sm-2">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">TANGGAL</label>
+                            <div class="col-sm-4">
                                 <input type="date" name="tanggal" class="form-control" 
-                                       value="{{ isset($obat) ? $obat->tanggal : old('obat') }}" required>
+                                    value="{{ isset($obat) ? $obat->tanggal : old('tanggal') }}" required>
                             </div>
-                            
-                            <label class="form-label col-sm-3 col-form-label">UMUR (HARI)</label>
-                            <div class="col-sm-2">
-                                <input type="text" name="umur" class="form-control" 
-                                       value="{{ isset($obat) ? $obat->umur : old('obat') }}" required>
+
+                            <label class="col-sm-2 col-form-label">UMUR (HARI)</label>
+                            <div class="col-sm-4">
+                                <input type="number" name="umur" class="form-control" 
+                                    value="{{ isset($obat) ? $obat->umur : old('umur') }}" required>
                             </div>
                         </div>
                         
-                        <div class="form-group row mb-3">
-                            <label class="form-label col-sm-3 col-form-label">NAMA OBAT</label>
-                            <div class="col-sm-2">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">NAMA OBAT</label>
+                            <div class="col-sm-4">
                                 <input type="text" name="nama" class="form-control" 
-                                       value="{{ isset($obat) ? $obat->nama : old('obat') }}" required>
+                                    value="{{ isset($obat) ? $obat->nama : old('nama') }}" required>
                             </div>
-                        </div>
-                        
-                        <div class="form-group row mb-3">
-                            <label class="form-label col-sm-3">JENIS OBAT</label>
-                            <div class="col-sm-2">
+
+                            <label class="col-sm-2 col-form-label">JENIS OBAT</label>
+                            <div class="col-sm-4">
                                 <select name="jenis" class="form-control" required>
                                     <option value="" selected disabled>-- Pilih Jenis Obat --</option>
                                     <option value="ANTIBIOTIK" {{ $obat->jenis == 'ANTIBIOTIK' ? 'selected' : '' }}>ANTIBIOTIK</option>
@@ -52,11 +50,11 @@
                             </div>
                         </div>
                         
-                        <div class="form-group row mb-3">
-                            <label class="form-label col-sm-3 col-form-label">JUMLAH OBAT (BUNGKUS/100g)</label>
-                            <div class="col-sm-2">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">JUMLAH OBAT (BUNGKUS/100g)</label>
+                            <div class="col-sm-4">
                                 <input type="number" name="jumlah" class="form-control" 
-                                       value="{{ isset($obat) ? $obat->jumlah : old('obat') }}" required>
+                                    value="{{ isset($obat) ? $obat->jumlah : old('jumlah') }}" required>
                             </div>
                         </div>
                         

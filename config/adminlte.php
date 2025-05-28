@@ -311,42 +311,164 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
-        ['header' => 'MASTER DATA'],
+                [
+                    'text' => 'Pengguna',
+                    'route' => 'pengguna.index',
+                    'icon' => 'fas fa-user',
+                ],
+
         [
-            'text' => 'Pengguna',
-            'route' => 'pengguna.index',
-            'icon' => 'fas fa-fv fa-user',
+            'text' => 'RECORDING',
+            'icon' => 'fas fa-database',
+            'submenu' => [
+                [
+                    'text' => 'Kematian',
+                    'route' => 'kematian.index',
+                    'icon' => 'fas fa-skull-crossbones',
+                ],
+                [
+                    'text' => 'Pakan',
+                    'route' => 'pakan.index',
+                    'icon' => 'fas fa-seedling',
+                ],
+                [
+                    'text' => 'Obat',
+                    'route' => 'obat.index',
+                    'icon' => 'fas fa-capsules',
+                ],
+                [
+                    'text' => 'Bobot',
+                    'route' => 'bw.index',
+                    'icon' => 'fas fa-balance-scale',
+                ],
+                [
+                    'text' => 'Bedah',
+                    'route' => 'bedah.index',
+                    'icon' => 'fas fa-cut',
+                ],
+                [
+                    'text' => 'Rekap',
+                    'route' => 'rekap.index',
+                    'icon' => 'fas fa-book',
+                ],
+            ],
         ],
+
         [
-            'text' => 'Kematian',
-            'route' => 'kematian.index',
-            'icon' => 'fas fa-skull-crossbones',
+            'text' => 'REKAPITULASI',
+            'icon' => 'fas fa-database',
+            'submenu' => [
+                [
+                    'text' => 'Transaksi Bibit',
+                    'route' => '',
+                    'icon' => 'fas fa-dollar-sign',
+                ],
+                [
+                    'text' => 'Transaksi Pakan',
+                    'route' => '',
+                    'icon' => 'fas fa-dollar-sign',
+                ],
+                [
+                    'text' => 'Transaksi Obat',
+                    'route' => '',
+                    'icon' => 'fas fa-dollar-sign',
+                ],
+                [
+                    'text' => 'Transaksi Panen',
+                    'route' => '',
+                    'icon' => 'fas fa-dollar-sign',
+                ],
+                [
+                    'text' => 'Rekapitulasi',
+                    'route' => '',
+                    'icon' => 'fas fa-dollar-sign',
+                ],
+            ],
         ],
+
         [
-            'text' => 'Pakan',
-            'route' => 'pakan.index',
-            'icon' => 'fas fa-seedling',
+            'text'    => 'REKAP TAHUNAN',
+            'icon'    => 'fas fa-calendar-alt',
+            'submenu' => [
+                [
+                    'text'    => 'Recording',
+                    'icon'    => 'fas fa-chart-line',
+                    'submenu' => [
+                        [
+                            'text'  => 'Periode 1',
+                            'route' => '',
+                            'icon'  => 'fas fa-circle',
+                        ],
+                        [
+                            'text'  => 'Periode 2',
+                            'route' => '',
+                            'icon'  => 'fas fa-circle',
+                        ],
+                        [
+                            'text'  => 'Periode 3',
+                            'route' => '',
+                            'icon'  => 'fas fa-circle',
+                        ],
+                        [
+                            'text'  => 'Periode 4',
+                            'route' => '',
+                            'icon'  => 'fas fa-circle',
+                        ],
+                        [
+                            'text'  => 'Periode 5',
+                            'route' => '',
+                            'icon'  => 'fas fa-circle',
+                        ],
+                        [
+                            'text'  => 'Periode 6',
+                            'route' => '',
+                            'icon'  => 'fas fa-circle',
+                        ],
+                    ],
+                ],
+                [
+                    'text'  => 'Rekapitulasi',
+                    'route' => '',
+                    'icon'  => 'fas fa-book-open',
+                    'submenu' => [
+                        [
+                            'text'  => 'Periode 1',
+                            'route' => '',
+                            'icon'  => 'fas fa-circle',
+                        ],
+                        [
+                            'text'  => 'Periode 2',
+                            'route' => '',
+                            'icon'  => 'fas fa-circle',
+                        ],
+                        [
+                            'text'  => 'Periode 3',
+                            'route' => '',
+                            'icon'  => 'fas fa-circle',
+                        ],
+                        [
+                            'text'  => 'Periode 4',
+                            'route' => '',
+                            'icon'  => 'fas fa-circle',
+                        ],
+                        [
+                            'text'  => 'Periode 5',
+                            'route' => '',
+                            'icon'  => 'fas fa-circle',
+                        ],
+                        [
+                            'text'  => 'Periode 6',
+                            'route' => '',
+                            'icon'  => 'fas fa-circle',
+                        ],
+                    ],
+                ],
+            ],
         ],
-        [
-            'text' => 'Obat',
-            'route' => 'obat.index',
-            'icon' => 'fas fa-capsules',
-        ],
-        [
-            'text' => 'Bobot',
-            'route' => 'bw.index',
-            'icon' => 'fas fa-balance-scale',
-        ],
-        [
-            'text' => 'Bedah',
-            'route' => '',
-            'icon' => 'fas fa-cut',
-        ],
-        [
-            'text' => 'Rekap',
-            'route' => 'rekap.index',
-            'icon' => 'fas fa-book',
-        ],
+        
+        
+       
+        
         //['header' => 'account_settings'],
         //[
             //'text' => 'profile',

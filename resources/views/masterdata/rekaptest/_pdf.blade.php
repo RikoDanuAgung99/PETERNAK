@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Laporan Data Pakan</title>
+    <title>Laporan Data Rekap</title>
     <style>
         body {
             font-family: Arial, sans-serif;
         }
 
+        /* Styling Kop Surat */
         .kop {
             display: flex;
             align-items: center;
@@ -32,12 +33,14 @@
             margin: 5px 0;
         }
 
+        /* Menurunkan garis agar lebih jauh dari kop */
         .separator {
             border: 2px solid black;
             margin-top: 20px;
             margin-bottom: 10px;
         }
 
+        /* Tabel */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -51,6 +54,7 @@
             background-color: #f2f2f2;
         }
 
+        /* Styling Tanda Tangan */
         .signature {
             width: 50%;
             text-align: center;
@@ -58,6 +62,7 @@
             margin-left: auto;
         }
 
+        /* CSS Print */
         @media print {
             .kop img {
                 display: block !important;
@@ -79,25 +84,27 @@
 
     <hr class="separator">
 
-    <h2 style="text-align: center;">Laporan Data Penggunaan Pakan</h2>
+    <h2 style="text-align: center;">Laporan Data Rekap</h2>
     <table>
         <tr>
             <th>NO.</th>
             <th>TANGGAL</th>
             <th>UMUR (HARI)</th>
-            <th>NAMA PAKAN</th>
-            <th>JENIS PAKAN</th>
-            <th>JUMLAH PAKAN</th>
+            <th>KEMATIAN (EKOR)</th>
+            <th>PAKAN (SAK)</th>
+            <th>OBAT (BUNGKUS@100g)</th>
+            <th>BOBOT (g)</th>
         </tr>
         @php $no = 1; @endphp
-        @foreach ($pakan as $pk)
+        @foreach ($rekaptest as $rt)
         <tr>
             <td>{{ $no++ }}</td>
-            <td>{{ $pk->tanggal }}</td>
-            <td>{{ $pk->umur }}</td>
-            <td>{{ $pk->nama }}</td>
-            <td>{{ $pk->jenis }}</td>
-            <td>{{ $pk->jumlah }}</td>
+            <td>{{ $rt->tanggal }}</td>
+            <td>{{ $rt->umur }}</td>
+            <td>{{ $rt->kematian }}</td>
+            <td>{{ $rt->pakan }}</td>
+            <td>{{ $rt->obat }}</td>
+            <td>{{ $rt->bobot }}</td>
         </tr>
         @endforeach
     </table>

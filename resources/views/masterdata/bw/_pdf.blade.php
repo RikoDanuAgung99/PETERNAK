@@ -108,7 +108,7 @@
     </table>
 
     <div class="signature">
-        <p><strong>TANAH BUMBU, FEBRUARI 2025</strong></p>
+        <p><strong>TANAH BUMBU, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FEBRUARI 2025</strong></p>
         <p><strong>MANAGER CV MILENIA SARANA INFORMATIKA</strong></p>
         <br><br><br>
         <p>_________________________________________</p>

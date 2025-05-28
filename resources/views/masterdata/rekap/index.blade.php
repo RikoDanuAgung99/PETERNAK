@@ -20,8 +20,7 @@
                 <div class="card-header">
                     <h2 class="card-title"><strong>Table Data Rekap </strong></h2>
                     <div class="form-group float-right">
-                        {{-- <a href="{{ route('pakan.create') }}" class="btn btn-primary btn-md"> Tambah Penggunaan Pakan</a> --}}
-                <a href="{{ route('print.rekap') }}"  target="_blank" class="btn btn-success btn-md"> Print Penggunaan Pakan</a>
+                        <a href="{{ route('print.rekap') }}"  target="_blank" class="btn btn-success btn-md"> Print Data Rekap</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -32,12 +31,10 @@
                                     <th>NO.</th>
                                     <th>TANGGAL</th>
                                     <th>UMUR (HARI)</th>
-                                    <th>JUMLAH KEMATIAN</th>
-                                    {{-- <th>JENIS PAKAN</th> --}}
-                                    <th>JUMLAH PAKAN</th>
-                                    <th>JUMLAH OBAT</th>
-                                    <th>BW ACTUAL</th>
-                                    {{-- <th class="text-center">AKSI</th> --}}
+                                    <th>JUMLAH KEMATIAN (EKOR)</th>
+                                    <th>JUMLAH PAKAN (SAK)</th>
+                                    <th>JUMLAH OBAT (BUNGKUS@100g)</th>
+                                    <th>BOBOT ACTUAL (g)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,7 +44,6 @@
                                 @foreach ($rekap as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        {{-- <td></td> --}}
                                         <td>{{ $item->tanggal }}</td>
                                         <td>{{ $item->umur }}</td>
                                         <td>{{ $item->kematian }}</td>
@@ -59,41 +55,32 @@
                             </tbody>
                         </table>
                     </div>
-                    {{-- <span>{{ number_format(($page - 1) * $halaman + 1, 0) . ' - ' . number_format($no - 1, 0) . ' Of Over ' . number_format($rekap->total(), 0) . ' Result' }} --}}
-                    </span>
                     <div class="card-footer">
                         {{ $rekap->links() }}
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
 @stop
 
-{{-- @push('js')
+@push('js')
 <script type="text/javascript">
     $(document).ready(function() {
-        var dataTable = $('#pakan').DataTable({
-            processing: true,
-            serverSide: true,
+        $('#rekap').DataTable({
             autoWidth: false,
             stateSave: true,
-            // scrollX: true,
-            "order": [
-                [0, "desc"]
-            ],
-            ajax: '{{ route('get.pakan') }}',
+            "order": [[1, "desc"]], // Urutkan berdasarkan tanggal (kolom ke-2)
             columns: [
-                {
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false
-                },
-                            ]
+                { orderable: false }, // NO. (biar ga bisa di-sort)
+                { orderable: true },  // TANGGAL
+                { orderable: true },  // UMUR (HARI)
+                { orderable: true },  // JUMLAH KEMATIAN (EKOR)
+                { orderable: true },  // JUMLAH PAKAN (SAK)
+                { orderable: true },  // JUMLAH OBAT (BUNGKUS@100g)
+                { orderable: true }   // BW ACTUAL (g)
+            ]
         });
     });
 </script>
-@endpush --}}
+@endpush
