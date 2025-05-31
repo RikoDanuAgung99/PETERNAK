@@ -10,7 +10,7 @@ class Bw extends Model
     use HasFactory;
 
     protected $table = 'bw'; // Pastikan sesuai dengan tabel di database
-    protected $fillable = ['tanggal','umur','bw_act','bw_std','dif_bw']; // Pastikan kolom sesuai
-    public $timestamps = false;
+    protected $fillable = ['tanggal','umur','bw_act','bw_std','dif_bw', 'keterangan']; // Pastikan kolom sesuai
+    public $timestamps = true;
 
 }

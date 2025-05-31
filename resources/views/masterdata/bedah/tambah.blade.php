@@ -14,33 +14,40 @@
                     <h3 class="card-title"><strong>Tambah Data Bedah</strong></h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('bedah.store') }}" method="post">
+                    <form action="{{ route('bedah.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group row mb-3">
                             <label class="form-label col-sm-2">TANGGAL</label>
                             <div class="col-sm-4">
-                                <input type="date" name="tanggal" class="form-control"
-                                    value="{{ old('tanggal') }}" required>
+                                <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') }}"
+                                    required>
                             </div>
 
                             <label class="form-label col-sm-2">UMUR (HARI)</label>
                             <div class="col-sm-4">
-                                <input type="text" name="umur" class="form-control"
-                                    value="{{ old('umur') }}" required>
+                                <input type="text" name="umur" class="form-control" value="{{ old('umur') }}"
+                                    required>
                             </div>
                         </div>
 
                         <div class="form-group row mb-3">
                             <label class="form-label col-sm-2">GEJALA</label>
                             <div class="col-sm-4">
-                                <input type="text" name="gejala" class="form-control"
-                                    value="{{ old('gejala') }}" required>
+                                <input type="text" name="gejala" class="form-control" value="{{ old('gejala') }}"
+                                    required>
                             </div>
 
                             <label class="form-label col-sm-2">DIAGNOSIS</label>
                             <div class="col-sm-4">
-                                <input type="text" name="diagnosis" class="form-control"
-                                    value="{{ old('diagnosis') }}" required>
+                                <input type="text" name="diagnosis" class="form-control" value="{{ old('diagnosis') }}"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="form-label col-sm-2">FOTO</label>
+                            <div class="col-sm-4">
+                                <input type="file" name="images" class="form-control" accept="image/*">
                             </div>
                         </div>
 

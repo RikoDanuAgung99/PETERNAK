@@ -35,6 +35,7 @@
                                     <th>JUMLAH PAKAN (SAK)</th>
                                     <th>JUMLAH OBAT (BUNGKUS@100g)</th>
                                     <th>BOBOT ACTUAL (g)</th>
+                                    <th>KETERANGAN</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,6 +51,7 @@
                                         <td>{{ $item->jumlah }}</td>
                                         <td>{{ $item->jumlahObat }}</td>
                                         <td>{{ $item->bw_act }}</td>
+                                        <td>{{ $item->keterangan }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -65,22 +67,4 @@
 @stop
 
 @push('js')
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#rekap').DataTable({
-            autoWidth: false,
-            stateSave: true,
-            "order": [[1, "desc"]], // Urutkan berdasarkan tanggal (kolom ke-2)
-            columns: [
-                { orderable: false }, // NO. (biar ga bisa di-sort)
-                { orderable: true },  // TANGGAL
-                { orderable: true },  // UMUR (HARI)
-                { orderable: true },  // JUMLAH KEMATIAN (EKOR)
-                { orderable: true },  // JUMLAH PAKAN (SAK)
-                { orderable: true },  // JUMLAH OBAT (BUNGKUS@100g)
-                { orderable: true }   // BW ACTUAL (g)
-            ]
-        });
-    });
-</script>
 @endpush

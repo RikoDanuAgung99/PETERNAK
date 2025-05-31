@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class RekapController extends Controller
 {
     public function index() {
-        $halaman = 5;
+        $halaman = 10;
         $range = request()->get('r');
         $rekap = Pakan::select(
             'pakan.id',
@@ -22,7 +22,8 @@ class RekapController extends Controller
             'kematian.id',
             'kematian.kematian',
             'obat.jumlah as  jumlahObat',   
-            'bw.bw_act'
+            'bw.bw_act',
+            'bw.keterangan'
         )
             ->leftJoin('kematian', function($join) {
                 $join->on('kematian.tanggal', '=', 'pakan.tanggal'); 
@@ -50,7 +51,8 @@ class RekapController extends Controller
             'kematian.id',
             'kematian.kematian',
             'obat.jumlah as  jumlahObat',   
-            'bw.bw_act'
+            'bw.bw_act',
+            'bw.keterangan'
         )
             ->leftJoin('kematian', function($join) {
                 $join->on('kematian.tanggal', '=', 'pakan.tanggal'); 

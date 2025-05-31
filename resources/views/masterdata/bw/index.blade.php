@@ -30,6 +30,7 @@
                                 <th>BOBOT ACTUAL(g)</th>
                                 <th>BOBOT STANDAR(g)</th>
                                 <th>DIFFERENT BOBOT(g)</th>
+                                <th>KETERANGAN</th>
                                 <th class="text-center">AKSI</th>
                             </tr>
                         </thead>
@@ -80,6 +81,10 @@
                 {
                     data: 'dif_bw',
                     name: 'dif_bw'
+                },
+                {
+                    data: 'keterangan',
+                    name: 'keterangan'
                 },
                 {
                     data: 'aksi',

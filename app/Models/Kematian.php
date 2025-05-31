@@ -9,6 +9,6 @@ class Kematian extends Model
     use HasFactory;
 
     protected $table = 'kematian'; // Pastikan sesuai dengan tabel di database
-    protected $fillable = ['tanggal','umur', 'kematian', 'std_kematian']; // Pastikan kolom sesuai
-    public $timestamps = false;
+    protected $fillable = ['tanggal','umur', 'kematian', 'std_kematian', 'keterangan']; // Pastikan kolom sesuai
+    public $timestamps = true;
 }

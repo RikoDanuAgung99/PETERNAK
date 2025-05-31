@@ -360,22 +360,22 @@ return [
             'submenu' => [
                 [
                     'text' => 'Transaksi Bibit',
-                    'route' => '',
+                    'route' => 'transaksiBibit.index',
                     'icon' => 'fas fa-dollar-sign',
                 ],
                 [
                     'text' => 'Transaksi Pakan',
-                    'route' => '',
+                    'route' => 'transaksiPakan.index',
                     'icon' => 'fas fa-dollar-sign',
                 ],
                 [
                     'text' => 'Transaksi Obat',
-                    'route' => '',
+                    'route' => 'transaksiObat.index',
                     'icon' => 'fas fa-dollar-sign',
                 ],
                 [
                     'text' => 'Transaksi Panen',
-                    'route' => '',
+                    'route' => 'panen.index',
                     'icon' => 'fas fa-dollar-sign',
                 ],
                 [

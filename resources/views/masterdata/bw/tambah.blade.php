@@ -46,8 +46,17 @@
                             <div class="col-sm-4">
                                 <input type="number" name="dif_bw" class="form-control" value="{{ old('dif_bw') }}" required>
                             </div>
-                        </div>
 
+                            <label class="form-label col-sm-2">KETERANGAN</label>
+                            <div class="col-sm-4">
+                                <select name="keterangan" class="form-control" required>
+                                    <option value="">-- Pilih Keterangan --</option>
+                                    <option value="sangat baik" {{ old('keterangan') == 'sangat baik' ? 'selected' : '' }}>Sangat Baik</option>
+                                    <option value="kurang baik" {{ old('keterangan') == 'kurang baik' ? 'selected' : '' }}>Kurang Baik</option>
+                                </select>
+                            </div>
+                        </div>
+                        
                         <div class="card-footer text-center">
                             <button type="submit" class="btn btn-info" id="simpan">SIMPAN</button>
                             <a href="{{ route('bw.index') }}" class="btn btn-danger">BATAL</a>

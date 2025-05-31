@@ -6,34 +6,37 @@ use Illuminate\Http\Request;
 use App\Models\Bedah;
 use DataTables;
 use Session;
-use Alert;
+use RealRashid\SweetAlert\Facades\Alert;
 use PDF;
+use Illuminate\Support\Facades\Storage;
 
 class BedahController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Bedah $bedah)
+    public function index()
     {
-        return view('masterdata.bedah.index', compact('bedah'));
+        $halaman = 10;
+        $bedah = Bedah::orderBy('tanggal', 'desc')->paginate($halaman);
+        $data = compact('halaman', 'bedah');
+        return view('masterdata.bedah.index', $data);
     }
-
     public function getBedah(Request $request)
     {
         if ($request->ajax()) {
-        $bedah = Bedah::all();
-        return DataTables::of($bedah)
-        ->editColumn('aksi', function ($bedah) {
-        return view('partials._action_bedah', [
-        'model' => $bedah,
-        'form_url' => $bedah->id,
-        'edit_url' => route('bedah.edit', $bedah->id),
-        ]);
-        })
-        ->addIndexColumn()
-        ->rawColumns(['aksi'])
-        ->make(true);
+            $bedah = Bedah::all();
+            return DataTables::of($bedah)
+                ->editColumn('aksi', function ($bedah) {
+                    return view('partials._action_bedah', [
+                        'model' => $bedah,
+                        'form_url' => $bedah->id,
+                        'edit_url' => route('bedah.edit', $bedah->id),
+                    ]);
+                })
+                ->addIndexColumn()
+                ->rawColumns(['aksi'])
+                ->make(true);
         }
     }
 
@@ -49,20 +52,29 @@ class BedahController extends Controller
      */
     public function store(Request $request)
     {
-         // memvalidasi inputan
-        $this->validate($request, [
-        'tanggal' => 'required|date', // Validasi untuk tanggal
-        'umur' => 'required|numeric',
-        'gejala' => 'required',
-        'diagnosis' => 'required',
-        ]);
+        try {
+            if ($request->hasFile('images')) {
+                $image = $request->file('images');
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->storeAs('public/bedah', $imageName);
+            } else {
+                $imageName = null;
+            }
 
-        // insert data ke database
-        Bedah::create($request->all());
-        Alert::success('Sukses', 'Berhasil Menambahkan Data Bedah Baru');
-        return redirect()->route('bedah.index');
+            Bedah::create([
+                'tanggal' => $request->tanggal,
+                'umur' => $request->umur,
+                'gejala' => $request->gejala,
+                'diagnosis' => $request->diagnosis,
+                'images' => $imageName,
+            ]);
+
+            Alert::success('Sukses', 'Berhasil Menambahkan Data Bedah Baru');
+            return redirect()->route('bedah.index');
+        } catch (\Exception $e) {
+            // dd('Upload gagal:', $e->getMessage());
+        }
     }
-
     /**
      * Display the specified resource.
      */
@@ -82,19 +94,53 @@ class BedahController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    // public function update(Request $request, Bedah $bedah)
+    // {
+    //     $this->validate($request, [
+    //         'tanggal' => 'required|date',
+    //         'umur' => 'required|numeric',
+    //         'gejala' => 'required',
+    //         'diagnosis' => 'required',
+    //         'images' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi untuk gambar
+    //     ]);
+
+    //     // insert data ke database
+    //     $bedah->update($request->all());
+    //     Alert::success('Sukses', 'Berhasil Mengupdate Data Bedah');
+    //     return redirect()->route('bedah.index');
+    // }
     public function update(Request $request, Bedah $bedah)
     {
         $this->validate($request, [
-        'tanggal' => 'required|date',
-        'umur' => 'required|numeric',
-        'gejala' => 'required',
-        'diagnosis' => 'required',
+            'tanggal' => 'required|date',
+            'umur' => 'required|numeric',
+            'gejala' => 'required',
+            'diagnosis' => 'required',
+            'images' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // insert data ke database
-        $bedah->update($request->all());
-        Alert::success('Sukses', 'Berhasil Mengupdate Data Bedah');
-        return redirect()->route('bedah.index');
+        try {
+            $data = $request->only(['tanggal', 'umur', 'gejala', 'diagnosis']);
+
+            if ($request->hasFile('images')) {
+                // Hapus gambar lama jika ada
+                if ($bedah->images && Storage::exists('public/bedah/' . $bedah->images)) {
+                    Storage::delete('public/bedah/' . $bedah->images);
+                }
+
+                $image = $request->file('images');
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->storeAs('public/bedah', $imageName);
+                $data['images'] = $imageName;
+            }
+
+            $bedah->update($data);
+
+            Alert::success('Sukses', 'Berhasil Mengupdate Data Bedah');
+            return redirect()->route('bedah.index');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Gagal mengupdate data.'])->withInput();
+        }
     }
 
     /**
@@ -102,7 +148,7 @@ class BedahController extends Controller
      */
     public function destroy(Bedah $bedah)
     {
-          $bedah->destroy($bedah->id);
+        $bedah->destroy($bedah->id);
         Alert::success('Sukses', 'Berhasil Menghapus Bedah ');
         return redirect()->route('bedah.index');
     }

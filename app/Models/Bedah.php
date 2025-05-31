@@ -10,6 +10,8 @@ class Bedah extends Model
     use HasFactory;
 
     protected $table = 'bedah'; // Pastikan sesuai dengan tabel di database
-    protected $fillable = ['tanggal','umur', 'gejala', 'diagnosis']; // Pastikan kolom sesuai
-    public $timestamps = false;
+    protected $fillable = ['tanggal','umur', 'gejala', 'diagnosis', 'images']; // Pastikan kolom sesuai
+    
+    public $timestamps = true;
+
 }
