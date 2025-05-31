@@ -47,6 +47,13 @@
                             <div class="col-sm-4">
                                 <input type="number" name="dif_bw" class="form-control" value="{{ isset($bw) ? $bw->dif_bw : old('dif_bw') }}" required>
                             </div>
+                            <label class="col-sm-2 col-form-label">KETERANGAN</label>
+                            <div class="col-sm-4">
+                                <select name="keterangan" class="form-control" required>
+                                    <option value="">-- Pilih Keterangan --</option>
+                                    <option value="sangat baik" {{ (isset($bw) && $bw->keterangan == 'sangat baik') ? 'selected' : (old('keterangan') == 'sangat baik' ? 'selected' : '') }}>Sangat Baik</option>
+                                    <option value="kurang baik" {{ (isset($bw) && $bw->keterangan == 'kurang baik') ? 'selected' : (old('keterangan') == 'kurang baik' ? 'selected' : '') }}>Kurang Baik</option>
+                                </select>
                         </div>
 
                         <div class="card-footer text-center">

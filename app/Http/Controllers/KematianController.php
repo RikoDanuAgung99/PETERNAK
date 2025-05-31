@@ -56,6 +56,7 @@ class KematianController extends Controller
         'umur' => 'required|numeric',
         'kematian' => 'required|numeric',
         'std_kematian' => 'required|numeric',
+        'keterangan' => 'required|string|max:255',
         ]);
 
         // insert data ke database
@@ -90,6 +91,7 @@ class KematianController extends Controller
         'umur' => 'required|numeric',
         'kematian' => 'required|numeric',
         'std_kematian' => 'required|numeric',
+        'keterangan' => 'required|string|max:255',
         ]);
 
         // insert data ke database

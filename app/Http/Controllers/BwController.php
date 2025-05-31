@@ -57,6 +57,7 @@ class BwController extends Controller
         'bw_act' => 'required|numeric',
         'bw_std' => 'required|numeric',
         'dif_bw' => 'required|numeric',
+        'keterangan' => 'nullable|string|max:255', 
         ]);
 
         // insert data ke database
@@ -92,6 +93,7 @@ class BwController extends Controller
         'bw_act' => 'required|numeric',
         'bw_std' => 'required|numeric',
         'dif_bw' => 'required|numeric',
+        'keterangan' => 'nullable|string|max:255',
         ]);
 
         // insert data ke database

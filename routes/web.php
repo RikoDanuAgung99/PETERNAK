@@ -5,8 +5,13 @@ use App\Http\Controllers\PakanController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\BwController;
 use App\Http\Controllers\BedahController;
+use App\Http\Controllers\HargaKontrakController;
+use App\Http\Controllers\PanenController;
 use App\Http\Controllers\RekaptestController;
 use App\Http\Controllers\RekapController;
+use App\Http\Controllers\TransaksiBibitController;
+use App\Http\Controllers\TransaksiObatController;
+use App\Http\Controllers\TransaksiPakanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('home');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
@@ -99,6 +104,25 @@ Route::get('print-rekaptest', [RekaptestController::class, 'printPdf'])->name('p
 Route::resource(name: 'rekap', controller: RekapController::class);
 Route::get(uri: 'get-rekap', action: [RekapController::class, 'getrekap'])->name(name: 'get.rekap');
 Route::get('print-rekap', [RekapController::class, 'printPdf'])->name('print.rekap');
+
+Route::resource(name: 'transaksiObat', controller: TransaksiObatController::class);
+Route::get('get-transaksiObat', [TransaksiObatController::class, 'gettransaksiObat'])->name('get.transaksiObat');
+Route::get('print-transaksiObat', [TransaksiObatController::class, 'printPdf'])->name('print.transaksiObat');
+
+Route::resource(name: 'transaksiPakan', controller: TransaksiPakanController::class);
+Route::get('get-transaksiPakan', [TransaksiPakanController::class, 'gettransaksiPakan'])->name('get.transaksiPakan');
+Route::get('print-transaksiPakan', [TransaksiPakanController::class, 'printPdf'])->name('print.transaksiPakan');
+
+Route::resource(name: 'transaksiBibit', controller: TransaksiBibitController::class);
+Route::get('get-transaksiBibit', [TransaksiBibitController::class, 'gettransaksiBibit'])->name('get.transaksiBibit');
+Route::get('print-transaksiBibit', [TransaksiBibitController::class, 'printPdf'])->name('print.transaksiBibit');
+
+
+Route::resource(name: 'panen', controller: PanenController::class);
+Route::get('get-panen', [PanenController::class, 'getPanen'])->name('get.panen');
+Route::get('print-panen', [PanenController::class, 'printPdf'])->name('print.panen');
+
+
 
 Auth::routes();
 
