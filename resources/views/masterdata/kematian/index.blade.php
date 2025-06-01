@@ -15,9 +15,13 @@
                 <div class="card-header">
                     <h2 class="card-title"><strong>Table Data Kematian</strong></h2>
                     <div class="form-group float-right">
-                        <a href="{{ route('kematian.create') }}" class="btn btn-primary btn-md"> Tambah Kematian</a>
+                        @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'PETERNAK')
+                            <a href="{{ route('kematian.create') }}" class="btn btn-primary btn-md"> Tambah Kematian</a>
+                        @endif
+
                         <a href="{{ route('print.kematian') }}" class="btn btn-success btn-md"> Print Kematian</a>
                     </div>
+
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -30,7 +34,9 @@
                                     <th>KEMATIAN (EKOR)</th>
                                     <th>STANDAR KEMATIAN (EKOR)</th>
                                     <th>PENYEBAB KEMATIAN</th>
-                                    <th class="text-center">AKSI</th>
+                                    @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'PETERNAK')
+                                        <th class="text-center">AKSI</th>
+                                    @endif  
                                 </tr>
                             </thead>
                         </table>

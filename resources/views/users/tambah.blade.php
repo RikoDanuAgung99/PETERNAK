@@ -65,6 +65,7 @@
                                 <option value="" selected disabled>-- Pilih Level --</option>
                                 <option value="ADMIN">ADMIN</option>
                                 <option value="PETERNAK">PETERNAK</option>
+                                <option value="TS">TS</option>
                             </select>
                         </div>
                     </div>

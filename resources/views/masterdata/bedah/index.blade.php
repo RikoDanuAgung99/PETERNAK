@@ -20,7 +20,9 @@
                 <div class="card-header">
                     <h2 class="card-title"><strong>Table Data Bedah</strong></h2>
                     <div class="form-group float-right">
-                        <a href="{{ route('bedah.create') }}" class="btn btn-primary btn-md"> Tambah Bedah</a>
+                        @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'PETERNAK')
+                            <a href="{{ route('bedah.create') }}" class="btn btn-primary btn-md"> Tambah Bedah</a>
+                        @endif
                         <a href="{{ route('print.bedah') }}" class="btn btn-success btn-md"> Print Bedah</a>
                     </div>
                 </div>
@@ -35,7 +37,9 @@
                                     <th>GEJALA</th>
                                     <th>DIAGNOSIS</th>
                                     <th>FOTO</th>
-                                    <th class="text-center">AKSI</th>
+                                    @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'PETERNAK')
+                                        <th class="text-center">AKSI</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,11 +58,14 @@
                                                     data-toggle="modal" data-target="#imageModal{{ $item->id }}">
 
                                                 <!-- Modal -->
-                                                <div class="modal fade" id="imageModal{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel{{ $item->id }}" aria-hidden="true">
+                                                <div class="modal fade" id="imageModal{{ $item->id }}" tabindex="-1"
+                                                    role="dialog" aria-labelledby="imageModalLabel{{ $item->id }}"
+                                                    aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-body text-center">
-                                                                <img src="{{ asset('storage/bedah/' . $item->images) }}" alt="Foto Besar" class="img-fluid">
+                                                                <img src="{{ asset('storage/bedah/' . $item->images) }}"
+                                                                    alt="Foto Besar" class="img-fluid">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -67,16 +74,18 @@
                                                 -
                                             @endif
                                         </td>
-                                        <td class="text-center">
-                                            <a href="{{ route('bedah.edit', $item->id) }}"
-                                                class="btn btn-sm btn-warning">Edit</a>
-                                            <form action="{{ route('bedah.destroy', $item->id) }}" method="POST"
-                                                style="display:inline;">
-                                                @csrf @method('DELETE')
-                                                <button class="btn btn-sm btn-danger"
-                                                    onclick="return confirm('Hapus data ini?')">Hapus</button>
-                                            </form>
-                                        </td>
+                                        @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'PETERNAK')
+                                            <td class="text-center">
+                                                <a href="{{ route('bedah.edit', $item->id) }}"
+                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                <form action="{{ route('bedah.destroy', $item->id) }}" method="POST"
+                                                    style="display:inline;">
+                                                    @csrf @method('DELETE')
+                                                    <button class="btn btn-sm btn-danger"
+                                                        onclick="return confirm('Hapus data ini?')">Hapus</button>
+                                                </form>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

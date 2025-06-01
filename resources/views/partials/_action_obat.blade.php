@@ -1,3 +1,4 @@
+@if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'PETERNAK')
 <div class="btn-group" role="group">
 <form action="{{ route('obat.destroy', $form_url) }}" method="post" class="form-inline">
     @method('DELETE')
@@ -9,3 +10,4 @@
         <i class="fa fa-trash"></i> Hapus </button>
     </form>
 </div>
+@endif
