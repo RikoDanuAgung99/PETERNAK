@@ -67,4 +67,22 @@
 @stop
 
 @push('js')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#rekap').DataTable({
+            paging: true, // Menampilkan "Show entries"
+            lengthChange: true, // Mengaktifkan dropdown jumlah entri
+            searching: true, // Menampilkan fitur pencarian
+            ordering: true,
+            columnDefs: [
+                {
+                    targets: 0, // kolom NO.
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+    });
+</script>
 @endpush
+

@@ -90,7 +90,7 @@
                 console.log('Jumlah:', jumlah, 'Tonase:', tonase); 
 
                 if (jumlah > 0 && tonase > 0) {
-                    const rata =jumlah /  tonase ;
+                    const rata =tonase /  jumlah ;
                     rataRata.value = rata.toFixed(2);
 
                     console.log('Rata-rata:', rata); 
