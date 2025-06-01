@@ -18,7 +18,9 @@
                 <div class="card-header">
                     <h2 class="card-title"><strong>Table Data Panen </strong></h2>
                     <div class="form-group float-right">
-                        <a href="{{ route('panen.create') }}" class="btn btn-primary btn-md"> Tambah Panen</a>
+                        @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
+                            <a href="{{ route('panen.create') }}" class="btn btn-primary btn-md"> Tambah Panen</a>
+                        @endif
                         <a href="{{ route('print.panen') }}" target="_blank" class="btn btn-success btn-md"> Print Panen</a>
                     </div>
                 </div>
@@ -35,7 +37,10 @@
                                     <th>RATA RATA</th>
                                     <th>HARGA KONTRAK</th>
                                     <th>TOTAL HARGA</th>
-                                    <th class="text-center">AKSI</th>
+
+                                    @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
+                                        <th class="text-center">AKSI</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,16 +57,18 @@
                                         <td>{{ $item->rata_rata }} KG</td>
                                         <td>Rp. {{ $item->harga_kontrak }}</td>
                                         <td>Rp. {{ $item->total_harga }}</td>
-                                        <td class="text-center">
-                                            <a href="{{ route('panen.edit', $item->id) }}"
-                                                class="btn btn-sm btn-warning">Edit</a>
-                                            <form action="{{ route('panen.destroy', $item->id) }}" method="POST"
-                                                style="display:inline;">
-                                                @csrf @method('DELETE')
-                                                <button class="btn btn-sm btn-danger"
-                                                    onclick="return confirm('Hapus data ini?')">Hapus</button>
-                                            </form>
-                                        </td>
+                                        @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
+                                            <td class="text-center">
+                                                <a href="{{ route('panen.edit', $item->id) }}"
+                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                <form action="{{ route('panen.destroy', $item->id) }}" method="POST"
+                                                    style="display:inline;">
+                                                    @csrf @method('DELETE')
+                                                    <button class="btn btn-sm btn-danger"
+                                                        onclick="return confirm('Hapus data ini?')">Hapus</button>
+                                                </form>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

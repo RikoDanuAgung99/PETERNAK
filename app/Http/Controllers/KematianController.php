@@ -2,6 +2,7 @@
 
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Kematian;
 use DataTables;
@@ -16,24 +17,27 @@ class KematianController extends Controller
      */
     public function index(Kematian $kematian)
     {
-        return view('masterdata.kematian.index', compact('kematian')); 
+        // if (!auth()->user()->can('isPeternakOrAdmin')) {
+        //     abort(403);
+        // }
+        return view('masterdata.kematian.index', compact('kematian'));
     }
 
     public function getKematian(Request $request)
     {
         if ($request->ajax()) {
-        $kematian = Kematian::all();
-        return DataTables::of($kematian)
-        ->editColumn('aksi', function ($kematian) {
-        return view('partials._action', [
-        'model' => $kematian,
-        'form_url' => $kematian->id,
-        'edit_url' => route('kematian.edit', $kematian->id),
-        ]);
-        })
-        ->addIndexColumn()
-        ->rawColumns(['aksi'])
-        ->make(true);
+            $kematian = Kematian::all();
+            return DataTables::of($kematian)
+                ->editColumn('aksi', function ($kematian) {
+                    return view('partials._action', [
+                        'model' => $kematian,
+                        'form_url' => $kematian->id,
+                        'edit_url' => route('kematian.edit', $kematian->id),
+                    ]);
+                })
+                ->addIndexColumn()
+                ->rawColumns(['aksi'])
+                ->make(true);
         }
     }
 
@@ -52,11 +56,11 @@ class KematianController extends Controller
     {
         // memvalidasi inputan
         $this->validate($request, [
-        'tanggal' => 'required|date', // Validasi untuk tanggal
-        'umur' => 'required|numeric',
-        'kematian' => 'required|numeric',
-        'std_kematian' => 'required|numeric',
-        'keterangan' => 'required|string|max:255',
+            'tanggal' => 'required|date', // Validasi untuk tanggal
+            'umur' => 'required|numeric',
+            'kematian' => 'required|numeric',
+            'std_kematian' => 'required|numeric',
+            'keterangan' => 'required|string|max:255',
         ]);
 
         // insert data ke database
@@ -87,11 +91,11 @@ class KematianController extends Controller
     public function update(Request $request, Kematian $kematian)
     {
         $this->validate($request, [
-        'tanggal' => 'required|date',
-        'umur' => 'required|numeric',
-        'kematian' => 'required|numeric',
-        'std_kematian' => 'required|numeric',
-        'keterangan' => 'required|string|max:255',
+            'tanggal' => 'required|date',
+            'umur' => 'required|numeric',
+            'kematian' => 'required|numeric',
+            'std_kematian' => 'required|numeric',
+            'keterangan' => 'required|string|max:255',
         ]);
 
         // insert data ke database

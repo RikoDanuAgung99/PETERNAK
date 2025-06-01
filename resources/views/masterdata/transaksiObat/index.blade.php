@@ -19,8 +19,11 @@
                 <div class="card-header">
                     <h2 class="card-title"><strong>Table Data Obat </strong></h2>
                     <div class="form-group float-right">
-                        <a href="{{ route('transaksiObat.create') }}" class="btn btn-primary btn-md"> Tambah Obat</a>
-                        <a href="{{ route('print.transaksiObat') }}" target="_blank" class="btn btn-success btn-md"> Print Obat</a>
+                        @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
+                            <a href="{{ route('transaksiObat.create') }}" class="btn btn-primary btn-md"> Tambah Obat</a>
+                        @endif
+                        <a href="{{ route('print.transaksiObat') }}" target="_blank" class="btn btn-success btn-md"> Print
+                            Obat</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -33,7 +36,9 @@
                                     <th>JENIS OBAT</th>
                                     <th>STOK OBAT</th>
                                     <th>JUMLAH</th>
-                                    <th class="text-center">AKSI</th>
+                                    @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
+                                        <th class="text-center">AKSI</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,16 +52,18 @@
                                         <td>{{ $item->jenis_obat }}</td>
                                         <td>{{ $item->stok_awal }}</td>
                                         <td>{{ $item->jumlah }}</td>
-                                        <td class="text-center">
-                                            <a href="{{ route('transaksiObat.edit', $item->id) }}"
-                                                class="btn btn-sm btn-warning">Edit</a>
-                                            <form action="{{ route('transaksiObat.destroy', $item->id) }}" method="POST"
-                                                style="display:inline;">
-                                                @csrf @method('DELETE')
-                                                <button class="btn btn-sm btn-danger"
-                                                    onclick="return confirm('Hapus data ini?')">Hapus</button>
-                                            </form>
-                                        </td>
+                                        @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
+                                            <td class="text-center">
+                                                <a href="{{ route('transaksiObat.edit', $item->id) }}"
+                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                <form action="{{ route('transaksiObat.destroy', $item->id) }}"
+                                                    method="POST" style="display:inline;">
+                                                    @csrf @method('DELETE')
+                                                    <button class="btn btn-sm btn-danger"
+                                                        onclick="return confirm('Hapus data ini?')">Hapus</button>
+                                                </form>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

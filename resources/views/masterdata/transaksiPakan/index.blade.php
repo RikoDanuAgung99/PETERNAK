@@ -19,8 +19,11 @@
                 <div class="card-header">
                     <h2 class="card-title"><strong>Table Data Pakan </strong></h2>
                     <div class="form-group float-right">
-                        <a href="{{ route('transaksiPakan.create') }}" class="btn btn-primary btn-md"> Tambah Pakan</a>
-                        <a href="{{ route('print.transaksiPakan') }}" target="_blank" class="btn btn-success btn-md"> Print Pakan</a>
+                        @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
+                            <a href="{{ route('transaksiPakan.create') }}" class="btn btn-primary btn-md"> Tambah Pakan</a>
+                        @endif
+                        <a href="{{ route('print.transaksiPakan') }}" target="_blank" class="btn btn-success btn-md"> Print
+                            Pakan</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -35,7 +38,9 @@
                                     <th>JUMLAH PAKAN</th>
                                     <th>HARGA PAKAN</th>
                                     <th>TOTAL HARGA</th>
-                                    <th class="text-center">AKSI</th>
+                                    @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
+                                        <th class="text-center">AKSI</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,16 +56,18 @@
                                         <td>{{ $item->jumlah_pakan }}</td>
                                         <td>{{ $item->harga_pakan }}</td>
                                         <td>{{ $item->total_harga }}</td>
-                                        <td class="text-center">
-                                            <a href="{{ route('transaksiPakan.edit', $item->id) }}"
-                                                class="btn btn-sm btn-warning">Edit</a>
-                                            <form action="{{ route('transaksiPakan.destroy', $item->id) }}" method="POST"
-                                                style="display:inline;">
-                                                @csrf @method('DELETE')
-                                                <button class="btn btn-sm btn-danger"
-                                                    onclick="return confirm('Hapus data ini?')">Hapus</button>
-                                            </form>
-                                        </td>
+                                        @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
+                                            <td class="text-center">
+                                                <a href="{{ route('transaksiPakan.edit', $item->id) }}"
+                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                <form action="{{ route('transaksiPakan.destroy', $item->id) }}"
+                                                    method="POST" style="display:inline;">
+                                                    @csrf @method('DELETE')
+                                                    <button class="btn btn-sm btn-danger"
+                                                        onclick="return confirm('Hapus data ini?')">Hapus</button>
+                                                </form>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

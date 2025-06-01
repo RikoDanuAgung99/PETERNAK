@@ -45,6 +45,7 @@ Password" class="form-control" value="{{ old('password') }}">
                                 </option>
                                 <option value="ADMIN" {{ $pengguna->level == 'ADMIN' ? 'selected' : '' }}>ADMIN</option>
                                 <option value="PETERNAK" {{ $pengguna->level == 'PETERNAK' ? 'selected' : '' }}>PETERNAK</option>
+                                <option value="TS" {{ $pengguna->level == 'TS' ? 'selected' : '' }}>TS</option>
                             </select>
                         </div>
                     </div>

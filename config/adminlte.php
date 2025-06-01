@@ -294,7 +294,8 @@ return [
     */
 
     'menu' => [
-        // Navbar items:
+
+        // NAVBAR
         [
             'type' => 'navbar-search',
             'text' => 'search',
@@ -305,86 +306,107 @@ return [
             'topnav_right' => true,
         ],
 
-
-        // Sidebar items:
+        // SIDEBAR SEARCH
         [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
-                [
-                    'text' => 'Pengguna',
-                    'route' => 'pengguna.index',
-                    'icon' => 'fas fa-user',
-                ],
 
+        // MENU UNTUK ADMIN SAJA
+        [
+            'text' => 'Pengguna',
+            'route' => 'pengguna.index',
+            'icon' => 'fas fa-user',
+            'can' => 'isAdmin',
+        ],
+
+        // MENU UNTUK ADMIN & PETERNAK
         [
             'text' => 'RECORDING',
             'icon' => 'fas fa-database',
+            'can' => 'isAdminOrPeternakOrTS',
             'submenu' => [
                 [
                     'text' => 'Kematian',
                     'route' => 'kematian.index',
                     'icon' => 'fas fa-skull-crossbones',
+                    'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Pakan',
                     'route' => 'pakan.index',
                     'icon' => 'fas fa-seedling',
+                    'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Obat',
                     'route' => 'obat.index',
                     'icon' => 'fas fa-capsules',
+                    'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Bobot',
                     'route' => 'bw.index',
                     'icon' => 'fas fa-balance-scale',
+                    'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Bedah',
                     'route' => 'bedah.index',
                     'icon' => 'fas fa-cut',
+                    'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Rekap',
                     'route' => 'rekap.index',
                     'icon' => 'fas fa-book',
+                    'can' => 'isAdminOrPeternakOrTS',
                 ],
             ],
+
         ],
 
+
+        // MENU UNTUK ADMIN & TS
         [
             'text' => 'REKAPITULASI',
             'icon' => 'fas fa-database',
+            'can' => 'isAdminOrPeternakOrTS',
             'submenu' => [
                 [
                     'text' => 'Transaksi Bibit',
                     'route' => 'transaksiBibit.index',
                     'icon' => 'fas fa-dollar-sign',
+                    'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Transaksi Pakan',
                     'route' => 'transaksiPakan.index',
                     'icon' => 'fas fa-dollar-sign',
+                    'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Transaksi Obat',
                     'route' => 'transaksiObat.index',
                     'icon' => 'fas fa-dollar-sign',
+                    'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Transaksi Panen',
                     'route' => 'panen.index',
                     'icon' => 'fas fa-dollar-sign',
+                    'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Rekapitulasi',
                     'route' => '',
                     'icon' => 'fas fa-dollar-sign',
+                    'can' => 'isAdminOrPeternakOrTS',
                 ],
             ],
         ],
+
+
 
         [
             'text'    => 'REKAP TAHUNAN',
@@ -465,20 +487,20 @@ return [
                 ],
             ],
         ],
-        
-        
-       
-        
+
+
+
+
         //['header' => 'account_settings'],
         //[
-            //'text' => 'profile',
-            //'url' => 'admin/settings',
-            //'icon' => 'fas fa-fw fa-user',
+        //'text' => 'profile',
+        //'url' => 'admin/settings',
+        //'icon' => 'fas fa-fw fa-user',
         //],
         //[
-            //'text' => 'change_password',
-            //'url' => 'admin/settings',
-            //'icon' => 'fas fa-fw fa-lock',
+        //'text' => 'change_password',
+        //'url' => 'admin/settings',
+        //'icon' => 'fas fa-fw fa-lock',
         //],
     ],
 
