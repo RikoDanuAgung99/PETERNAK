@@ -2,7 +2,8 @@
 
 @section('title', 'Transaksi Bibit')
 
-{{-- @section('plugins.Datatables', true) --}}
+@section('plugins.Datatables', true)
+
 @php
     $page = Request::get('page') ? Request::get('page') : 1;
     $no = ($page - 1) * $halaman + 1;
@@ -17,13 +18,12 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title"><strong>Table Data Bibit </strong></h2>
+                    <h2 class="card-title"><strong>Table Data Bibit</strong></h2>
                     <div class="form-group float-right">
                         @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
-                            <a href="{{ route('transaksiBibit.create') }}" class="btn btn-primary btn-md"> Tambah Bibit</a>
+                            <a href="{{ route('transaksiBibit.create') }}" class="btn btn-primary btn-md">Tambah Bibit</a>
                         @endif
-                        <a href="{{ route('print.transaksiBibit') }}" target="_blank" class="btn btn-success btn-md"> Print
-                            Bibit</a>
+                        <a href="{{ route('print.transaksiBibit') }}" target="_blank" class="btn btn-success btn-md">Print Bibit</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -44,9 +44,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php
-                                    $no = 1;
-                                @endphp
+                                @php $no = 1; @endphp
                                 @foreach ($listBibit as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
@@ -56,16 +54,12 @@
                                         <td>{{ $item->jumlah_bibit }}</td>
                                         <td>{{ $item->harga_bibit }}</td>
                                         <td>{{ $item->total_harga }}</td>
-
                                         @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
                                             <td class="text-center">
-                                                <a href="{{ route('transaksiBibit.edit', $item->id) }}"
-                                                    class="btn btn-sm btn-warning">Edit</a>
-                                                <form action="{{ route('transaksiBibit.destroy', $item->id) }}"
-                                                    method="POST" style="display:inline;">
+                                                <a href="{{ route('transaksiBibit.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                                <form action="{{ route('transaksiBibit.destroy', $item->id) }}" method="POST" style="display:inline;">
                                                     @csrf @method('DELETE')
-                                                    <button class="btn btn-sm btn-danger"
-                                                        onclick="return confirm('Hapus data ini?')">Hapus</button>
+                                                    <button class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</button>
                                                 </form>
                                             </td>
                                         @endif
@@ -84,4 +78,32 @@
 @stop
 
 @push('js')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#bibit').DataTable({
+            paging: true,
+            lengthChange: true, // show entries
+            searching: true,    // search bar
+            ordering: true,
+            info: true,
+            autoWidth: false,
+            responsive: true,
+            columnDefs: [
+                {
+                    targets: 0, // Kolom NO.
+                    orderable: false,
+                    searchable: false
+                },
+                @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
+                {
+                    targets: -1, // Kolom AKSI
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                }
+                @endif
+            ]
+        });
+    });
+</script>
 @endpush

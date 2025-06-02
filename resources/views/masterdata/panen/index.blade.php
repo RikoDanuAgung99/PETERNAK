@@ -2,6 +2,8 @@
 
 @section('title', 'Transaksi Panen')
 
+@section('plugins.Datatables', true)
+
 @php
     $page = Request::get('page') ? Request::get('page') : 1;
     $no = ($page - 1) * $halaman + 1;
@@ -84,4 +86,32 @@
 @stop
 
 @push('js')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#panen').DataTable({
+            paging: true,
+            lengthChange: true, // show entries
+            searching: true,    // search bar
+            ordering: true,
+            info: true,
+            autoWidth: false,
+            responsive: true,
+            columnDefs: [
+                {
+                    targets: 0, // Kolom NO.
+                    orderable: false,
+                    searchable: false
+                },
+                @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
+                {
+                    targets: -1, // Kolom AKSI
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                }
+                @endif
+            ]
+        });
+    });
+</script>
 @endpush

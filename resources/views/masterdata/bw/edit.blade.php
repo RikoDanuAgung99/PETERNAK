@@ -51,8 +51,9 @@
                             <div class="col-sm-4">
                                 <select name="keterangan" class="form-control" required>
                                     <option value="">-- Pilih Keterangan --</option>
-                                    <option value="sangat baik" {{ (isset($bw) && $bw->keterangan == 'sangat baik') ? 'selected' : (old('keterangan') == 'sangat baik' ? 'selected' : '') }}>Sangat Baik</option>
-                                    <option value="kurang baik" {{ (isset($bw) && $bw->keterangan == 'kurang baik') ? 'selected' : (old('keterangan') == 'kurang baik' ? 'selected' : '') }}>Kurang Baik</option>
+                                    <option value="KURANG BAIK " {{ (isset($bw) && $bw->keterangan == 'KURANG BAIK') ? 'selected' : (old('keterangan') == 'KURANG BAIK' ? 'selected' : '') }}>KURANG BAIK</option>
+                                    <option value="BAIK" {{ (isset($bw) && $bw->keterangan == 'BAIK') ? 'selected' : (old('keterangan') == 'BAIK' ? 'selected' : '') }}>BAIK</option>
+                                    <option value="SANGAT BAIK" {{ (isset($bw) && $bw->keterangan == 'SANGAT BAIK') ? 'selected' : (old('keterangan') == 'SANGAT BAIK' ? 'selected' : '') }}>SANGAT BAIK</option>
                                 </select>
                         </div>
 

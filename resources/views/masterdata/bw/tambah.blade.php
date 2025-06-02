@@ -51,8 +51,9 @@
                             <div class="col-sm-4">
                                 <select name="keterangan" class="form-control" required>
                                     <option value="">-- Pilih Keterangan --</option>
-                                    <option value="sangat baik" {{ old('keterangan') == 'sangat baik' ? 'selected' : '' }}>Sangat Baik</option>
-                                    <option value="kurang baik" {{ old('keterangan') == 'kurang baik' ? 'selected' : '' }}>Kurang Baik</option>
+                                    <option value="KURANG BAIK" {{ old('keterangan') == 'KURANG BAIK' ? 'selected' : '' }}>KURANG BAIK</option>
+                                    <option value="BAIK" {{ old('keterangan') == 'BAIK' ? 'selected' : '' }}>BAIK</option>
+                                    <option value="SANGAT BAIK" {{ old('keterangan') == 'SANGAT BAIK' ? 'selected' : '' }}>SANGAT BAIK</option>
                                 </select>
                             </div>
                         </div>

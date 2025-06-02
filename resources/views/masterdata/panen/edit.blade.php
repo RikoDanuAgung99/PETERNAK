@@ -87,7 +87,7 @@
                 const tonase = parseFloat(tonasePanen.value) || 0;
 
                 if (jumlah > 0 && tonase > 0) {
-                    const rata = jumlah / tonase;
+                    const rata = tonase / jumlah;
                     rataRata.value = rata.toFixed(2);
 
                     let harga = 0;

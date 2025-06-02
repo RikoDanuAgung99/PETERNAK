@@ -323,43 +323,43 @@ return [
         // MENU UNTUK ADMIN & PETERNAK
         [
             'text' => 'RECORDING',
-            'icon' => 'fas fa-database',
+            'icon' => 'fas fa-book',
             'can' => 'isAdminOrPeternakOrTS',
             'submenu' => [
                 [
                     'text' => 'Kematian',
                     'route' => 'kematian.index',
-                    'icon' => 'fas fa-skull-crossbones',
+                    'icon' => '',
                     'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Pakan',
                     'route' => 'pakan.index',
-                    'icon' => 'fas fa-seedling',
+                    'icon' => '',
                     'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Obat',
                     'route' => 'obat.index',
-                    'icon' => 'fas fa-capsules',
+                    'icon' => '',
                     'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Bobot',
                     'route' => 'bw.index',
-                    'icon' => 'fas fa-balance-scale',
+                    'icon' => '',
                     'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Bedah',
                     'route' => 'bedah.index',
-                    'icon' => 'fas fa-cut',
+                    'icon' => '',
                     'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Rekap',
                     'route' => 'rekap.index',
-                    'icon' => 'fas fa-book',
+                    'icon' => '',
                     'can' => 'isAdminOrPeternakOrTS',
                 ],
             ],
@@ -370,37 +370,37 @@ return [
         // MENU UNTUK ADMIN & TS
         [
             'text' => 'REKAPITULASI',
-            'icon' => 'fas fa-database',
+            'icon' => 'fas fa-dollar-sign',
             'can' => 'isAdminOrPeternakOrTS',
             'submenu' => [
                 [
                     'text' => 'Transaksi Bibit',
                     'route' => 'transaksiBibit.index',
-                    'icon' => 'fas fa-dollar-sign',
+                    'icon' => '',
                     'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Transaksi Pakan',
                     'route' => 'transaksiPakan.index',
-                    'icon' => 'fas fa-dollar-sign',
+                    'icon' => '',
                     'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Transaksi Obat',
                     'route' => 'transaksiObat.index',
-                    'icon' => 'fas fa-dollar-sign',
+                    'icon' => '',
                     'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Transaksi Panen',
                     'route' => 'panen.index',
-                    'icon' => 'fas fa-dollar-sign',
+                    'icon' => '',
                     'can' => 'isAdminOrPeternakOrTS',
                 ],
                 [
                     'text' => 'Rekapitulasi',
                     'route' => '',
-                    'icon' => 'fas fa-dollar-sign',
+                    'icon' => '',
                     'can' => 'isAdminOrPeternakOrTS',
                 ],
             ],

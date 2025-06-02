@@ -2,11 +2,12 @@
 
 @section('title', 'Transaksi Pakan')
 
-{{-- @section('plugins.Datatables', true) --}}
-{{-- @php
+@section('plugins.Datatables', true)
+
+@php
     $page = Request::get('page') ? Request::get('page') : 1;
     $no = ($page - 1) * $halaman + 1;
-@endphp --}}
+@endphp
 
 @section('content_header')
     <h1 class="m-0 text-dark">Data Pakan</h1>
@@ -28,7 +29,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped" id="obat">
+                        <table class="table table-bordered table-striped" id="pakan">
                             <thead>
                                 <tr>
                                     <th>NO.</th>
@@ -83,4 +84,32 @@
 @stop
 
 @push('js')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#pakan').DataTable({
+            paging: true,
+            lengthChange: true, // show entries
+            searching: true,    // search bar
+            ordering: true,
+            info: true,
+            autoWidth: false,
+            responsive: true,
+            columnDefs: [
+                {
+                    targets: 0, // Kolom NO.
+                    orderable: false,
+                    searchable: false
+                },
+                @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
+                {
+                    targets: -1, // Kolom AKSI
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                }
+                @endif
+            ]
+        });
+    });
+</script>
 @endpush
