@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Obat;
 use DataTables;
 use Session;
 use Alert;
+use App\Models\Kandang;
 use PDF;
 
 class ObatController extends Controller
@@ -15,33 +17,40 @@ class ObatController extends Controller
      */
     public function index(Obat $obat)
     {
-        return view('masterdata.obat.index');
+        $kandang = Kandang::all();
+
+        return view('masterdata.obat.index', compact('obat', 'kandang'));
     }
 
-     public function getObat(Request $request)
+    public function getObat(Request $request)
     {
-        if ($request->ajax()) {
-        $obat = Obat::all();
-        return DataTables::of($obat)
-        ->editColumn('aksi', function ($obat) {
-        return view('partials._action_obat', [
-        'model' => $obat,
-        'form_url' => $obat->id,
-        'edit_url' => route('obat.edit', $obat->id),
-        ]);
-        })
-        ->addIndexColumn()
-        ->rawColumns(['aksi'])
-        ->make(true);
+        $query = Obat::query();
+
+        if (auth()->user()->level === 'PETERNAK') {
+            $query->where('kandang_id', auth()->user()->kandang_id);
+        } elseif ($request->filled('kandang_id')) {
+            $query->where('kandang_id', $request->kandang_id);
         }
+        return DataTables::of($query)
+            ->editColumn('aksi', function ($obat) {
+                return view('partials._action_obat', [
+                    'model' => $obat,
+                    'form_url' => $obat->id,
+                    'edit_url' => route('obat.edit', $obat->id),
+                ]);
+            })
+            ->addIndexColumn()
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
+
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Obat $obat)
+    public function create()
     {
-        return view('masterdata.obat.tambah', compact('obat'));
+        return view('masterdata.obat.tambah');
     }
 
     /**
@@ -49,20 +58,38 @@ class ObatController extends Controller
      */
     public function store(Request $request)
     {
-        // memvalidasi inputan
-        $this->validate($request, [
-        'tanggal' => 'required|date', // Validasi untuk tanggal
-        'umur' => 'required|numeric',
-        'nama' => 'required',
-        'jenis' => 'required',
-        'jumlah' => 'required|numeric',
-        ]);
+        try {
+            $this->validate($request, [
+                'tanggal' => 'required|date',
+                'umur' => 'required|numeric',
+                'nama' => 'required|string|max:255',
+                'jenis' => 'required|string|max:255',
+                'jumlah' => 'required|numeric',
+            ]);
 
-        // insert data ke database
-        Obat::create($request->all());
-        Alert::success('Sukses', 'Berhasil Menambahkan Data Penggunaan Obat Baru');
-        return redirect()->route('obat.index');
+            $data = [
+                'tanggal' => $request->tanggal,
+                'umur' => $request->umur,
+                'nama' => $request->nama,
+                'jenis' => $request->jenis,
+                'jumlah' => $request->jumlah,
+                'created_id' => auth()->id(),
+                'kandang_id' => auth()->user()->kandang_id,
+                'created_at' => now(),
+                'updated_at' => null,
+            ];
+
+            Obat::create($data);
+
+            Alert::success('Sukses', 'Berhasil Menambahkan Data Penggunaan Obat Baru');
+            return redirect()->route('obat.index');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
+        }
     }
+
 
     /**
      * Display the specified resource.
@@ -85,25 +112,33 @@ class ObatController extends Controller
      */
     public function update(Request $request, Obat $obat)
     {
-         $this->validate($request, [
-        'tanggal' => 'required|date',
-        'umur' => 'required|numeric',
-        'nama' => 'required', 
-        'jenis' => 'required',
-        'jumlah' => 'required|numeric',
-    ]);
+        try {
+            $this->validate($request, [
+                'tanggal' => 'required|date',
+                'umur' => 'required|numeric',
+                'nama' => 'required|string|max:255',
+                'jenis' => 'required|string|max:255',
+                'jumlah' => 'required|numeric',
+            ]);
 
-    // Update data pada objek yang sudah ditemukan
-    $obat->update([
-        'nama' => $request->nama, // Pastikan sesuai dengan ENUM
-        'jenis' => $request->jenis, // Pastikan sesuai dengan ENUM
-        'tanggal' => $request->tanggal,
-        'umur' => $request->umur,
-        'jumlah' => $request->jumlah,
-    ]);
+            $data = [
+                'tanggal' => $request->tanggal,
+                'umur' => $request->umur,
+                'nama' => $request->nama,
+                'jenis' => $request->jenis,
+                'jumlah' => $request->jumlah,
+                'updated_at' => now(),
+            ];
 
-    Alert::success('Sukses', 'Berhasil Mengupdate Data Penggunaan Obat Baru');
-    return redirect()->route('obat.index');
+            $obat->update($data);
+
+            Alert::success('Sukses', 'Berhasil Mengupdate Data Penggunaan Obat');
+            return redirect()->route('obat.index');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
+        }
     }
 
     /**
@@ -116,9 +151,17 @@ class ObatController extends Controller
         return redirect()->route('obat.index');
     }
 
-     public function printPdf()
+    public function printPdf(Request $request)
     {
-        $obat = Obat::all();
+        $query = Obat::query();
+
+        if (auth()->user()->level === 'PETERNAK') {
+            $query->where('kandang_id', auth()->user()->kandang_id);
+        } elseif ($request->filled('kandang_id')) {
+            $query->where('kandang_id', $request->kandang_id);
+        }
+
+        $obat = $query->get();
         $pdf = PDF::loadView('masterdata.obat._pdf', compact('obat'));
         $pdf->setPaper('A4', 'landscape');
         return $pdf->stream('Data Obat Harian.pdf', array("Attachment" => false));

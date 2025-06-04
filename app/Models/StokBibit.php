@@ -17,13 +17,22 @@ class StokBibit extends Model
         'jumlah_bibit',
         'harga_bibit',
         'total_harga',
+        'kandang_id',
+        'created_id',
+        'created_at',
+        'updated_at',
     ];
-       protected $casts = [
+    protected $casts = [
         // 'tanggal' => 'date',
         'jumlah_bibit' => 'integer',
         'harga_bibit' => 'decimal:2',
         'total_harga' => 'decimal:2',
     ];
     protected $primaryKey = 'id';
-    public $timestamps = TRUE;
+    // public $timestamps = TRUE;
+
+    public function kandang()
+    {
+        return $this->belongsTo(kandang::class);
+    }
 }

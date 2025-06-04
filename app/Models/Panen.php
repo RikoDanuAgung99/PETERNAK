@@ -17,8 +17,17 @@ class Panen extends Model
         'tonase_panen',
         'rata_rata',
         'harga_kontrak',
-        'total_harga'
+        'total_harga',
+        'kandang_id',
+        'created_id',
+        'created_at',
+        'updated_at',
     ];
 
-    public $timestamps = TRUE;
+    // public $timestamps = TRUE;
+
+    public function kandang()
+    {
+        return $this->belongsTo(kandang::class);
+    }
 }

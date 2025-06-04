@@ -15,14 +15,35 @@
                 <div class="card-header">
                     <h2 class="card-title"><strong>Table Data Kematian</strong></h2>
                     <div class="form-group float-right">
+                        @php
+                            $user = auth()->user();
+                        @endphp
+
+                        @if ($user->level !== 'PETERNAK')
+                            <select class="form-control d-inline-block" style="width:auto;" name="kandang_id" id="kandang_id"
+                                onchange="window.location.href='?kandang_id=' + this.value;">
+                                <option value="">-- Pilih Kandang --</option>
+                                @foreach ($kandang as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ request('kandang_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        @else
+                            <input type="hidden" id="kandang_id" value="{{ $user->kandang_id }}"
+                                data-user-level="PETERNAK">
+                        @endif
                         @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'PETERNAK')
                             <a href="{{ route('kematian.create') }}" class="btn btn-primary btn-md"> Tambah Kematian</a>
                         @endif
+                        <a href="{{ route('print.kematian') }}" class="btn btn-success btn-md" id="print-kematian">Print
+                            Kematian</a>
 
-                        <a href="{{ route('print.kematian') }}" class="btn btn-success btn-md"> Print Kematian</a>
                     </div>
 
                 </div>
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped" id="kematian">
@@ -36,7 +57,7 @@
                                     <th>PENYEBAB KEMATIAN</th>
                                     @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'PETERNAK')
                                         <th class="text-center">AKSI</th>
-                                    @endif  
+                                    @endif
                                 </tr>
                             </thead>
                         </table>
@@ -50,16 +71,24 @@
 @push('js')
     <script type="text/javascript">
         $(document).ready(function() {
-            var dataTable = $('#kematian').DataTable({
+            var userLevel = $('#kandang_id').data('user-level');
+
+            var table = $('#kematian').DataTable({
                 processing: true,
                 serverSide: true,
                 autoWidth: false,
                 stateSave: true,
-                // scrollX: true,
-                "order": [
+                order: [
                     [0, "desc"]
                 ],
-                ajax: '{{ route('get.kematian') }}',
+                ajax: {
+                    url: '{{ route('get.kematian') }}',
+                    data: function(d) {
+                        if (userLevel !== 'PETERNAK') {
+                            d.kandang_id = $('#kandang_id').val();
+                        }
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -91,10 +120,26 @@
                         name: 'aksi',
                         orderable: false,
                         searchable: false,
-                        'sClass': 'text-center'
+                        className: 'text-center'
                     }
                 ]
             });
+
+            if (userLevel !== 'PETERNAK') {
+                $('#kandang_id').change(function() {
+                    table.ajax.reload();
+                });
+            }
+        });
+
+        $('#print-kematian').click(function(e) {
+            e.preventDefault();
+            var kandangId = $('#kandang_id').val();
+            var url = '{{ route('print.kematian') }}';
+            if (kandangId) {
+                url += '?kandang_id=' + kandangId;
+            }
+            window.open(url, '_blank');
         });
     </script>
 @endpush

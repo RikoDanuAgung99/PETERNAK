@@ -20,10 +20,30 @@
                 <div class="card-header">
                     <h2 class="card-title"><strong>Table Data Panen </strong></h2>
                     <div class="form-group float-right">
+                        @php
+                            $user = auth()->user();
+                        @endphp
+                        @if ($user->level !== 'PETERNAK')
+                            <select class="form-control d-inline-block" style="width:auto;" name="kandang_id" id="kandang_id"
+                                onchange="window.location.href='?kandang_id=' + this.value;">
+                                <option value="">-- Pilih Kandang --</option>
+                                @foreach ($kandang as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ request('kandang_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        @else
+                            <input type="hidden" id="kandang_id" value="{{ $user->kandang_id }}"
+                                data-user-level="PETERNAK">
+                        @endif
                         @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
                             <a href="{{ route('panen.create') }}" class="btn btn-primary btn-md"> Tambah Panen</a>
                         @endif
-                        <a href="{{ route('print.panen') }}" target="_blank" class="btn btn-success btn-md"> Print Panen</a>
+                        <a href="{{ route('print.panen') }}" target="_blank" class="btn btn-success btn-md"
+                            id="print-panen">
+                            Print Panen</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -76,9 +96,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="card-footer">
-                        {{ $panen->links() }}
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -86,32 +104,40 @@
 @stop
 
 @push('js')
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#panen').DataTable({
-            paging: true,
-            lengthChange: true, // show entries
-            searching: true,    // search bar
-            ordering: true,
-            info: true,
-            autoWidth: false,
-            responsive: true,
-            columnDefs: [
-                {
-                    targets: 0, // Kolom NO.
-                    orderable: false,
-                    searchable: false
-                },
-                @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
-                {
-                    targets: -1, // Kolom AKSI
-                    orderable: false,
-                    searchable: false,
-                    className: 'text-center'
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#panen').DataTable({
+                paging: true,
+                lengthChange: true, // show entries
+                searching: true, // search bar
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                responsive: true,
+                columnDefs: [{
+                        targets: 0, // Kolom NO.
+                        orderable: false,
+                        searchable: false
+                    },
+                    @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
+                        {
+                            targets: -1, // Kolom AKSI
+                            orderable: false,
+                            searchable: false,
+                            className: 'text-center'
+                        }
+                    @endif
+                ]
+            });
+            $('#print-panen').click(function(e) {
+                e.preventDefault();
+                var kandangId = $('#kandang_id').val();
+                var url = '{{ route('print.panen') }}';
+                if (kandangId) {
+                    url += '?kandang_id=' + kandangId;
                 }
-                @endif
-            ]
+                window.open(url, '_blank');
+            });
         });
-    });
-</script>
+    </script>
 @endpush

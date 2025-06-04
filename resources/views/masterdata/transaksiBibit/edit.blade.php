@@ -19,23 +19,33 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">TANGGAL</label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-1 col-form-label">TANGGAL</label>
+                            <div class="col-sm-1">
                                 <input type="date" name="tanggal" class="form-control"
                                     value="{{ isset($bibit) ? $bibit->tanggal : old('tanggal') }}" required>
                             </div>
 
-                            <label class="col-sm-2 col-form-label">NO DOC</label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-1 col-form-label">KANDANG</label>
+                            <div class="col-sm-1">
+                                <select name="kandang_id" id="kandang_id" class="form-control" required>
+                                    <option value="">-- Pilih Kandang --</option>
+                                    @foreach ($kandang as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ (isset($bibit) && $bibit->kandang_id == $item->id) || old('kandang_id') == $item->id ? 'selected' : '' }}>
+                                            {{ $item->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                            <label class="col-sm-1 col-form-label">NO DOC</label>
+                            <div class="col-sm-3">
                                 <input type="text" name="no_doc" class="form-control"
                                     value="{{ isset($bibit) ? $bibit->no_doc : old('no_doc') }}" required>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-
-                            <label class="col-sm-2 col-form-label">JENIS OBAT</label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-1 col-form-label">JENIS OBAT</label>
+                            <div class="col-sm-3">
                                 <select name="jenis_bibit" class="form-control" required>
                                     <option value=""
                                         {{ (isset($bibit) ? $bibit->jenis_bibit : old('jenis_bibit')) == '' ? 'selected' : '' }}
@@ -48,25 +58,28 @@
                                     </option>
                                 </select>
                             </div>
-
-                            <label class="col-sm-2 col-form-label">JUMLAH BIBIT</label>
-                            <div class="col-sm-4">
-                                <input type="text" name="jumlah_bibit" class="form-control"
-                                    value="{{ isset($bibit) ? $bibit->jumlah_bibit : old('jumlah_bibit') }}" required>
-                            </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">HARGA BIBIT</label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-1 col-form-label">JUMLAH BIBIT</label>
+                            <div class="col-sm-3">
+                                <input type="text" name="jumlah_bibit" class="form-control"
+                                    value="{{ isset($bibit) ? $bibit->jumlah_bibit : old('jumlah_bibit') }}" required>
+                            </div>
+                            {{-- </div> --}}
+
+                            {{-- <div class="form-group row"> --}}
+                            <label class="col-sm-1 col-form-label">HARGA BIBIT</label>
+                            <div class="col-sm-3">
                                 <input type="number" name="harga_bibit" class="form-control"
                                     value="{{ isset($bibit) ? $bibit->harga_bibit : old('harga_bibit') }}">
                             </div>
-                            <label class="col-sm-2 col-form-label">TOTAL HARGA</label>
+                            <label class="col-sm-1 col-form-label">TOTAL HARGA</label>
 
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <input type="number" name="total_harga" class="form-control"
-                                    value="{{ isset($bibit) ? $bibit->total_harga : old('total_harga') }}" readonly required>
+                                    value="{{ isset($bibit) ? $bibit->total_harga : old('total_harga') }}" readonly
+                                    required>
                             </div>
                         </div>
 
@@ -80,7 +93,7 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const hargaBibitInput = document.querySelector('input[name="harga_bibit"]');
             const jumlahBibitInput = document.querySelector('input[name="jumlah_bibit"]');
             const totalHargaInput = document.querySelector('input[name="total_harga"]');
@@ -94,4 +107,4 @@
             hargaBibitInput.addEventListener('input', updateTotalHarga);
             jumlahBibitInput.addEventListener('input', updateTotalHarga);
         });
-@stop
+    @stop

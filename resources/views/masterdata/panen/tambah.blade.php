@@ -24,6 +24,19 @@
                                     required>
                             </div>
 
+                            <label class="col-sm-1 col-form-label">KANDANG</label>
+                            <div class="col-sm-3">
+                                <select name="kandang_id" id="kandang_id" class="form-control" required>
+                                    <option value="">-- Pilih Kandang --</option>
+                                    @foreach ($kandang as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ request('kandang_id') == $item->id ? 'selected' : '' }}>
+                                            {{ $item->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <label class="col-sm-1 col-form-label">NO DOC</label>
                             <div class="col-sm-3">
                                 <input type="text" name="no_doc" class="form-control" value="{{ old('no_doc') }}"
@@ -87,13 +100,13 @@
                 const jumlah = parseFloat(jumlahPanen.value) || 0;
                 const tonase = parseFloat(tonasePanen.value) || 0;
 
-                console.log('Jumlah:', jumlah, 'Tonase:', tonase); 
+                console.log('Jumlah:', jumlah, 'Tonase:', tonase);
 
                 if (jumlah > 0 && tonase > 0) {
-                    const rata =tonase /  jumlah ;
+                    const rata = tonase / jumlah;
                     rataRata.value = rata.toFixed(2);
 
-                    console.log('Rata-rata:', rata); 
+                    console.log('Rata-rata:', rata);
 
                     let harga = 0;
                     if (rata >= 2.0) {
@@ -152,7 +165,6 @@
 
             // console.log('TES'); 
         });
-
     </Script>
 
 @stop

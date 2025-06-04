@@ -23,6 +23,18 @@
                                 <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') }}"
                                     required>
                             </div>
+                            <label class="col-sm-1 col-form-label">KANDANG</label>
+                            <div class="col-sm-3">
+                                <select name="kandang_id" id="kandang_id" class="form-control" required>
+                                    <option value="">-- Pilih Kandang --</option>
+                                    @foreach ($kandang as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ request('kandang_id') == $item->id ? 'selected' : '' }}>
+                                            {{ $item->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-group row mb-3">
