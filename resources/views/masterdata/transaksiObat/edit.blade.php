@@ -25,11 +25,18 @@
                                     value="{{ isset($obat) ? $obat->tanggal : old('tanggal') }}" required>
                             </div>
 
-                            {{-- <label class="col-sm-2 col-form-label">UMUR (HARI)</label>
+                            <label class="col-sm-2 col-form-label">KANDANG</label>
                             <div class="col-sm-4">
-                                <input type="number" name="umur" class="form-control" 
-                                    value="{{ isset($obat) ? $obat->umur : old('umur') }}" required>
-                            </div> --}}
+                                <select name="kandang_id" id="kandang_id" class="form-control" required>
+                                    <option value="">-- Pilih Kandang --</option>
+                                    @foreach ($kandang as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ (isset($pakan) ? $pakan->kandang_id : old('kandang_id')) == $item->id ? 'selected' : '' }}>
+                                            {{ $item->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-group row">
@@ -37,10 +44,13 @@
                             <label class="col-sm-2 col-form-label">JENIS OBAT</label>
                             <div class="col-sm-4">
                                 <select name="jenis_obat" class="form-control" required>
-                                    <option value="" {{ (isset($obat) ? $obat->jenis_obat : old('jenis_obat')) == '' ? 'selected' : '' }} disabled>-- Pilih Jenis Obat --</option>
+                                    <option value=""
+                                        {{ (isset($obat) ? $obat->jenis_obat : old('jenis_obat')) == '' ? 'selected' : '' }}
+                                        disabled>-- Pilih Jenis Obat --</option>
                                     <option value="ANTIBIOTIK" {{ $obat->jenis_obat == 'ANTIBIOTIK' ? 'selected' : '' }}>
                                         ANTIBIOTIK</option>
-                                    <option value="PROBIOTIK" {{ $obat->jenis_obat == 'PROBIOTIK' ? 'selected' : '' }}>PROBIOTIK
+                                    <option value="PROBIOTIK" {{ $obat->jenis_obat == 'PROBIOTIK' ? 'selected' : '' }}>
+                                        PROBIOTIK
                                     </option>
                                     <option value="VITAMIN" {{ $obat->jenis_obat == 'VITAMIN' ? 'selected' : '' }}>VITAMIN
                                     </option>
@@ -58,7 +68,7 @@
                             <label class="col-sm-2 col-form-label">JUMLAH OBAT (BUNGKUS/100g)</label>
                             <div class="col-sm-4">
                                 <input type="number" name="jumlah" class="form-control"
-                                    value="{{ isset($obat) ? $obat->jumlah : old('jumlah') }}" >
+                                    value="{{ isset($obat) ? $obat->jumlah : old('jumlah') }}">
                             </div>
                         </div>
 

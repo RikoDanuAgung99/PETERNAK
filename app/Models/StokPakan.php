@@ -17,6 +17,10 @@ class StokPakan extends Model
         'jumlah_pakan',
         'harga_pakan',
         'total_harga',
+        'kandang_id',
+        'created_id',
+        'created_at',
+        'updated_at',
     ];
     protected $casts = [
         // 'tanggal' => 'date',
@@ -25,5 +29,10 @@ class StokPakan extends Model
         'total_harga' => 'decimal:2',
     ];
     protected $primaryKey = 'id';
-    public $timestamps = TRUE;
+    // public $timestamps = TRUE;
+
+    public function kandang()
+    {
+        return $this->belongsTo(kandang::class);
+    }
 }

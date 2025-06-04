@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-12">
+        <div class="col-11">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title"><strong>Edit Data Pakan</strong></h3>
@@ -19,23 +19,30 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">TANGGAL</label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-1 col-form-label">TANGGAL</label>
+                            <div class="col-sm-1">
                                 <input type="date" name="tanggal" class="form-control"
                                     value="{{ isset($pakan) ? $pakan->tanggal : old('tanggal') }}" required>
                             </div>
-
-                            <label class="col-sm-2 col-form-label">DOC NO</label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-1 col-form-label">KANDANG</label>
+                            <div class="col-sm-1">
+                                <select name="kandang_id" id="kandang_id" class="form-control" required>
+                                    <option value="">-- Pilih Kandang --</option>
+                                    @foreach ($kandang as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ (isset($pakan) ? $pakan->kandang_id : old('kandang_id')) == $item->id ? 'selected' : '' }}>
+                                            {{ $item->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <label class="col-sm-1 col-form-label">DOC NO</label>
+                            <div class="col-sm-3">
                                 <input type="text" name="no_doc" class="form-control"
                                     value="{{ isset($pakan) ? $pakan->no_doc : old('no_doc') }}" required>
                             </div>
-                        </div>
-
-                        <div class="form-group row">
-
-                            <label class="col-sm-2 col-form-label">JENIS PAKAN</label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-1 col-form-label">JENIS PAKAN</label>
+                            <div class="col-sm-3">
                                 <select name="jenis_pakan" class="form-control" required>
                                     <option value=""
                                         {{ (isset($pakan) ? $pakan->jenis_pakan : old('jenis_pakan')) == '' ? 'selected' : '' }}
@@ -50,22 +57,24 @@
                                     </option>
                                 </select>
                             </div>
-
-                            <label class="col-sm-2 col-form-label">JUMLAH PAKAN</label>
-                            <div class="col-sm-4">
-                                <input type="number" name="jumlah_pakan" class="form-control"
-                                    value="{{ isset($pakan) ? $pakan->jumlah_pakan : old('jumlah_pakan') }}" required>
-                            </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">HARGA PAKAN</label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-1 col-form-label">JUMLAH PAKAN</label>
+                            <div class="col-sm-3">
+                                <input type="number" name="jumlah_pakan" class="form-control"
+                                    value="{{ isset($pakan) ? $pakan->jumlah_pakan : old('jumlah_pakan') }}" required>
+                            </div>
+                            {{-- </div> --}}
+
+                            {{-- <div class="form-group row"> --}}
+                            <label class="col-sm-1 col-form-label">HARGA PAKAN</label>
+                            <div class="col-sm-3">
                                 <input type="number" name="harga_pakan" class="form-control"
                                     value="{{ isset($pakan) ? $pakan->harga_pakan : old('harga_pakan') }}">
                             </div>
-                            <label class="col-sm-2 col-form-label">TOTAL HARGA</label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-1 col-form-label">TOTAL HARGA</label>
+                            <div class="col-sm-3">
                                 <input type="number" name="total_harga" class="form-control"
                                     value="{{ isset($pakan) ? $pakan->total_harga : old('total_harga') }}">
                             </div>

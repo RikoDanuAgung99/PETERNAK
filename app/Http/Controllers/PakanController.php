@@ -7,52 +7,80 @@ use App\Models\Pakan;
 use DataTables;
 use Session;
 use Alert;
+use App\Models\Kandang;
 use PDF;
 
 class PakanController extends Controller
 {
     public function index(Pakan $pakan)
     {
-        return view('masterdata.pakan.index', compact('pakan'));
+        $kandang = Kandang::all();
+        return view('masterdata.pakan.index', compact('pakan', 'kandang'));
     }
 
     public function getPakan(Request $request)
     {
-        if ($request->ajax()) {
-            $pakan = Pakan::all();
-            return DataTables::of($pakan)
-                ->editColumn('aksi', function ($pakan) {
-                    return view('partials._action_pakan', [
-                        'model' => $pakan,
-                        'form_url' => $pakan->id,
-                        'edit_url' => route('pakan.edit', $pakan->id),
-                    ]);
-                })
-                ->addIndexColumn()
-                ->rawColumns(['aksi'])
-                ->make(true);
+        $query = Pakan::query();
+
+        if (auth()->user()->level === 'PETERNAK') {
+            $query->where('kandang_id', auth()->user()->kandang_id);
+        } elseif ($request->filled('kandang_id')) {
+            $query->where('kandang_id', $request->kandang_id);
         }
+
+
+        return DataTables::of($query)
+            ->editColumn('aksi', function ($pakan) {
+                return view('partials._action_pakan', [
+                    'model' => $pakan,
+                    'form_url' => $pakan->id,
+                    'edit_url' => route('pakan.edit', $pakan->id),
+                ]);
+            })
+            ->addIndexColumn()
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
-    public function create(Pakan $pakan)
+
+    public function create()
     {
-        return view('masterdata.pakan.tambah', compact('pakan'));
+        return view('masterdata.pakan.tambah');
     }
 
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'tanggal' => 'required|date',
-            'umur' => 'required|numeric',
-            'nama' => 'required',
-            'jenis' => 'required',
-            'jumlah' => 'required|numeric',
-        ]);
+        try {
+            $this->validate($request, [
+                'tanggal' => 'required|date',
+                'umur' => 'required|numeric',
+                'nama' => 'required|string|max:255',
+                'jenis' => 'required|string|max:255',
+                'jumlah' => 'required|numeric',
+            ]);
 
-        Pakan::create($request->all());
-        Alert::success('Sukses', 'Berhasil Menambahkan Data Penggunaan Pakan Baru');
-        return redirect()->route('pakan.index');
+            $data = [
+                'tanggal' => $request->tanggal,
+                'umur' => $request->umur,
+                'nama' => $request->nama,
+                'jenis' => $request->jenis,
+                'jumlah' => $request->jumlah,
+                'created_id' => auth()->id(),
+                'kandang_id' => auth()->user()->kandang_id,
+                'created_at' => now(),
+                'updated_at' => null,
+            ];
+
+            Pakan::create($data);
+
+            Alert::success('Sukses', 'Berhasil Menambahkan Data Penggunaan Pakan Baru');
+            return redirect()->route('pakan.index');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
+        }
     }
 
 
@@ -66,25 +94,36 @@ class PakanController extends Controller
 
     public function update(Request $request, Pakan $pakan)
     {
-        $this->validate($request, [
-            'tanggal' => 'required|date',
-            'umur' => 'required|numeric',
-            'nama' => 'required',
-            'jenis' => 'required',
-            'jumlah' => 'required|numeric',
-        ]);
+        try {
+            // Validasi inputan
+            $this->validate($request, [
+                'tanggal' => 'required|date',
+                'umur' => 'required|numeric',
+                'nama' => 'required|string|max:255',
+                'jenis' => 'required|string|max:255',
+                'jumlah' => 'required|numeric',
+            ]);
 
+            // Buat data untuk update
+            $data = [
+                'tanggal' => $request->tanggal,
+                'umur' => $request->umur,
+                'nama' => $request->nama,
+                'jenis' => $request->jenis,
+                'jumlah' => $request->jumlah,
+                'updated_at' => now(),
+            ];
 
-        $pakan->update([
-            'nama' => $request->nama,
-            'jenis' => $request->jenis,
-            'tanggal' => $request->tanggal,
-            'umur' => $request->umur,
-            'jumlah' => $request->jumlah,
-        ]);
+            // Update data di database
+            $pakan->update($data);
 
-        Alert::success('Sukses', 'Berhasil Mengupdate Data Penggunaan Pakan Baru');
-        return redirect()->route('pakan.index');
+            Alert::success('Sukses', 'Berhasil Mengupdate Data Penggunaan Pakan');
+            return redirect()->route('pakan.index');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
+        }
     }
 
 
@@ -95,9 +134,17 @@ class PakanController extends Controller
         return redirect()->route('pakan.index');
     }
 
-    public function printPdf()
+    public function printPdf(Request $request)
     {
-        $pakan = Pakan::all();
+        $query = Pakan::query();
+
+        if (auth()->user()->level === 'PETERNAK') {
+            $query->where('kandang_id', auth()->user()->kandang_id);
+        } elseif ($request->filled('kandang_id')) {
+            $query->where('kandang_id', $request->kandang_id);
+        }
+
+        $pakan = $query->get();
         $pdf = PDF::loadView('masterdata.pakan._pdf', compact('pakan'));
         $pdf->setPaper('A4', 'landscape');
         return $pdf->stream('Data Pakan Harian.pdf', array("Attachment" => false));

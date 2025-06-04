@@ -40,7 +40,7 @@
                                 <select name="jenis" id="jenis" class="form-control" required>
                                     <option value="" selected disabled>-- Pilih Jenis Obat --</option>
                                     <option value="ANTIBIOTIK">ANTIBIOTIK</option>
-                                    <option value="PRESTARTER">PROBIOTIK</option>
+                                    <option value="PROBIOTIK">PROBIOTIK</option>
                                     <option value="VITAMIN">VITAMIN</option>
                                 </select>
                             </div>

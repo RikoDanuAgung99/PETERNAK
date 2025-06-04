@@ -9,8 +9,22 @@ class StokObat extends Model
 {
     use HasFactory;
 
-    
-    protected $table = 'stok_obat'; 
-    protected $fillable = ['tanggal', 'jenis_obat', 'stok_awal', 'jumlah']; 
-    public $timestamps = true;
+
+    protected $table = 'stok_obat';
+    protected $fillable = [
+        'tanggal',
+        'jenis_obat',
+        'stok_awal',
+        'jumlah',
+        'kandang_id',
+        'created_id',
+        'created_at',
+        'updated_at',
+    ];
+    // public $timestamps = true;
+
+    public function kandang()
+    {
+        return $this->belongsTo(kandang::class);
+    }
 }

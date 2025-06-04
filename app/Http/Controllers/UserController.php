@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Hash;
 use Alert;
+use App\Models\Kandang;
 
 class UserController extends Controller
 {
@@ -24,7 +25,8 @@ class UserController extends Controller
      */
     public function create(User $pengguna)
     {
-        return view('users.tambah', compact('pengguna'));
+        $kandang = Kandang::get();
+        return view('users.tambah', compact('pengguna', 'kandang'));
     }
 
     /**
@@ -37,14 +39,19 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required',
-            'level' => 'required'
+            'level' => 'required',
         ]);
+
+        if ($request->level === 'PETERNAK') {
+            $rules['kandang'] = 'required';
+        }
         // insert data ke database
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'level' => $request->level,
+            'kandang' => $request->level === 'PETERNAK' ? $request->kandang : null,
         ]);
         Alert::success('Sukses', 'Berhasil Menambahkan User Baru');
         return redirect()->route('pengguna.index');
@@ -77,6 +84,7 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'nullable',
             'level' => 'required',
+            'kandang' => 'required',
         ]);
         // update data ke database
         $pengguna->update([
@@ -85,6 +93,7 @@ class UserController extends Controller
             'password' => is_null($request->password) ? $pengguna->password :
                 Hash::make($request->password),
             'level' => $request->level,
+            'kandang' => $request->kandang,
         ]);
         Alert::success('Sukses', 'Berhasil Mengupdate Pengguna');
         return redirect()->route('pengguna.index');

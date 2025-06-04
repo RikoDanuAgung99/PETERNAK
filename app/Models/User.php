@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'level',
+        'kandang_id',
     ];
 
     /**
@@ -43,4 +44,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function kandang()
+    {
+        return $this->belongsTo(kandang::class);
+    }
 }

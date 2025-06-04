@@ -21,12 +21,27 @@
                         <div class="form-group row mb-3">
                             <label class="col-sm-1 col-form-label">TANGGAL</label>
                             <div class="col-sm-3">
-                                <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal', $panen->tanggal) }}" required>
+                                <input type="date" name="tanggal" class="form-control"
+                                    value="{{ old('tanggal', $panen->tanggal) }}" required>
+                            </div>
+
+                            <label class="col-sm-1 col-form-label">KANDANG</label>
+                            <div class="col-sm-3">
+                                <select name="kandang_id" id="kandang_id" class="form-control" required>
+                                    <option value="">-- Pilih Kandang --</option>
+                                    @foreach ($kandang as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ (isset($bibit) && $bibit->kandang_id == $item->id) || old('kandang_id') == $item->id ? 'selected' : '' }}>
+                                            {{ $item->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <label class="col-sm-1 col-form-label">NO DOC</label>
                             <div class="col-sm-3">
-                                <input type="text" name="no_doc" class="form-control" value="{{ old('no_doc', $panen->no_doc) }}" required>
+                                <input type="text" name="no_doc" class="form-control"
+                                    value="{{ old('no_doc', $panen->no_doc) }}" required>
                             </div>
                         </div>
 
@@ -60,7 +75,8 @@
                             <label class="col-sm-2 col-form-label">TOTAL HARGA</label>
                             <div class="col-sm-4">
                                 <input type="number" name="total_harga" class="form-control"
-                                    value="{{ old('total_harga', $panen->total_harga) }}" id="total_harga" readonly required>
+                                    value="{{ old('total_harga', $panen->total_harga) }}" id="total_harga" readonly
+                                    required>
                             </div>
                         </div>
 

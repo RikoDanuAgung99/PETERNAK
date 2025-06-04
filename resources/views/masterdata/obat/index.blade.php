@@ -15,10 +15,31 @@
                 <div class="card-header">
                     <h2 class="card-title"><strong>Table Data Penggunaan Obat </strong></h2>
                     <div class="form-group float-right">
+                        @php
+                            $user = auth()->user();
+                        @endphp
+
+                        @if ($user->level !== 'PETERNAK')
+                            <select class="form-control d-inline-block" style="width:auto;" name="kandang_id" id="kandang_id"
+                                onchange="window.location.href='?kandang_id=' + this.value;">
+                                <option value="">-- Pilih Kandang --</option>
+                                @foreach ($kandang as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ request('kandang_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        @else
+                            <input type="hidden" id="kandang_id" value="{{ $user->kandang_id }}"
+                                data-user-level="PETERNAK">
+                        @endif
+
                         @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'PETERNAK')
                             <a href="{{ route('obat.create') }}" class="btn btn-primary btn-md"> Tambah Penggunaan Obat</a>
                         @endif
-                        <a href="{{ route('print.obat') }}" class="btn btn-success btn-md"> Print Penggunaan Obat</a>
+                        <a href="{{ route('print.obat') }}" class="btn btn-success btn-md" id="print-obat"> Print Penggunaan
+                            Obat</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -48,16 +69,24 @@
 @push('js')
     <script type="text/javascript">
         $(document).ready(function() {
-            var dataTable = $('#obat').DataTable({
+            var userLevel = $('#kandang_id').data('user-level');
+
+            var table = $('#obat').DataTable({
                 processing: true,
                 serverSide: true,
                 autoWidth: false,
                 stateSave: true,
-                // scrollX: true,
-                "order": [
+                order: [
                     [0, "desc"]
                 ],
-                ajax: '{{ route('get.obat') }}',
+                ajax: {
+                    url: '{{ route('get.obat') }}',
+                    data: function(d) {
+                        if (userLevel !== 'PETERNAK') {
+                            d.kandang_id = $('#kandang_id').val();
+                        }
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -93,6 +122,20 @@
                     }
                 ]
             });
+            if (userLevel !== 'PETERNAK') {
+                $('#kandang_id').change(function() {
+                    table.ajax.reload();
+                });
+            }
+        });
+        $('#print-obat').click(function(e) {
+            e.preventDefault();
+            var kandangId = $('#kandang_id').val();
+            var url = '{{ route('print.obat') }}';
+            if (kandangId) {
+                url += '?kandang_id=' + kandangId;
+            }
+            window.open(url, '_blank');
         });
     </script>
 @endpush
