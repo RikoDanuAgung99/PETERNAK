@@ -399,7 +399,7 @@ return [
                 ],
                 [
                     'text' => 'Rekapitulasi',
-                    'route' => '',
+                    'route' => 'rekapitulasi.index',
                     'icon' => '',
                     'can' => 'isAdminOrPeternakOrTS',
                 ],

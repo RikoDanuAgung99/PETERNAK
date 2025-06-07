@@ -10,7 +10,7 @@ class Obat extends Model
     use HasFactory;
 
     protected $table = 'obat'; // Pastikan sesuai dengan tabel di database
-    protected $fillable = ['tanggal', 'umur', 'nama', 'jenis', 'jumlah', 'kandang_id', 'created_id', 'created_at', 'updated_at']; // Pastikan kolom sesuai
+    protected $fillable = ['tanggal', 'umur','jenis', 'jumlah', 'kandang_id', 'created_id', 'created_at', 'updated_at']; // Pastikan kolom sesuai
     public $timestamps = true;
 
     public function kandang()
