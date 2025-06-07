@@ -50,7 +50,6 @@
                                     <th>NO.</th>
                                     <th>TANGGAL</th>
                                     <th>UMUR (HARI)</th>
-                                    <th>NAMA OBAT</th>
                                     <th>JENIS OBAT</th>
                                     <th>JUMLAH OBAT (BUNGKUS@100g)</th>
                                     @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'PETERNAK')
@@ -100,10 +99,6 @@
                     {
                         data: 'umur',
                         name: 'umur'
-                    },
-                    {
-                        data: 'nama',
-                        name: 'nama'
                     },
                     {
                         data: 'jenis',

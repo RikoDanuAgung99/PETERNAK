@@ -54,7 +54,9 @@
                                     <th>TANGGAL</th>
                                     <th>JENIS OBAT</th>
                                     <th>STOK OBAT</th>
-                                    <th>JUMLAH</th>
+                                    <th>JUMLAH OBAT</th>
+                                    <th>HARGA OBAT</th>
+                                    <th>TOTAL HARGA</th>
                                     @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
                                         <th class="text-center">AKSI</th>
                                     @endif
@@ -70,7 +72,9 @@
                                         <td>{{ $item->tanggal }}</td>
                                         <td>{{ $item->jenis_obat }}</td>
                                         <td>{{ $item->stok_awal }}</td>
-                                        <td>{{ $item->jumlah }}</td>
+                                        <td>{{ $item->jumlah_obat }}</td>
+                                        <td>{{ $item->harga_obat }}</td>
+                                        <td>{{ $item->total_harga }}</td>
                                         @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
                                             <td class="text-center">
                                                 <a href="{{ route('transaksiObat.edit', $item->id) }}"

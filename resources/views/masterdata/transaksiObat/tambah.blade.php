@@ -19,12 +19,12 @@
 
                         <div class="form-group row mb-3">
                             <label class="col-sm-1 col-form-label">TANGGAL</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') }}"
                                     required>
                             </div>
                             <label class="col-sm-1 col-form-label">KANDANG</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <select name="kandang_id" id="kandang_id" class="form-control" required>
                                     <option value="">-- Pilih Kandang --</option>
                                     @foreach ($kandang as $item)
@@ -35,11 +35,17 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <label class="col-sm-1 col-form-label">STOK AWAL</label>
+                            <div class="col-sm-2">
+                                <input type="number" name="stok_awal" class="form-control" value="{{ old('stok_awal') }}"
+                                    required>
+                            </div>
+
                         </div>
 
-                        <div class="form-group row mb-3">
+                        <div class="form-group row mb-2">
                             <label class="col-sm-1 col-form-label">JENIS OBAT</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <select name="jenis_obat" id="jenis_obat" class="form-control" required>
                                     <option value="" selected disabled>-- Pilih Jenis Obat --</option>
                                     <option value="ANTIBIOTIK">ANTIBIOTIK</option>
@@ -48,16 +54,21 @@
                                 </select>
                             </div>
 
-                            <label class="col-sm-1 col-form-label">STOK AWAL</label>
-                            <div class="col-sm-3">
-                                <input type="number" name="stok_awal" class="form-control" value="{{ old('stok_awal') }}"
-                                    required>
-                            </div>
 
                             <label class="col-sm-1 col-form-label">JUMLAH OBAT</label>
-                            <div class="col-sm-3">
-                                <input type="number" name="jumlah" class="form-control" value="{{ old('jumlah') }}"
+                            <div class="col-sm-2">
+                                <input type="number" name="jumlah_obat" class="form-control"
+                                    value="{{ old('jumlah_obat') }}" id="jumlah_obat" required>
+                            </div>
+                            <label class="col-sm-1 col-form-label">HARGA OBAT</label>
+                            <div class="col-sm-2">
+                                <input type="number" name="harga_obat" class="form-control" id="harga_obat" value="{{ old('harga_obat') }}"
                                     required>
+                            </div>
+                            <label class="col-sm-1 col-form-label">TOTAL HARGA</label>
+                            <div class="col-sm-2">
+                                <input type="number" name="total_harga" class="form-control"
+                                    value="{{ old('total_harga') }}" id="total_harga" required readonly>
                             </div>
                         </div>
 
@@ -71,4 +82,20 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const jumlahObat = document.querySelector('input[name="jumlah_obat"]');
+            const hargaObat = document.querySelector('input[name="harga_obat"]');
+            const totalHarga = document.getElementById('total_harga');
+
+            function hitungTotal() {
+                const jumlah = parseFloat(jumlahObat.value) || 0;
+                const harga = parseFloat(hargaObat.value) || 0;
+                totalHarga.value = jumlah * harga;
+            }
+
+            jumlahObat.addEventListener('input', hitungTotal);
+            hargaObat.addEventListener('input', hitungTotal);
+        });
+    </script>
 @stop

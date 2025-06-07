@@ -1,16 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'Transaksi Pakan')
+@section('title', 'Transaksi Rekapitulasi')
 
 @section('plugins.Datatables', true)
 
-@php
+{{-- @php
     $page = Request::get('page') ? Request::get('page') : 1;
     $no = ($page - 1) * $halaman + 1;
-@endphp
+@endphp --}}
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Data Pakan</h1>
+    <h1 class="m-0 text-dark">Data Rekapitulasi</h1>
 @stop
 
 @section('content')
@@ -18,7 +18,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title"><strong>Table Data Pakan </strong></h2>
+                    <h2 class="card-title"><strong>Table Data Rekapitulasi</strong></h2>
                     <div class="form-group float-right">
                         @php
                             $user = auth()->user();
@@ -39,24 +39,30 @@
                                 data-user-level="PETERNAK">
                         @endif
                         @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
-                            <a href="{{ route('transaksiPakan.create') }}" class="btn btn-primary btn-md"> Tambah Pakan</a>
+                            <a href="{{ route('rekapitulasi.create') }}" class="btn btn-primary btn-md">Tambah
+                                Rekapitulasi</a>
                         @endif
-                        <a href="{{ route('print.transaksiPakan') }}" target="_blank" class="btn btn-success btn-md" id="print-stokPakan"> Print
-                            Pakan</a>
+                        {{-- <a href="{{ route('print.transaksiBibit') }}" target="_blank" class="btn btn-success btn-md"
+                            id="print-stokBibit">Print
+                            Rekapitulasi</a> --}}
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped" id="pakan">
+                        <table class="table table-bordered table-striped" id="obat">
                             <thead>
                                 <tr>
                                     <th>NO.</th>
-                                    <th>TANGGAL</th>
-                                    <th>NO DOC</th>
-                                    <th>JENIS PAKAN</th>
-                                    <th>JUMLAH PAKAN</th>
-                                    <th>HARGA PAKAN</th>
-                                    <th>TOTAL HARGA</th>
+                                    <th>TANGGAL START</th>
+                                    <th>TANGGAL END</th>
+                                    <th>JUMLAH BIBIT</th>
+                                    <th>JUMLAH KEMATIAN</th>
+                                    <th>SISA AYAM</th>
+                                    <th>DEPLESI</th>
+                                    <th>STD DEPLESI</th>
+                                    <th>DIFF DEPLESI</th>
+                                    <th>TONASE PANEN</th>
+                                    <th>TOTAL PANEN</th>
                                     @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
                                         <th class="text-center">AKSI</th>
                                     @endif
@@ -66,20 +72,27 @@
                                 @php
                                     $no = 1;
                                 @endphp
-                                @foreach ($listPakan as $item)
+                                @foreach ($list as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $item->tanggal }}</td>
-                                        <td>{{ $item->no_doc }}</td>
-                                        <td>{{ $item->jenis_pakan }}</td>
-                                        <td>{{ $item->jumlah_pakan }}</td>
-                                        <td>{{ $item->harga_pakan }}</td>
-                                        <td>{{ $item->total_harga }}</td>
+                                        <td>{{ $item->tanggal_start }}</td>
+                                        <td>{{ $item->tanggal_end }}</td>
+                                        <td>{{ $item->jml_bibit }}</td>
+                                        <td>{{ $item->jml_kematian }}</td>
+                                        <td>{{ $item->sisa_ayam }}</td>
+                                        <td>{{ $item->deplesi }}</td>
+                                        <td>{{ $item->std_deplesi }}</td>
+                                        <td>{{ $item->diff_deplesi }}</td>
+                                        <td>{{ $item->tonase_panen }}</td>
+                                        <td>{{ $item->total_panen }}</td>
                                         @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'TS')
                                             <td class="text-center">
-                                                <a href="{{ route('transaksiPakan.edit', $item->id) }}"
+                                                <a href="{{ route('rekapitulasi.show', $item->id) }}"
+                                                    class="btn btn-sm btn-info">Detail</a>
+
+                                                <a href="{{ route('rekapitulasi.edit', $item->id) }}"
                                                     class="btn btn-sm btn-warning">Edit</a>
-                                                <form action="{{ route('transaksiPakan.destroy', $item->id) }}"
+                                                <form action="{{ route('rekapitulasi.destroy', $item->id) }}"
                                                     method="POST" style="display:inline;">
                                                     @csrf @method('DELETE')
                                                     <button class="btn btn-sm btn-danger"
@@ -92,17 +105,17 @@
                             </tbody>
                         </table>
                     </div>
-                    
                 </div>
+
             </div>
         </div>
     </div>
 @stop
 
-@push('js')
+{{-- @push('js')
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#pakan').DataTable({
+            $('#bibit').DataTable({
                 paging: true,
                 lengthChange: true, // show entries
                 searching: true, // search bar
@@ -127,14 +140,14 @@
             });
         });
 
-        $('#print-stokPakan').click(function(e) {
+          $('#print-stokBibit').click(function(e) {
             e.preventDefault();
             var kandangId = $('#kandang_id').val();
-            var url = '{{ route('print.transaksiPakan') }}';
+            var url = '{{ route('print.transaksiBibit') }}';
             if (kandangId) {
                 url += '?kandang_id=' + kandangId;
             }
             window.open(url, '_blank');
         });
     </script>
-@endpush
+@endpush --}}

@@ -9,6 +9,7 @@ use App\Http\Controllers\HargaKontrakController;
 use App\Http\Controllers\PanenController;
 use App\Http\Controllers\RekaptestController;
 use App\Http\Controllers\RekapController;
+use App\Http\Controllers\RekapitulasiController;
 use App\Http\Controllers\TransaksiBibitController;
 use App\Http\Controllers\TransaksiObatController;
 use App\Http\Controllers\TransaksiPakanController;
@@ -123,6 +124,11 @@ Route::get('print-transaksiBibit', [TransaksiBibitController::class, 'printPdf']
 Route::resource(name: 'panen', controller: PanenController::class);
 Route::get('get-panen', [PanenController::class, 'getPanen'])->name('get.panen');
 Route::get('print-panen', [PanenController::class, 'printPdf'])->name('print.panen');
+
+
+Route::resource(name: 'rekapitulasi', controller: RekapitulasiController::class);
+Route::get('get-rekapitulasi', [RekapitulasiController::class, 'getRekapitulasi'])->name('get.rekapitulasi');
+Route::get('/rekapitulasi/pdf/{id}', [RekapitulasiController::class, 'printPdf'])->name('print.rekapitulasi');
 
 
 Auth::routes();
