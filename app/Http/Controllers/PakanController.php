@@ -8,6 +8,9 @@ use DataTables;
 use Session;
 use Alert;
 use App\Models\Kandang;
+use App\Models\StokPakan;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use PDF;
 
 class PakanController extends Controller
@@ -45,9 +48,17 @@ class PakanController extends Controller
 
     public function create()
     {
-        return view('masterdata.pakan.tambah');
-    }
+        $kandang_id = Auth::user()->kandang_id;
 
+        $stokPakan = StokPakan::select('jenis_pakan')
+            ->where('kandang_id', $kandang_id)
+            ->whereIn('jenis_pakan', ['STARTER', 'PRESTARTER', 'FINISHER'])
+            ->groupBy('jenis_pakan')
+            ->selectRaw('jenis_pakan, SUM(stok_pakan) as total_jumlah')
+            ->pluck('total_jumlah', 'jenis_pakan');
+
+        return view('masterdata.pakan.tambah', compact('stokPakan'));
+    }
 
     public function store(Request $request)
     {
@@ -55,24 +66,41 @@ class PakanController extends Controller
             $this->validate($request, [
                 'tanggal' => 'required|date',
                 'umur' => 'required|numeric',
-                'nama' => 'required|string|max:255',
                 'jenis' => 'required|string|max:255',
-                'jumlah' => 'required|numeric',
+                'jumlah' => 'required|numeric|min:1',
             ]);
 
-            $data = [
-                'tanggal' => $request->tanggal,
-                'umur' => $request->umur,
-                'nama' => $request->nama,
-                'jenis' => $request->jenis,
-                'jumlah' => $request->jumlah,
-                'created_id' => auth()->id(),
-                'kandang_id' => auth()->user()->kandang_id,
-                'created_at' => now(),
-                'updated_at' => null,
-            ];
+            DB::transaction(function () use ($request) {
+                $kandangId = auth()->user()->kandang_id;
+                $jumlahPemakaian = $request->jumlah;
 
-            Pakan::create($data);
+                $stok = StokPakan::where('kandang_id', $kandangId)
+                    ->where('jenis_pakan', $request->jenis)
+                    ->first();
+
+                if (!$stok) {
+                    throw new \Exception("Stok pakan jenis {$request->jenis} tidak ditemukan.");
+                }
+
+                if ($stok->stok_pakan < $jumlahPemakaian) {
+                    throw new \Exception("Stok pakan jenis {$request->jenis} hanya tersedia {$stok->stok_pakan}, tidak mencukupi.");
+                }
+
+                $stok->stok_pakan -= $jumlahPemakaian;
+                $stok->save();
+
+                Pakan::create([
+                    'tanggal' => $request->tanggal,
+                    'umur' => $request->umur,
+                    'jenis' => $request->jenis,
+                    'jumlah' => $jumlahPemakaian,
+                    'stok_pakan' => $stok->stok_pakan,
+                    'created_id' => auth()->id(),
+                    'kandang_id' => $kandangId,
+                    'created_at' => now(),
+                    'updated_at' => null,
+                ]);
+            });
 
             Alert::success('Sukses', 'Berhasil Menambahkan Data Penggunaan Pakan Baru');
             return redirect()->route('pakan.index');
@@ -82,8 +110,6 @@ class PakanController extends Controller
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
     }
-
-
 
 
     public function edit(Pakan $pakan)

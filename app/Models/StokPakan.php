@@ -15,6 +15,7 @@ class StokPakan extends Model
         'no_doc',
         'jenis_pakan',
         'jumlah_pakan',
+        'stok_pakan',
         'harga_pakan',
         'total_harga',
         'kandang_id',
