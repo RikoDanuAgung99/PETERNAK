@@ -17,51 +17,74 @@
                     <form action="{{ route('pakan.store') }}" method="post">
                         @csrf
                         <div class="form-group row mb-3">
-                <label class="form-label col-sm-2 col-form-label">TANGGAL</label>
-                <div class="col-sm-4">
-                    <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') }}" required>
-                </div>
+                            <label class="form-label col-sm-1 col-form-label">TANGGAL</label>
+                            <div class="col-sm-3">
+                                <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') }}"
+                                    required>
+                            </div>
 
-                <label class="form-label col-sm-2 col-form-label">UMUR (HARI)</label>
-                <div class="col-sm-4">
-                    <input type="text" name="umur" class="form-control" value="{{ old('umur') }}" required>
+                            <label for="jenis" class="form-label col-sm-2 col-form-label">JENIS PAKAN</label>
+                            <div class="col-sm-2">
+                                <select name="jenis" id="jenis" class="form-control" required>
+                                    <option value="" selected disabled>-- Pilih Jenis Pakan --</option>
+                                    <option value="STARTER">STARTER</option>
+                                    <option value="PRESTARTER">PRESTARTER</option>
+                                    <option value="FINISHER">FINISHER</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-1 col-form-label">STOK PAKAN</label>
+                            <div class="col-sm-2">
+                                <input type="number" name="stok_pakan" class="form-control"
+                                    value="{{ old('stok_pakan') ?? 0 }}" required readonly id="stok_pakan">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row mb-3">
+                            <label class="form-label col-sm-1 col-form-label">UMUR (HARI)</label>
+                            <div class="col-sm-3">
+                                <input type="text" name="umur" class="form-control" value="{{ old('umur') }}"
+                                    required>
+                            </div>
+
+                            <label class="form-label col-sm-2 col-form-label">JUMLAH PAKAN</label>
+                            <div class="col-sm-2">
+                                <input type="number" name="jumlah" class="form-control" value="{{ old('jumlah') }}"
+                                    required>
+                            </div>
+                        </div>
+
+
+
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-info" id="simpan">SIMPAN</button>
+                            <a href="{{ route('pakan.index') }}" class="btn btn-danger">BATAL</a>
+                        </div>
+                    </form>
                 </div>
             </div>
+            <script>
+                const stokPakan = @json($stokPakan);
 
-            <div class="form-group row mb-3">
-                <label for="nama" class="form-label col-sm-2 col-form-label">NAMA PAKAN</label>
-                <div class="col-sm-4">
-                    <select name="nama" id="nama" class="form-control" required>
-                        <option value="" selected disabled>-- Pilih Nama Pakan --</option>
-                        <option value="NEWHOPE">NEWHOPE</option>
-                        <option value="JAPFA">JAPFA</option>
-                        <option value="POKPHAND">POKPHAND</option>
-                    </select>
-                </div>
+                const jenisSelect = document.getElementById('jenis');
+                const stokInput = document.getElementById('stok_pakan');
 
-                <label for="jenis" class="form-label col-sm-2 col-form-label">JENIS PAKAN</label>
-                <div class="col-sm-4">
-                    <select name="jenis" id="jenis" class="form-control" required>
-                        <option value="" selected disabled>-- Pilih Jenis Pakan --</option>
-                        <option value="STARTER">STARTER</option>
-                        <option value="PRESTARTER">PRESTARTER</option>
-                        <option value="FINISHER">FINISHER</option>
-                    </select>
-                </div>
-            </div>
+                window.addEventListener('DOMContentLoaded', () => {
+                    const jenisTerpilih = jenisSelect.value;
+                    if (jenisTerpilih && stokPakan[jenisTerpilih]) {
+                        stokInput.value = stokPakan[jenisTerpilih];
+                    } else {
+                        stokInput.value = 0;
+                    }
+                });
 
-            <div class="form-group row mb-3">
-                <label class="form-label col-sm-2 col-form-label">JUMLAH PAKAN</label>
-                <div class="col-sm-4">
-                    <input type="number" name="jumlah" class="form-control" value="{{ old('jumlah') }}" required>
-                </div>
-            </div>
-
-            <div class="card-footer text-center">
-                <button type="submit" class="btn btn-info" id="simpan">SIMPAN</button>
-                <a href="{{ route('pakan.index') }}" class="btn btn-danger">BATAL</a>
-            </div>
-        </form>
-    </div>
-</div>
-@stop
+                jenisSelect.addEventListener('change', function() {
+                    const jenis = this.value;
+                    if (jenis && stokPakan[jenis]) {
+                        stokInput.value = stokPakan[jenis];
+                    } else {
+                        stokInput.value = 0;
+                    }
+                });
+            </script>
+        @stop

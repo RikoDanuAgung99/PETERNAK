@@ -19,14 +19,14 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">TANGGAL</label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-1 col-form-label">TANGGAL</label>
+                            <div class="col-sm-3">
                                 <input type="date" name="tanggal" class="form-control"
                                     value="{{ isset($obat) ? $obat->tanggal : old('tanggal') }}" required>
                             </div>
 
-                            <label class="col-sm-2 col-form-label">KANDANG</label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-1 col-form-label">KANDANG</label>
+                            <div class="col-sm-3">
                                 <select name="kandang_id" id="kandang_id" class="form-control" required>
                                     <option value="">-- Pilih Kandang --</option>
                                     @foreach ($kandang as $item)
@@ -37,12 +37,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-
-                        <div class="form-group row">
-
-                            <label class="col-sm-2 col-form-label">JENIS OBAT</label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-1 col-form-label">JENIS OBAT</label>
+                            <div class="col-sm-3">
                                 <select name="jenis_obat" class="form-control" required>
                                     <option value=""
                                         {{ (isset($obat) ? $obat->jenis_obat : old('jenis_obat')) == '' ? 'selected' : '' }}
@@ -56,20 +52,30 @@
                                     </option>
                                 </select>
                             </div>
-
-                            <label class="col-sm-2 col-form-label">STOK AWAL</label>
-                            <div class="col-sm-4">
-                                <input type="text" name="stok_awal" class="form-control"
-                                    value="{{ isset($obat) ? $obat->stok_awal : old('stok_awal') }}" required>
-                            </div>
                         </div>
 
+
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">JUMLAH OBAT (BUNGKUS/100g)</label>
-                            <div class="col-sm-4">
-                                <input type="number" name="jumlah" class="form-control"
-                                    value="{{ isset($obat) ? $obat->jumlah : old('jumlah') }}">
+
+
+                            <label class="col-sm-1 col-form-label">JUMLAH OBAT (BUNGKUS/100g)</label>
+                            <div class="col-sm-3">
+                                <input type="number" name="jumlah_obat" class="form-control"
+                                    value="{{ isset($obat) ? $obat->jumlah_obat : old('jumlah_obat') }}">
                             </div>
+                            <label class="col-sm-1 col-form-label">HARGA OBAT</label>
+                            <div class="col-sm-2">
+                                <input type="number" name="harga_obat" class="form-control" id="harga_obat"
+                                    value="{{ isset($obat) ? $obat->harga_obat : old('harga_obat') }}" required>
+                            </div>
+                            <label class="col-sm-1 col-form-label">TOTAL HARGA</label>
+                            <div class="col-sm-1">
+                                <input type="number" name="total_harga" class="form-control"
+                                    value="{{ isset($obat) ? $obat->total_harga : old('total_harga') }}" id="total_harga"
+                                    required readonly>
+                            </div>
+
+
                         </div>
 
                         <div class="card-footer text-center">
@@ -81,4 +87,20 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const jumlahObat = document.querySelector('input[name="jumlah_obat"]');
+            const hargaObat = document.querySelector('input[name="harga_obat"]');
+            const totalHarga = document.getElementById('total_harga');
+
+            function hitungTotal() {
+                const jumlah = parseFloat(jumlahObat.value) || 0;
+                const harga = parseFloat(hargaObat.value) || 0;
+                totalHarga.value = jumlah * harga;
+            }
+
+            jumlahObat.addEventListener('input', hitungTotal);
+            hargaObat.addEventListener('input', hitungTotal);
+        });
+    </script>
 @stop

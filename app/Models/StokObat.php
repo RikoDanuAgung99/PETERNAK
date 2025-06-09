@@ -14,8 +14,8 @@ class StokObat extends Model
     protected $fillable = [
         'tanggal',
         'jenis_obat',
-        'stok_awal',
         'jumlah_obat',
+        'stok_obat',
         'harga_obat',
         'total_harga',
         'kandang_id',

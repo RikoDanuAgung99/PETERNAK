@@ -39,7 +39,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3 d-flex align-items-end">
-                                <button type="submit" class="btn btn-success w-100">Tampilkan</button>
+                                <button type="submit" class="btn btn-primary w-100">Tampilkan</button>
                             </div>
                         </div>
                     </form>

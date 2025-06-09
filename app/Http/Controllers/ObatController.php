@@ -8,6 +8,9 @@ use DataTables;
 use Session;
 use Alert;
 use App\Models\Kandang;
+use App\Models\StokObat;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use PDF;
 
 class ObatController extends Controller
@@ -50,8 +53,18 @@ class ObatController extends Controller
      */
     public function create()
     {
-        return view('masterdata.obat.tambah');
+        $kandang_id = Auth::user()->kandang_id;
+
+        $stokObat = StokObat::select('jenis_obat')
+            ->where('kandang_id', $kandang_id)
+            ->whereIn('jenis_obat', ['ANTIBIOTIK', 'PROBIOTIK', 'VITAMIN'])
+            ->groupBy('jenis_obat')
+            ->selectRaw('jenis_obat, SUM(stok_obat) as total_jumlah')
+            ->pluck('total_jumlah', 'jenis_obat');
+
+        return view('masterdata.obat.tambah', compact('stokObat'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -62,24 +75,34 @@ class ObatController extends Controller
             $this->validate($request, [
                 'tanggal' => 'required|date',
                 'umur' => 'required|numeric',
-                'nama' => 'required|string|max:255',
                 'jenis' => 'required|string|max:255',
-                'jumlah' => 'required|numeric',
+                'jumlah' => 'required|numeric|min:1',
             ]);
 
-            $data = [
-                'tanggal' => $request->tanggal,
-                'umur' => $request->umur,
-                'nama' => $request->nama,
-                'jenis' => $request->jenis,
-                'jumlah' => $request->jumlah,
-                'created_id' => auth()->id(),
-                'kandang_id' => auth()->user()->kandang_id,
-                'created_at' => now(),
-                'updated_at' => null,
-            ];
+            DB::transaction(function () use ($request) {
+                $kandangId = auth()->user()->kandang_id;
+                $jumlahPemakaian = $request->jumlah;
 
-            Obat::create($data);
+                $stok = StokObat::where('kandang_id', $kandangId)
+                    ->where('jenis_obat', $request->jenis)
+                    ->first();
+
+                $stok->stok_obat -= $jumlahPemakaian;
+                $stok->save();
+
+                Obat::create([
+                    'tanggal' => $request->tanggal,
+                    'umur' => $request->umur,
+                    'jenis' => $request->jenis,
+                    'jumlah' => $jumlahPemakaian,
+                    'stok_obat' => $stok->stok_obat,
+                    'created_id' => auth()->id(),
+                    'kandang_id' => $kandangId,
+                    'created_at' => now(),
+                    'updated_at' => null,
+                ]);
+            });
+
 
             Alert::success('Sukses', 'Berhasil Menambahkan Data Penggunaan Obat Baru');
             return redirect()->route('obat.index');
@@ -89,6 +112,7 @@ class ObatController extends Controller
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
     }
+
 
 
     /**
@@ -102,37 +126,74 @@ class ObatController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Obat $obat)
+    public function edit($id)
     {
-        return view('masterdata.obat.edit', compact('obat'));
+        $kandang_id = Auth::user()->kandang_id;
+
+        $obat = Obat::where('id', $id)
+            ->where('kandang_id', $kandang_id)
+            ->firstOrFail();
+
+        $stokObatReal = StokObat::where('kandang_id', $kandang_id)
+            ->where('jenis_obat', $obat->jenis)
+            ->sum('stok_obat'); 
+
+        $stokObat[$obat->jenis] = $stokObatReal + $obat->jumlah;
+
+        return view('masterdata.obat.edit', compact('obat', 'stokObat'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Obat $obat)
+    public function update(Request $request, $id)
     {
         try {
             $this->validate($request, [
                 'tanggal' => 'required|date',
                 'umur' => 'required|numeric',
-                'nama' => 'required|string|max:255',
                 'jenis' => 'required|string|max:255',
-                'jumlah' => 'required|numeric',
+                'jumlah' => 'required|numeric|min:1',
             ]);
 
-            $data = [
-                'tanggal' => $request->tanggal,
-                'umur' => $request->umur,
-                'nama' => $request->nama,
-                'jenis' => $request->jenis,
-                'jumlah' => $request->jumlah,
-                'updated_at' => now(),
-            ];
+            DB::transaction(function () use ($request, $id) {
+                $kandangId = auth()->user()->kandang_id;
+                $jenis = $request->jenis;
+                $jumlahPemakaian = $request->jumlah;
 
-            $obat->update($data);
+                $obat = Obat::where('id', $id)->where('kandang_id', $kandangId)->firstOrFail();
 
-            Alert::success('Sukses', 'Berhasil Mengupdate Data Penggunaan Obat');
+                $totalMasuk = StokObat::where('kandang_id', $kandangId)
+                    ->where('jenis_obat', $jenis)
+                    ->sum('jumlah_obat');
+
+                $totalKeluar = Obat::where('kandang_id', $kandangId)
+                    ->where('jenis', $jenis)
+                    ->where('id', '!=', $id)  
+                    ->sum('jumlah');
+
+                $stokTersedia = $totalMasuk - $totalKeluar;
+
+                if ($stokTersedia <= 0) {
+                    throw new \Exception("Stok obat jenis $jenis kosong.");
+                }
+
+                if ($stokTersedia < $jumlahPemakaian) {
+                    throw new \Exception("Stok obat jenis $jenis hanya tersedia $stokTersedia, tidak mencukupi.");
+                }
+
+                $obat->update([
+                    'tanggal' => $request->tanggal,
+                    'umur' => $request->umur,
+                    'jenis' => $jenis,
+                    'jumlah' => $jumlahPemakaian,
+                    'stok_obat' => $stokTersedia - $jumlahPemakaian,
+                    'updated_at' => now(),
+                ]);
+            });
+
+            Alert::success('Sukses', 'Berhasil Memperbarui Data Penggunaan Obat');
             return redirect()->route('obat.index');
         } catch (\Illuminate\Validation\ValidationException $e) {
             return back()->withErrors($e->errors())->withInput();
@@ -140,6 +201,8 @@ class ObatController extends Controller
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
     }
+
+
 
     /**
      * Remove the specified resource from storage.

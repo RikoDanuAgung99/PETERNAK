@@ -54,6 +54,7 @@ class TransaksiPakanController extends Controller
                 'no_doc' => $request->no_doc,
                 'jenis_pakan' => $request->jenis_pakan,
                 'jumlah_pakan' => $request->jumlah_pakan,
+                'stok_pakan' => $request->jumlah_pakan,
                 'harga_pakan' => $request->harga_pakan,
                 'total_harga' => $request->jumlah_pakan * $request->harga_pakan,
                 'created_id' => auth()->id(),

@@ -35,11 +35,11 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <label class="col-sm-1 col-form-label">STOK AWAL</label>
+                            {{-- <label class="col-sm-1 col-form-label">STOK AWAL</label>
                             <div class="col-sm-2">
                                 <input type="number" name="stok_awal" class="form-control" value="{{ old('stok_awal') }}"
                                     required>
-                            </div>
+                            </div> --}}
 
                         </div>
 

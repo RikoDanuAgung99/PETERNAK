@@ -32,16 +32,6 @@
             </div>
 
             <div class="form-group row mb-3">
-                <label class="form-label col-sm-2">NAMA PAKAN</label>
-                        <div class="col-sm-4">
-                            <select name="nama" class="form-control" required>
-                                <option value="" selected disabled>-- Pilih Nama Pakan --
-                                </option>
-                                <option value="NEWHOPE" {{ $pakan->nama == 'NEWHOPE' ? 'selected' : '' }}>NEWHOPE</option>
-                                <option value="JAPFA" {{ $pakan->nama == 'JAPFA' ? 'selected' : '' }}>JAPFA</option>
-                                <option value="POKPHAND" {{ $pakan->nama == 'POKPHAND' ? 'selected' : '' }}>POKPHAND</option> 
-                            </select>
-                        </div>
 
                 <label class="form-label col-sm-2">JENIS PAKAN</label>
                         <div class="col-sm-4">

@@ -48,7 +48,6 @@
                                     <th>NO.</th>
                                     <th>TANGGAL</th>
                                     <th>UMUR (HARI)</th>
-                                    <th>NAMA PAKAN</th>
                                     <th>JENIS PAKAN</th>
                                     <th>JUMLAH PAKAN</th>
                                     @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'PETERNAK')
@@ -99,10 +98,7 @@
                         data: 'umur',
                         name: 'umur'
                     },
-                    {
-                        data: 'nama',
-                        name: 'nama'
-                    },
+
                     {
                         data: 'jenis',
                         name: 'jenis'
