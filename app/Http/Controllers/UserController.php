@@ -43,7 +43,7 @@ class UserController extends Controller
         ]);
 
         if ($request->level === 'PETERNAK') {
-            $rules['kandang'] = 'required';
+            $rules['kandang_id'] = 'required';
         }
         // insert data ke database
         User::create([
@@ -51,7 +51,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'level' => $request->level,
-            'kandang' => $request->level === 'PETERNAK' ? $request->kandang : null,
+            'kandang_id' => $request->level === 'PETERNAK' ? $request->kandang_id : null,
         ]);
         Alert::success('Sukses', 'Berhasil Menambahkan User Baru');
         return redirect()->route('pengguna.index');
@@ -70,7 +70,9 @@ class UserController extends Controller
      */
     public function edit(User $pengguna)
     {
-        return view('users.edit', compact('pengguna'));
+
+        $kandang = Kandang::all();
+        return view('users.edit', compact('pengguna', 'kandang'));
     }
 
     /**
@@ -78,26 +80,31 @@ class UserController extends Controller
      */
     public function update(Request $request, User $pengguna)
     {
-        // memvalidasi inputan
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'nullable',
-            'level' => 'required',
-            'kandang' => 'required',
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $pengguna->id,
+            'password' => 'nullable|min:6',
+            'level' => 'required|string',
+            // 'kandang_id' => 'required|exists:kandang_id,id',
         ]);
-        // update data ke database
-        $pengguna->update([
+
+        $data = [
             'name' => $request->name,
             'email' => $request->email,
-            'password' => is_null($request->password) ? $pengguna->password :
-                Hash::make($request->password),
             'level' => $request->level,
-            'kandang' => $request->kandang,
-        ]);
+            'kandang_id' => $request->kandang_id,
+        ];
+
+        if (!empty($request->password)) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $pengguna->update($data);
+
         Alert::success('Sukses', 'Berhasil Mengupdate Pengguna');
         return redirect()->route('pengguna.index');
     }
+
 
     /**
      * Remove the specified resource from storage.
