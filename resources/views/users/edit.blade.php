@@ -50,19 +50,21 @@
                                     <option value="TS" {{ $pengguna->level == 'TS' ? 'selected' : '' }}>TS</option>
                                 </select>
                             </div>
-                            
+
                             <label class="form-label col-sm-1">Kandang</label>
                             <div class="col-sm-3">
-                                <select name="kandang" class="form-control" required>
+                                <select name="kandang_id" class="form-control" required>
                                     <option value="" selected disabled>-- Pilih Kandang --</option>
-                                    <option value="A" {{ $pengguna->kandang == 'A' ? 'selected' : '' }}>A</option>
-                                    <option value="B" {{ $pengguna->kandang == 'B' ? 'selected' : '' }}>B</option>
+                                    <option value="1" {{ $pengguna->kandang_id == '1' ? 'selected' : '' }}>A</option>
+                                    <option value="2" {{ $pengguna->kandang_id == '2' ? 'selected' : '' }}>B</option>
                                 </select>
                             </div>
-                            <div class="card-footer text-center">
-                                <button type="submit" class="btn btn-info" id="simpan">SIMPAN</button>
-                                <a href="{{ route('pengguna.index') }}" class="btn btn-danger">BATAL</a>
-                            </div>
+
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-info" id="simpan">SIMPAN</button>
+                            <a href="{{ route('pengguna.index') }}" class="btn btn-danger">BATAL</a>
+                        </div>
                     </form>
                 </div>
             </div>
