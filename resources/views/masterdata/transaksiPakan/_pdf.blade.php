@@ -111,6 +111,7 @@
                 <th>NO DOC</th>
                 <th>JENIS PAKAN</th>
                 <th>JUMLAH PAKAN</th>
+                <th>STOK PAKAN</th>
                 <th>HARGA PAKAN</th>
                 <th>TOTAL HARGA</th>
             </tr>
@@ -122,6 +123,7 @@
                     <td>{{ $item->no_doc }}</td>
                     <td>{{ $item->jenis_pakan }}</td>
                     <td>{{ $item->jumlah_pakan }}</td>
+                    <td>{{ $item->stok_pakan }}</td>
                     <td>{{ $item->harga_pakan }}</td>
                     <td>{{ $item->total_harga }}</td>
                 </tr>
