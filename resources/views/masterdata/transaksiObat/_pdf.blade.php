@@ -109,8 +109,10 @@
                 <th>NO.</th>
                 <th>TANGGAL</th>
                 <th>JENIS OBAT</th>
+                <th>JUMLAH OBAT</th>
                 <th>STOK OBAT</th>
-                <th>JUMLAH</th>
+                <th>HARGA OBAT</th>
+                <th>TOTAL HARGA</th>
             </tr>
             @php $no = $index * 5 + 1; @endphp
             @foreach ($chunk as $item)
@@ -118,8 +120,10 @@
                     <td>{{ $no++ }}</td>
                     <td>{{ $item->tanggal }}</td>
                     <td>{{ $item->jenis_obat }}</td>
-                    <td>{{ $item->stok_awal }}</td>
-                    <td>{{ $item->jumlah }}</td>
+                    <td>{{ $item->jumlah_obat }}</td>
+                    <td>{{ $item->stok_obat }}</td>
+                    <td>{{ $item->harga_obat }}</td>
+                    <td>{{ $item->total_harga }}</td>
                 </tr>
             @endforeach
         </table>
