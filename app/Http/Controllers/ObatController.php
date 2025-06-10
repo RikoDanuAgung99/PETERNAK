@@ -81,28 +81,51 @@ class ObatController extends Controller
 
             DB::transaction(function () use ($request) {
                 $kandangId = auth()->user()->kandang_id;
+                $jenis = $request->jenis;
                 $jumlahPemakaian = $request->jumlah;
 
-                $stok = StokObat::where('kandang_id', $kandangId)
-                    ->where('jenis_obat', $request->jenis)
-                    ->first();
+                $totalStok = StokObat::where('kandang_id', $kandangId)
+                    ->where('jenis_obat', $jenis)
+                    ->sum('stok_obat');
 
-                $stok->stok_obat -= $jumlahPemakaian;
-                $stok->save();
+                if ($totalStok <= 0) {
+                    throw new \Exception("Stok obat jenis $jenis kosong.");
+                }
+
+                if ($jumlahPemakaian > $totalStok) {
+                    throw new \Exception("Stok obat jenis $jenis hanya tersedia $totalStok, tidak mencukupi.");
+                }
+
+                $sisaPemakaian = $jumlahPemakaian;
+                $stokList = StokObat::where('kandang_id', $kandangId)
+                    ->where('jenis_obat', $jenis)
+                    ->orderBy('id') 
+                    ->get();
+
+                foreach ($stokList as $stok) {
+                    if ($stok->stok_obat >= $sisaPemakaian) {
+                        $stok->stok_obat -= $sisaPemakaian;
+                        $stok->save();
+                        break;
+                    } else {
+                        $sisaPemakaian -= $stok->stok_obat;
+                        $stok->stok_obat = 0;
+                        $stok->save();
+                    }
+                }
 
                 Obat::create([
                     'tanggal' => $request->tanggal,
                     'umur' => $request->umur,
-                    'jenis' => $request->jenis,
+                    'jenis' => $jenis,
                     'jumlah' => $jumlahPemakaian,
-                    'stok_obat' => $stok->stok_obat,
+                    'stok_obat' => $totalStok - $jumlahPemakaian,
                     'created_id' => auth()->id(),
                     'kandang_id' => $kandangId,
                     'created_at' => now(),
                     'updated_at' => null,
                 ]);
             });
-
 
             Alert::success('Sukses', 'Berhasil Menambahkan Data Penggunaan Obat Baru');
             return redirect()->route('obat.index');
@@ -112,6 +135,7 @@ class ObatController extends Controller
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
     }
+
 
 
 
@@ -136,7 +160,7 @@ class ObatController extends Controller
 
         $stokObatReal = StokObat::where('kandang_id', $kandang_id)
             ->where('jenis_obat', $obat->jenis)
-            ->sum('stok_obat'); 
+            ->sum('stok_obat');
 
         $stokObat[$obat->jenis] = $stokObatReal + $obat->jumlah;
 
@@ -170,18 +194,10 @@ class ObatController extends Controller
 
                 $totalKeluar = Obat::where('kandang_id', $kandangId)
                     ->where('jenis', $jenis)
-                    ->where('id', '!=', $id)  
+                    ->where('id', '!=', $id)
                     ->sum('jumlah');
 
                 $stokTersedia = $totalMasuk - $totalKeluar;
-
-                if ($stokTersedia <= 0) {
-                    throw new \Exception("Stok obat jenis $jenis kosong.");
-                }
-
-                if ($stokTersedia < $jumlahPemakaian) {
-                    throw new \Exception("Stok obat jenis $jenis hanya tersedia $stokTersedia, tidak mencukupi.");
-                }
 
                 $obat->update([
                     'tanggal' => $request->tanggal,

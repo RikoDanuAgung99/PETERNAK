@@ -13,7 +13,7 @@ class RekapController extends Controller
 {
     public function index(Request $request)
     {
-        $halaman = 10;
+        // $halaman = 10;
         $range = request()->get('r');
 
         $query = Pakan::select(
@@ -44,9 +44,9 @@ class RekapController extends Controller
             $query->where('pakan.kandang_id', $request->kandang_id);
         }
 
-        $rekap = $query->paginate($halaman);
+        $rekap = $query->paginate();
         $kandang = Kandang::all();
-        $data = compact('halaman', 'rekap', 'range', 'kandang');
+        $data = compact('rekap', 'range', 'kandang');
         return view('masterdata.rekap.index', $data);
     }
     public function printPdf(Request $request)

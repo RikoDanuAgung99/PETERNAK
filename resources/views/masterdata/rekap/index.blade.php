@@ -8,11 +8,6 @@
     <h1 class="m-0 text-dark">Data Rekap</h1>
 @stop
 
-@php
-    $page = Request::get('page') ? Request::get('page') : 1;
-    $no = ($page - 1) * $halaman + 1;
-@endphp
-
 @section('content')
     <div class="row">
         <div class="col-12">

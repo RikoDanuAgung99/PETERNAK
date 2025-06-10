@@ -72,29 +72,45 @@ class PakanController extends Controller
 
             DB::transaction(function () use ($request) {
                 $kandangId = auth()->user()->kandang_id;
+                $jenis = $request->jenis;
                 $jumlahPemakaian = $request->jumlah;
 
-                $stok = StokPakan::where('kandang_id', $kandangId)
-                    ->where('jenis_pakan', $request->jenis)
-                    ->first();
+                $totalStok = StokPakan::where('kandang_id', $kandangId)
+                    ->where('jenis_pakan', $jenis)
+                    ->sum('stok_pakan');
 
-                if (!$stok) {
-                    throw new \Exception("Stok pakan jenis {$request->jenis} tidak ditemukan.");
+                if ($totalStok <= 0) {
+                    throw new \Exception("Stok pakan jenis $jenis kosong.");
                 }
 
-                if ($stok->stok_pakan < $jumlahPemakaian) {
-                    throw new \Exception("Stok pakan jenis {$request->jenis} hanya tersedia {$stok->stok_pakan}, tidak mencukupi.");
+                if ($jumlahPemakaian > $totalStok) {
+                    throw new \Exception("Stok pakan jenis $jenis hanya tersedia $totalStok, tidak mencukupi.");
                 }
 
-                $stok->stok_pakan -= $jumlahPemakaian;
-                $stok->save();
+                $sisaPemakaian = $jumlahPemakaian;
+                $stokList = StokPakan::where('kandang_id', $kandangId)
+                    ->where('jenis_pakan', $jenis)
+                    ->orderBy('id') 
+                    ->get();
+
+                foreach ($stokList as $stok) {
+                    if ($stok->stok_pakan >= $sisaPemakaian) {
+                        $stok->stok_pakan -= $sisaPemakaian;
+                        $stok->save();
+                        break;
+                    } else {
+                        $sisaPemakaian -= $stok->stok_pakan;
+                        $stok->stok_pakan = 0;
+                        $stok->save();
+                    }
+                }
 
                 Pakan::create([
                     'tanggal' => $request->tanggal,
                     'umur' => $request->umur,
-                    'jenis' => $request->jenis,
+                    'jenis' => $jenis,
                     'jumlah' => $jumlahPemakaian,
-                    'stok_pakan' => $stok->stok_pakan,
+                    'stok_pakan' => $totalStok - $jumlahPemakaian,
                     'created_id' => auth()->id(),
                     'kandang_id' => $kandangId,
                     'created_at' => now(),
@@ -110,6 +126,7 @@ class PakanController extends Controller
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
     }
+
 
 
     public function edit(Pakan $pakan)
