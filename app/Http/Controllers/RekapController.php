@@ -13,7 +13,6 @@ class RekapController extends Controller
 {
     public function index(Request $request)
     {
-        // $halaman = 10;
         $range = request()->get('r');
 
         $query = Pakan::select(
@@ -44,7 +43,7 @@ class RekapController extends Controller
             $query->where('pakan.kandang_id', $request->kandang_id);
         }
 
-        $rekap = $query->paginate();
+        $rekap = $query->get();
         $kandang = Kandang::all();
         $data = compact('rekap', 'range', 'kandang');
         return view('masterdata.rekap.index', $data);
