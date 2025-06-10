@@ -292,7 +292,7 @@
                             <th>TANGGAL</th>
                             <th>NO DOC</th>
                             <th>JENIS PAKAN</th>
-                            <th>JUMLAH PAKAN</th>
+                            <th>JUMLAH PAKAN (SAK)</th>
                             <th>HARGA PAKAN</th>
                             <th>TOTAL HARGA</th>
                         </tr>

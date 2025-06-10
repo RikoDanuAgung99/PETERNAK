@@ -3,7 +3,7 @@
 @section('title', 'Data Pakan')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Data Pakan</h1>
+    <h1 class="m-0 text-dark">DATA PAKAN</h1>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"><strong>Tambah Data Penggunaan Pakan</strong></h3>
+                    <h3 class="card-title"><strong>TAMBAH DATA PENGGUNAAN PAKAN</strong></h3>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('pakan.store') }}" method="post">
@@ -47,7 +47,7 @@
                                     required>
                             </div>
 
-                            <label class="form-label col-sm-2 col-form-label">JUMLAH PAKAN</label>
+                            <label class="form-label col-sm-2 col-form-label">JUMLAH PAKAN (SAK)</label>
                             <div class="col-sm-2">
                                 <input type="number" name="jumlah" class="form-control" value="{{ old('jumlah') }}"
                                     required>

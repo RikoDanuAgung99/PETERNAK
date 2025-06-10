@@ -110,7 +110,7 @@
                                     <th>UMUR (HARI)</th>
                                     <th>JUMLAH KEMATIAN (EKOR)</th>
                                     <th>JUMLAH PAKAN (SAK)</th>
-                                    <th>JUMLAH OBAT (BUNGKUS@100g)</th>
+                                    <th>JUMLAH OBAT</th>
                                     <th>BOBOT ACTUAL (g)</th>
             </tr>
             @php $no = $index * 5 + 1; @endphp

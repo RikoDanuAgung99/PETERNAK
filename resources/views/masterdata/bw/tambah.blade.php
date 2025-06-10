@@ -3,7 +3,7 @@
 @section('title', 'Data Bobot')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Data Bobot</h1>
+    <h1 class="m-0 text-dark">DATA BOBOT</h1>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"><strong>Tambah Data Bobot</strong></h3>
+                    <h3 class="card-title"><strong>TAMBAH DATA BOBOT</strong></h3>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('bw.store') }}" method="post">
@@ -30,19 +30,19 @@
                         </div>
 
                         <div class="form-group row mb-3">
-                            <label class="form-label col-sm-2">BOBOT ACTUAL (g)</label>
+                            <label class="form-label col-sm-2">ACTUAL(g)</label>
                             <div class="col-sm-4">
                                 <input type="number" name="bw_act" class="form-control" value="{{ old('bw_act') }}" required>
                             </div>
                             
-                            <label class="form-label col-sm-2">BOBOT STANDAR (g)</label>
+                            <label class="form-label col-sm-2">STANDAR(g)</label>
                             <div class="col-sm-4">
                                 <input type="number" name="bw_std" class="form-control" value="{{ old('bw_std') }}" required>
                             </div>
                         </div>
 
                         <div class="form-group row mb-3">
-                            <label class="form-label col-sm-2">DIFFERENT BOBOT (g)</label>
+                            <label class="form-label col-sm-2">DIFFERENT(g)</label>
                             <div class="col-sm-4">
                                 <input type="number" name="dif_bw" class="form-control" value="{{ old('dif_bw') }}" required>
                             </div>

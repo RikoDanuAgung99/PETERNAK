@@ -3,7 +3,7 @@
 @section('title', 'Edit Data Panen')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Edit Data Panen</h1>
+    <h1 class="m-0 text-dark">DATA TRANSAKSI PANEN</h1>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"><strong>Edit Data Panen</strong></h3>
+                    <h3 class="card-title"><strong>EDIT DATA TRANSAKSI PANEN</strong></h3>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('panen.update', $panen->id) }}" method="post">

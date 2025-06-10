@@ -90,9 +90,9 @@
             <th>NO.</th>
             <th>TANGGAL</th>
             <th>UMUR (HARI)</th>
-            <th>BOBOT ACTUAL (g)</th>
-            <th>BOBOT STANDAR (g)</th>
-            <th>DIFFERENT BOBOT (g)</th>
+            <th>ACTUAL(g)</th>
+            <th>STANDAR(g)</th>
+            <th>DIFFERENT(g)</th>
         </tr>
         @php $no = 1; @endphp
         @foreach ($bw as $data)

@@ -3,7 +3,7 @@
 @section('title', 'Data Rekapitulasi')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Data Rekapitulasi</h1>
+    <h1 class="m-0 text-dark">DATA REKAPITULASI</h1>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title"><strong>Tambah Data Rekapitulasi</strong></h2>
+                    <h2 class="card-title"><strong>TAMBAH DATA REKAPITULASI</strong></h2>
                 </div>
                 <div class="card-body">
                     <form method="GET" action="{{ route('rekapitulasi.create') }}" class="mb-2">
@@ -211,7 +211,7 @@
                                             <th>TANGGAL</th>
                                             <th>NO DOC</th>
                                             <th>JENIS PAKAN</th>
-                                            <th>JUMLAH PAKAN</th>
+                                            <th>JUMLAH PAKAN (SAK)</th>
                                             <th>HARGA PAKAN</th>
                                             <th>TOTAL HARGA</th>
                                         </tr>

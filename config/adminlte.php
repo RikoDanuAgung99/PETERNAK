@@ -314,7 +314,7 @@ return [
 
         // MENU UNTUK ADMIN SAJA
         [
-            'text' => 'Pengguna',
+            'text' => 'PENGGUNA',
             'route' => 'pengguna.index',
             'icon' => 'fas fa-user',
             'can' => 'isAdmin',

@@ -3,7 +3,7 @@
 @section('title', 'Data Obat')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Data Obat</h1>
+    <h1 class="m-0 text-dark">DATA OBAT</h1>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"><strong>Edit Data Penggunaan Obat</strong></h3>
+                    <h3 class="card-title"><strong>EDIT DATA PENGGUNAAN OBAT</strong></h3>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('obat.update', $obat->id) }}" method="post">
@@ -50,7 +50,7 @@
                                 <input type="number" name="umur" class="form-control"
                                     value="{{ isset($obat) ? $obat->umur : old('umur') }}" required>
                             </div>
-                            <label class="col-sm-2 col-form-label">JUMLAH OBAT (BUNGKUS/100g)</label>
+                            <label class="col-sm-2 col-form-label">JUMLAH OBAT</label>
                             <div class="col-sm-2">
                                 <input type="number" name="jumlah" class="form-control"
                                     value="{{ isset($obat) ? $obat->jumlah : old('jumlah') }}" required>

@@ -3,7 +3,7 @@
 @section('title', 'Data Kematian')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Data Kematian</h1>
+    <h1 class="m-0 text-dark">DATA KEMATIAN</h1>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"><strong>Tambah Data Kematian</strong></h3>
+                    <h3 class="card-title"><strong>TAMBAH DATA KEMATIAN</strong></h3>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('kematian.store') }}" method="post">

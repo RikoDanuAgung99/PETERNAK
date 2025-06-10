@@ -3,7 +3,7 @@
 @section('title', 'Data Pakan')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Data Pakan</h1>
+    <h1 class="m-0 text-dark">DATA TRANSAKSI PAKAN</h1>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
         <div class="col-11">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"><strong>Edit Data Pakan</strong></h3>
+                    <h3 class="card-title"><strong>EDIT DATA TRANSAKSI PAKAN</strong></h3>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('transaksiPakan.update', $pakan->id) }}" method="post">
@@ -60,7 +60,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-1 col-form-label">JUMLAH PAKAN</label>
+                            <label class="col-sm-1 col-form-label">JUMLAH PAKAN (SAK)</label>
                             <div class="col-sm-3">
                                 <input type="number" name="jumlah_pakan" class="form-control"
                                     value="{{ isset($pakan) ? $pakan->jumlah_pakan : old('jumlah_pakan') }}" required>
@@ -68,7 +68,7 @@
                             {{-- </div> --}}
 
                             {{-- <div class="form-group row"> --}}
-                            <label class="col-sm-1 col-form-label">HARGA PAKAN</label>
+                            <label class="col-sm-1 col-form-label">HARGA PAKAN (SAK)</label>
                             <div class="col-sm-3">
                                 <input type="number" name="harga_pakan" class="form-control"
                                     value="{{ isset($pakan) ? $pakan->harga_pakan : old('harga_pakan') }}">

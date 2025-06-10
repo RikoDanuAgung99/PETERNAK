@@ -5,7 +5,7 @@
 @section('plugins.Datatables', true)
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Data Bedah</h1>
+    <h1 class="m-0 text-dark">DATA BEDAH</h1>
 @stop
 
 @section('content')
@@ -13,7 +13,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title"><strong>Table Data Bedah</strong></h2>
+                    <h2 class="card-title"><strong>TABEL DATA BEDAH</strong></h2>
                     <div class="form-group float-right">
                         @php
                             $user = auth()->user();

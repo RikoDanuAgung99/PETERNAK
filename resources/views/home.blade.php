@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1 class="text-center">CV MILENIA SARANA INFORMATIKA</h1>
+    <h1 class="text-center">SEPAKAT FARM</h1>
     <p class="text-center text-muted">JL. KUPANG, NO.93, TANAH BUMBU, INDONESIA</p>
 @stop
 

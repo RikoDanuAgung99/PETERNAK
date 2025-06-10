@@ -10,7 +10,7 @@
 @endphp
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Data Obat</h1>
+    <h1 class="m-0 text-dark">DATA TRANSAKSI OBAT</h1>
 @stop
 
 @section('content')
@@ -18,7 +18,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title"><strong>Table Data Obat </strong></h2>
+                    <h2 class="card-title"><strong>TABEL DATA TRANSAKSI OBAT</strong></h2>
                     <div class="form-group float-right">
                         @php
                             $user = auth()->user();

@@ -5,7 +5,7 @@
 @section('plugins.Datatables', true)
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Data Obat</h1>
+    <h1 class="m-0 text-dark">DATA OBAT</h1>
 @stop
 
 @section('content')
@@ -13,7 +13,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title"><strong>Table Data Penggunaan Obat </strong></h2>
+                    <h2 class="card-title"><strong>TABEL DATA PENGGUNAAN OBAT </strong></h2>
                     <div class="form-group float-right">
                         @php
                             $user = auth()->user();
@@ -51,7 +51,7 @@
                                     <th>TANGGAL</th>
                                     <th>UMUR (HARI)</th>
                                     <th>JENIS OBAT</th>
-                                    <th>JUMLAH OBAT (BUNGKUS@100g)</th>
+                                    <th>JUMLAH OBAT</th>
                                     @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'PETERNAK')
                                         <th class="text-center">AKSI</th>
                                     @endif

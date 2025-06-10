@@ -92,7 +92,7 @@
             <th>UMUR (HARI)</th>
             {{-- <th>NAMA OBAT</th> --}}
             <th>JENIS OBAT</th>
-            <th>JUMLAH OBAT (BUNGKUS @100g)</th>
+            <th>JUMLAH OBAT</th>
         </tr>
         @php $no = 1; @endphp
         @foreach ($obat as $ob)
