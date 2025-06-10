@@ -90,7 +90,7 @@
             <th>NO.</th>
             <th>TANGGAL</th>
             <th>UMUR (HARI)</th>
-            <th>NAMA OBAT</th>
+            {{-- <th>NAMA OBAT</th> --}}
             <th>JENIS OBAT</th>
             <th>JUMLAH OBAT (BUNGKUS @100g)</th>
         </tr>
@@ -100,7 +100,7 @@
             <td>{{ $no++ }}</td>
             <td>{{ $ob->tanggal }}</td>
             <td>{{ $ob->umur }}</td>
-            <td>{{ $ob->nama }}</td>
+            {{-- <td>{{ $ob->nama }}</td> --}}
             <td>{{ $ob->jenis }}</td>
             <td>{{ $ob->jumlah }}</td>
         </tr>

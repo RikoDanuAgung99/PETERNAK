@@ -85,7 +85,7 @@
             <th>NO.</th>
             <th>TANGGAL</th>
             <th>UMUR (HARI)</th>
-            <th>NAMA PAKAN</th>
+            {{-- <th>NAMA PAKAN</th> --}}
             <th>JENIS PAKAN</th>
             <th>JUMLAH PAKAN</th>
         </tr>
@@ -95,7 +95,7 @@
             <td>{{ $no++ }}</td>
             <td>{{ $pk->tanggal }}</td>
             <td>{{ $pk->umur }}</td>
-            <td>{{ $pk->nama }}</td>
+            {{-- <td>{{ $pk->nama }}</td> --}}
             <td>{{ $pk->jenis }}</td>
             <td>{{ $pk->jumlah }}</td>
         </tr>
