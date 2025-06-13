@@ -87,31 +87,32 @@
 
 <body>
     @php
-        $chunks = $rekap->chunk(5); 
+        $chunks = $rekap->chunk(5);
     @endphp
 
-    @foreach ($chunks as $index => $chunk)
-        <div class="kop">
-            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/cv.PNG'))) }}" alt="Logo">
-            <div class="kop-text">
-                <h2>CV MILENIA SARANA INFORMATIKA</h2>
-                <p>Jl. Kupang No. 93, Tanah Bumbu, Indonesia</p>
-                <p>Telp: (851) 61651610</p>
-            </div>
+
+    <div class="kop">
+        <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/cv.PNG'))) }}"
+            alt="Logo">
+        <div class="kop-text">
+            <h2>CV MILENIA SARANA INFORMATIKA</h2>
+            <p>Jl. Kupang No. 93, Tanah Bumbu, Indonesia</p>
+            <p>Telp: (851) 61651610</p>
         </div>
-
-        <hr class="separator">
-        <h2 style="text-align: center;">Laporan Data Rekap</h2>
-
+    </div>
+    <hr class="separator">
+    <h2 style="text-align: center;">Laporan Data Rekap</h2>
+    
+    @foreach ($chunks as $index => $chunk)
         <table>
             <tr>
-                                    <th>NO.</th>
-                                    <th>TANGGAL</th>
-                                    <th>UMUR (HARI)</th>
-                                    <th>JUMLAH KEMATIAN (EKOR)</th>
-                                    <th>JUMLAH PAKAN (SAK)</th>
-                                    <th>JUMLAH OBAT (BUNGKUS@100g)</th>
-                                    <th>BOBOT ACTUAL (g)</th>
+                <th>NO.</th>
+                <th>TANGGAL</th>
+                <th>UMUR (HARI)</th>
+                <th>JUMLAH KEMATIAN (EKOR)</th>
+                <th>JUMLAH PAKAN (SAK)</th>
+                <th>JUMLAH OBAT (BUNGKUS@100g)</th>
+                <th>BOBOT ACTUAL (g)</th>
             </tr>
             @php $no = $index * 5 + 1; @endphp
             @foreach ($chunk as $item)

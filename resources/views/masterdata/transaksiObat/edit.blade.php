@@ -20,25 +20,32 @@
 
                         <div class="form-group row">
                             <label class="col-sm-1 col-form-label">TANGGAL</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <input type="date" name="tanggal" class="form-control"
                                     value="{{ isset($obat) ? $obat->tanggal : old('tanggal') }}" required>
                             </div>
 
                             <label class="col-sm-1 col-form-label">KANDANG</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <select name="kandang_id" id="kandang_id" class="form-control" required>
                                     <option value="">-- Pilih Kandang --</option>
                                     @foreach ($kandang as $item)
                                         <option value="{{ $item->id }}"
-                                            {{ (isset($pakan) ? $pakan->kandang_id : old('kandang_id')) == $item->id ? 'selected' : '' }}>
+                                            {{ (isset($obat) && $obat->kandang_id == $item->id) || old('kandang_id') == $item->id ? 'selected' : '' }}>
                                             {{ $item->nama }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
+                            <label class="col-sm-1 col-form-label">NO DOC</label>
+                            <div class="col-sm-2">
+                                <input type="text" name="no_doc" class="form-control"
+                                    value="{{ isset($obat) ? $obat->no_doc : old('no_doc') }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-sm-1 col-form-label">JENIS OBAT</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <select name="jenis_obat" class="form-control" required>
                                     <option value=""
                                         {{ (isset($obat) ? $obat->jenis_obat : old('jenis_obat')) == '' ? 'selected' : '' }}
@@ -52,14 +59,9 @@
                                     </option>
                                 </select>
                             </div>
-                        </div>
 
-
-                        <div class="form-group row">
-
-
-                            <label class="col-sm-1 col-form-label">JUMLAH OBAT (BUNGKUS/100g)</label>
-                            <div class="col-sm-3">
+                            <label class="col-sm-1 col-form-label">JUMLAH OBAT</label>
+                            <div class="col-sm-2">
                                 <input type="number" name="jumlah_obat" class="form-control"
                                     value="{{ isset($obat) ? $obat->jumlah_obat : old('jumlah_obat') }}">
                             </div>

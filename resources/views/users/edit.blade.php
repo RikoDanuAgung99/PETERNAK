@@ -38,27 +38,40 @@
                                         class="form-control" value="{{ old('password') }}">
                                 </div>
                             </div>
-                            <label class="form-label col-sm-1">Level</label>
+                            <label for="level" class="form-label col-sm-1">Level</label>
                             <div class="col-sm-3">
-                                <select name="level" class="form-control" required>
-                                    <option value="" selected disabled>-- Pilih Level --
+                                <select name="level" id="level" class="form-control" required>
+                                    <option value="" disabled
+                                        {{ old('level', $user->level ?? '') == '' ? 'selected' : '' }}>-- Pilih Level --
                                     </option>
-                                    <option value="ADMIN" {{ $pengguna->level == 'ADMIN' ? 'selected' : '' }}>ADMIN
+                                    <option value="ADMIN"
+                                        {{ old('level', $user->level ?? '') == 'ADMIN' ? 'selected' : '' }}>ADMIN</option>
+                                    <option value="PETERNAK"
+                                        {{ old('level', $user->level ?? '') == 'PETERNAK' ? 'selected' : '' }}>PETERNAK
                                     </option>
-                                    <option value="PETERNAK" {{ $pengguna->level == 'PETERNAK' ? 'selected' : '' }}>PETERNAK
-                                    </option>
-                                    <option value="TS" {{ $pengguna->level == 'TS' ? 'selected' : '' }}>TS</option>
+                                    <option value="TS" {{ old('level', $user->level ?? '') == 'TS' ? 'selected' : '' }}>
+                                        TS</option>
                                 </select>
                             </div>
 
-                            <label class="form-label col-sm-1">Kandang</label>
-                            <div class="col-sm-3">
-                                <select name="kandang_id" class="form-control" required>
-                                    <option value="" selected disabled>-- Pilih Kandang --</option>
-                                    <option value="1" {{ $pengguna->kandang_id == '1' ? 'selected' : '' }}>A</option>
-                                    <option value="2" {{ $pengguna->kandang_id == '2' ? 'selected' : '' }}>B</option>
+
+                            <label for="kandang_id" class="col-sm-1" id="kandang-wrapper1"
+                                style="{{ old('level', $user->level ?? '') == 'PETERNAK' ? '' : 'display:none;' }}">Kandang</label>
+                            <div class="col-sm-3" id="kandang-wrapper"
+                                style="{{ old('level', $user->level ?? '') == 'PETERNAK' ? '' : 'display:none;' }}">
+                                <select name="kandang_id" id="kandang_id" class="form-control" required>
+                                    <option value="" disabled
+                                        {{ old('kandang_id', $user->kandang_id ?? '') == '' ? 'selected' : '' }}>-- Pilih
+                                        Kandang --</option>
+                                    @foreach ($kandang as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ old('kandang_id', $user->kandang_id ?? '') == $item->id ? 'selected' : '' }}>
+                                            {{ $item->nama }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
+
 
                         </div>
                         <div class="card-footer text-center">
@@ -70,4 +83,30 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const levelSelect = document.getElementById('level');
+            const kandangLabel = document.getElementById('kandang-wrapper1');
+            const kandangDiv = document.getElementById('kandang-wrapper');
+            const kandangSelect = document.getElementById('kandang_id');
+
+            function toggleKandang() {
+                if (levelSelect.value === 'PETERNAK') {
+                    kandangLabel.style.display = 'block';
+                    kandangDiv.style.display = 'block';
+                    kandangSelect.setAttribute('required', 'required');
+                } else {
+                    kandangLabel.style.display = 'none';
+                    kandangDiv.style.display = 'none';
+                    kandangSelect.removeAttribute('required');
+                    kandangSelect.value = '';
+                }
+            }
+
+            toggleKandang();
+
+            levelSelect.addEventListener('change', toggleKandang);
+        });
+    </script>
+
 @stop

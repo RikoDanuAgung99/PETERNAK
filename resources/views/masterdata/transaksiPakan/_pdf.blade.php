@@ -90,20 +90,20 @@
         $chunks = $pakan->chunk(5);
     @endphp
 
-    @foreach ($chunks as $index => $chunk)
-        <div class="kop">
-            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/cv.PNG'))) }}"
-                alt="Logo">
-            <div class="kop-text">
-                <h2>CV MILENIA SARANA INFORMATIKA</h2>
-                <p>Jl. Kupang No. 93, Tanah Bumbu, Indonesia</p>
-                <p>Telp: (851) 61651610</p>
-            </div>
-        </div>
+<div class="kop">
+    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/cv.PNG'))) }}"
+    alt="Logo">
+    <div class="kop-text">
+        <h2>CV MILENIA SARANA INFORMATIKA</h2>
+        <p>Jl. Kupang No. 93, Tanah Bumbu, Indonesia</p>
+        <p>Telp: (851) 61651610</p>
+    </div>
+</div>
 
-        <hr class="separator">
-        <h2 style="text-align: center;">Laporan Data Transaksi Pakan</h2>
+<hr class="separator">
+<h2 style="text-align: center;">Laporan Data Transaksi Pakan</h2>
 
+@foreach ($chunks as $index => $chunk)
         <table>
             <tr>
                 <th>NO.</th>

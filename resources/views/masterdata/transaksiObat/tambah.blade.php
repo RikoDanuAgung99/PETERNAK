@@ -35,11 +35,11 @@
                                     @endforeach
                                 </select>
                             </div>
-                            {{-- <label class="col-sm-1 col-form-label">STOK AWAL</label>
+                            <label class="col-sm-1 col-form-label">NO DOC</label>
                             <div class="col-sm-2">
-                                <input type="number" name="stok_awal" class="form-control" value="{{ old('stok_awal') }}"
+                                <input type="text" name="no_doc" class="form-control" value="{{ old('no_doc') }}"
                                     required>
-                            </div> --}}
+                            </div>
 
                         </div>
 
@@ -62,8 +62,8 @@
                             </div>
                             <label class="col-sm-1 col-form-label">HARGA OBAT</label>
                             <div class="col-sm-2">
-                                <input type="number" name="harga_obat" class="form-control" id="harga_obat" value="{{ old('harga_obat') }}"
-                                    required>
+                                <input type="number" name="harga_obat" class="form-control" id="harga_obat"
+                                    value="{{ old('harga_obat') }}" required>
                             </div>
                             <label class="col-sm-1 col-form-label">TOTAL HARGA</label>
                             <div class="col-sm-2">

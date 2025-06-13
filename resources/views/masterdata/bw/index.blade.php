@@ -41,7 +41,8 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped" id="bw">
+                        <table class="table table-bordered table-striped" id="bw"
+                            data-user-level="{{ auth()->user()->level }}">
                             <thead>
                                 <tr>
                                     <th>NO.</th>
@@ -56,6 +57,7 @@
                                     @endif
                                 </tr>
                             </thead>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -67,70 +69,60 @@
 @push('js')
     <script type="text/javascript">
         $(document).ready(function() {
-            var userLevel = $('#kandang_id').data('user-level');
+            var userLevel = $('#bw').data('user-level');
 
-            var table = $('#bw').DataTable({
-                processing: true,
-                serverSide: true,
-                autoWidth: false,
-                stateSave: true,
-                order: [
-                    [0, "desc"]
-                ],
-                ajax: {
-                    url: '{{ route('get.bw') }}',
-                    data: function(d) {
-                        if (userLevel !== 'PETERNAK') {
-                            d.kandang_id = $('#kandang_id').val();
-                        }
-                    }
+            var columns = [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
                 },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'tanggal',
-                        name: 'tanggal'
-                    },
-                    {
-                        data: 'umur',
-                        name: 'umur'
-                    },
-                    {
-                        data: 'bw_act',
-                        name: 'bw_act'
-                    },
-                    {
-                        data: 'bw_std',
-                        name: 'bw_std'
-                    },
-                    {
-                        data: 'dif_bw',
-                        name: 'dif_bw'
-                    },
-                    {
-                        data: 'keterangan',
-                        name: 'keterangan'
-                    },
-                    {
-                        data: 'aksi',
-                        name: 'aksi',
-                        orderable: false,
-                        searchable: false,
-                        'sClass': 'text-center'
-                    }
-                ]
-            });
-            if (userLevel !== 'PETERNAK') {
-                $('#kandang_id').change(function() {
-                    table.ajax.reload();
+                {
+                    data: 'tanggal',
+                    name: 'tanggal'
+                },
+                {
+                    data: 'umur',
+                    name: 'umur'
+                },
+                {
+                    data: 'bw_act',
+                    name: 'bw_act'
+                },
+                {
+                    data: 'bw_std',
+                    name: 'bw_std'
+                },
+                {
+                    data: 'dif_bw',
+                    name: 'dif_bw'
+                },
+                {
+                    data: 'keterangan',
+                    name: 'keterangan'
+                },
+            ];
+
+            if (userLevel === 'ADMIN' || userLevel === 'PETERNAK') {
+                columns.push({
+                    data: 'aksi',
+                    name: 'aksi',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
                 });
             }
+            $('#bw').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('get.bw') }}',
+                columns: columns,
+                order: [
+                    [0, 'desc']
+                ]
+            });
         });
-         $('#print-bw').click(function(e) {
+        $('#print-bw').click(function(e) {
             e.preventDefault();
             var kandangId = $('#kandang_id').val();
             var url = '{{ route('print.bw') }}';

@@ -56,6 +56,7 @@ class TransaksiObatController extends Controller
     {
         $this->validate($request, [
             'tanggal' => 'required|date',
+            'no_doc' => 'required|string|max:255',
             'jenis_obat' => 'required|string|max:255',
             'jumlah_obat' => 'nullable|numeric',
             'harga_obat' => 'nullable|numeric',
@@ -65,6 +66,7 @@ class TransaksiObatController extends Controller
 
         $data = [
             'tanggal' => $request->tanggal,
+            'no_doc' => $request->no_doc,
             'jenis_obat' => $request->jenis_obat,
             'jumlah_obat' => $request->jumlah_obat,
             'stok_obat' => $request->jumlah_obat,
@@ -94,6 +96,7 @@ class TransaksiObatController extends Controller
     {
         $this->validate($request, [
             'tanggal' => 'required|date',
+            'no_doc' => 'required|string|max:255',
             'jenis_obat' => 'required|string|max:255',
             'jumlah_obat' => 'nullable|numeric',
             'harga_obat' => 'nullable|numeric',
@@ -106,6 +109,7 @@ class TransaksiObatController extends Controller
 
         $data = [
             'tanggal' => $request->tanggal,
+            'no_doc' => $request->no_doc,
             'jenis_obat' => $request->jenis_obat,
             'jumlah_obat' => $request->jumlah_obat,
             'harga_obat' => $request->harga_obat,

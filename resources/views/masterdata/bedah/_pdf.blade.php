@@ -92,6 +92,7 @@
             <th>UMUR (HARI)</th>
             <th>GEJALA</th>
             <th>DIAGNOSIS</th>
+            <th>FOTO</th>
         </tr>
         @php $no = 1; @endphp
         @foreach ($bedah as $bd)
@@ -101,6 +102,13 @@
             <td>{{ $bd->umur }}</td>
             <td>{{ $bd->gejala }}</td>
             <td>{{ $bd->diagnosis }}</td>
+            <td>
+            @if ($bd->images)
+                <img src="{{ public_path('storage/bedah/' . $bd->images) }}" width="100">
+            @else
+                -
+            @endif
+        </td>
         </tr>
         @endforeach
     </table>

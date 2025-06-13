@@ -19,13 +19,13 @@
 
                         <div class="form-group row mb-3">
                             <label class="col-sm-1 col-form-label">TANGGAL</label>
-                            <div class="col-sm-1">
+                            <div class="col-sm-2">
                                 <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') }}"
                                     required>
                             </div>
 
                             <label class="col-sm-1 col-form-label">KANDANG</label>
-                            <div class="col-sm-1">
+                            <div class="col-sm-2">
                                 <select name="kandang_id" id="kandang_id" class="form-control" required>
                                     <option value="">-- Pilih Kandang --</option>
                                     @foreach ($kandang as $item)
@@ -37,13 +37,21 @@
                                 </select>
                             </div>
 
+                           
+
                             <label class="col-sm-1 col-form-label">NO DOC</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <input type="text" name="no_doc" class="form-control" value="{{ old('no_doc') }}"
                                     required>
                             </div>
-                            <label class="col-sm-1 col-form-label">JENIS BIBIT</label>
-                            <div class="col-sm-3">
+
+                        </div>
+
+
+                        <div class="form-group row mb-3">
+
+                             <label class="col-sm-1 col-form-label">JENIS BIBIT</label>
+                            <div class="col-sm-2">
                                 <select name="jenis_bibit" id="jenis_bibit" class="form-control" required>
                                     <option value="" selected disabled>-- Pilih Jenis Bibit --</option>
                                     <option value="CP707">CP707</option>
@@ -52,14 +60,9 @@
                                     {{-- <option value="TES 3">TES 3</option> --}}
                                 </select>
                             </div>
-                        </div>
-
-
-                        <div class="form-group row mb-3">
-
 
                             <label class="col-sm-1 col-form-label">JUMLAH BIBIT</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <input type="number" name="jumlah_bibit" class="form-control"
                                     value="{{ old('jumlah_bibit') }}" required>
                             </div>
@@ -67,12 +70,12 @@
 
                             {{-- <div class="form-group row mb-3"> --}}
                             <label class="col-sm-1 col-form-label">HARGA BIBIT</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <input type="number" name="harga_bibit" class="form-control"
                                     value="{{ old('harga_bibit') }}" required>
                             </div>
                             <label class="col-sm-1 col-form-label">TOTAL HARGA</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <input type="number" name="total_harga" class="form-control"
                                     value="{{ old('total_harga') }}" id="total_harga" readonly required>
                             </div>

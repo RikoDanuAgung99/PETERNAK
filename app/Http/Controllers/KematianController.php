@@ -19,6 +19,7 @@ class KematianController extends Controller
     public function index(Kematian $kematian)
     {
         $kandang = Kandang::all();
+        // $kematian = Kematian::all();
         return view('masterdata.kematian.index', compact('kematian', 'kandang'));
     }
 
@@ -61,21 +62,19 @@ class KematianController extends Controller
     public function store(Request $request)
     {
         try {
-            // Validasi inputan (hapus created_at dan updated_at dari validasi)
             $this->validate($request, [
                 'tanggal' => 'required|date',
                 'umur' => 'required|numeric',
                 'kematian' => 'required|numeric',
-                'std_kematian' => 'required|numeric',
+                // 'std_kematian' => 'required|numeric',
                 'keterangan' => 'required|string|max:255',
             ]);
 
-            // Buat data untuk disimpan
             $data = [
                 'tanggal' => $request->tanggal,
                 'umur' => $request->umur,
                 'kematian' => $request->kematian,
-                'std_kematian' => $request->std_kematian,
+                // 'std_kematian' => $request->std_kematian,
                 'keterangan' => $request->keterangan,
                 'created_id' => auth()->id(),
                 'kandang_id' => auth()->user()->kandang_id,
@@ -121,7 +120,7 @@ class KematianController extends Controller
                 'tanggal' => 'required|date',
                 'umur' => 'required|numeric',
                 'kematian' => 'required|numeric',
-                'std_kematian' => 'required|numeric',
+                // 'std_kematian' => 'required|numeric',
                 'keterangan' => 'required|string|max:255',
             ]);
 
@@ -129,7 +128,7 @@ class KematianController extends Controller
                 'tanggal' => $request->tanggal,
                 'umur' => $request->umur,
                 'kematian' => $request->kematian,
-                'std_kematian' => $request->std_kematian,
+                // 'std_kematian' => $request->std_kematian,
                 'keterangan' => $request->keterangan,
                 'updated_at' => now(),
             ];

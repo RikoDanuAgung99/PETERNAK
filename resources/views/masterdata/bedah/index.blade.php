@@ -42,7 +42,8 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped" id="bedah">
+                        <table class="table table-bordered table-striped" id="bedah"
+                            data-user-level="{{ auth()->user()->level }}">
                             <thead>
                                 <tr>
                                     <th>NO.</th>
@@ -51,7 +52,9 @@
                                     <th>GEJALA</th>
                                     <th>DIAGNOSIS</th>
                                     <th>FOTO</th>
-                                    <th class="text-center">AKSI</th>
+                                    @if (auth()->user()->level === 'ADMIN' || auth()->user()->level === 'PETERNAK')
+                                        <th class="text-center">AKSI</th>
+                                    @endif
                                 </tr>
                             </thead>
 
@@ -66,58 +69,42 @@
 @push('js')
     <script type="text/javascript">
         $(document).ready(function() {
-            var userLevel = $('#kandang_id').data('user-level');
+            var userLevel = $('#bedah').data('user-level');
 
-            var table = $('#bedah').DataTable({
-                processing: true,
-                serverSide: true,
-                autoWidth: false,
-                stateSave: true,
-                order: [
-                    [0, "desc"]
-                ],
-                ajax: {
-                    url: '{{ route('get.bedah') }}',
-                    data: function(d) {
-                        if (userLevel !== 'PETERNAK') {
-                            d.kandang_id = $('#kandang_id').val();
-                        }
-                    }
+            var columns = [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
                 },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'tanggal',
-                        name: 'tanggal'
-                    },
-                    {
-                        data: 'umur',
-                        name: 'umur'
-                    },
-                    {
-                        data: 'gejala',
-                        name: 'gejala'
-                    },
-                    {
-                        data: 'diagnosis',
-                        name: 'diagnosis'
-                    },
-                    {
-                        data: 'images',
-                        name: 'images',
-                        orderable: false,
-                        searchable: false,
-                        className: 'text-center',
-                        render: function(data, type, full, meta) {
-                            if (data) {
-                                let imagePath = '/storage/bedah/' + data;
-                                let modalId = 'imageModal' + full.id;
+                {
+                    data: 'tanggal',
+                    name: 'tanggal'
+                },
+                {
+                    data: 'umur',
+                    name: 'umur'
+                },
+                {
+                    data: 'gejala',
+                    name: 'gejala'
+                },
+                {
+                    data: 'diagnosis',
+                    name: 'diagnosis'
+                },
+                {
+                    data: 'images',
+                    name: 'images',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center',
+                    render: function(data, type, full, meta) {
+                        if (data) {
+                            let imagePath = '/storage/bedah/' + data;
+                            let modalId = 'imageModal' + full.id;
 
-                                return `
+                            return `
                 <img src="${imagePath}" 
                      style="width:50px; height:50px; object-fit:cover; cursor:pointer;" 
                      data-toggle="modal" 
@@ -133,24 +120,29 @@
                     </div>
                 </div>
             `;
-                            }
-                            return '-';
                         }
-                    },
-                    {
-                        data: 'aksi',
-                        name: 'aksi',
-                        orderable: false,
-                        searchable: false,
-                        className: 'text-center'
+                        return '-';
                     }
-                ]
-            });
-            if (userLevel !== 'PETERNAK') {
-                $('#kandang_id').change(function() {
-                    table.ajax.reload();
+                },
+            ];
+            if (userLevel === 'ADMIN' || userLevel === 'PETERNAK') {
+                columns.push({
+                    data: 'aksi',
+                    name: 'aksi',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
                 });
             }
+            $('#bedah').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('get.bedah') }}',
+                columns: columns,
+                order: [
+                    [0, 'desc']
+                ]
+            });
         });
         $('#print-bedah').click(function(e) {
             e.preventDefault();

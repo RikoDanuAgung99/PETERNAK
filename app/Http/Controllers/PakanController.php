@@ -90,7 +90,7 @@ class PakanController extends Controller
                 $sisaPemakaian = $jumlahPemakaian;
                 $stokList = StokPakan::where('kandang_id', $kandangId)
                     ->where('jenis_pakan', $jenis)
-                    ->orderBy('id') 
+                    ->orderBy('id')
                     ->get();
 
                 foreach ($stokList as $stok) {
@@ -131,34 +131,56 @@ class PakanController extends Controller
 
     public function edit(Pakan $pakan)
     {
-        return view('masterdata.pakan.edit', compact('pakan'));
+        $kandang_id = Auth::user()->kandang_id;
+
+        $stokPakanAwal = StokPakan::where('kandang_id', $kandang_id)
+            ->where('jenis_pakan', $pakan->jenis)
+            ->value('stok_pakan');
+
+        $stokPakan[$pakan->jenis] = $stokPakanAwal + $pakan->jumlah;
+        return view('masterdata.pakan.edit', compact('pakan', 'stokPakan'));
     }
 
 
     public function update(Request $request, Pakan $pakan)
     {
         try {
-            // Validasi inputan
             $this->validate($request, [
                 'tanggal' => 'required|date',
                 'umur' => 'required|numeric',
-                'nama' => 'required|string|max:255',
-                'jenis' => 'required|string|max:255',
-                'jumlah' => 'required|numeric',
+                'jumlah' => 'required|numeric|min:1',
             ]);
 
-            // Buat data untuk update
-            $data = [
-                'tanggal' => $request->tanggal,
-                'umur' => $request->umur,
-                'nama' => $request->nama,
-                'jenis' => $request->jenis,
-                'jumlah' => $request->jumlah,
-                'updated_at' => now(),
-            ];
+            DB::transaction(function () use ($request, $pakan) {
+                $kandangId = auth()->user()->kandang_id;
+                $jenis = $pakan->jenis; 
+                $jumlahBaru = $request->jumlah;
+                $jumlahLama = $pakan->jumlah;
+                $selisih = $jumlahBaru - $jumlahLama;
 
-            // Update data di database
-            $pakan->update($data);
+                $stok = StokPakan::where('kandang_id', $kandangId)
+                    ->where('jenis_pakan', $jenis)
+                    ->firstOrFail();
+
+                if ($selisih > 0) {
+                    if ($stok->stok_pakan < $selisih) {
+                        throw new \Exception("Stok pakan tidak mencukupi. Sisa stok: $stok->stok_pakan.");
+                    }
+                    $stok->stok_pakan -= $selisih;
+                } elseif ($selisih < 0) {
+                    $stok->stok_pakan += abs($selisih);
+                }
+
+                $stok->save();
+
+                $pakan->update([
+                    'tanggal' => $request->tanggal,
+                    'umur' => $request->umur,
+                    'jumlah' => $jumlahBaru,
+                    'stok_pakan' => $stok->stok_pakan,
+                    'updated_at' => now(),
+                ]);
+            });
 
             Alert::success('Sukses', 'Berhasil Mengupdate Data Penggunaan Pakan');
             return redirect()->route('pakan.index');
@@ -168,6 +190,7 @@ class PakanController extends Controller
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
     }
+
 
 
     public function destroy(Pakan $pakan)

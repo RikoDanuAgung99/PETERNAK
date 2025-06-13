@@ -44,7 +44,8 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped" id="obat">
+                        <table class="table table-bordered table-striped" id="obat"
+                            data-user-level="{{ auth()->user()->level }}">
                             <thead>
                                 <tr>
                                     <th>NO.</th>
@@ -68,16 +69,45 @@
 @push('js')
     <script type="text/javascript">
         $(document).ready(function() {
-            var userLevel = $('#kandang_id').data('user-level');
+            var userLevel = $('#obat').data('user-level');
+
+            var columns = [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'tanggal',
+                    name: 'tanggal'
+                },
+                {
+                    data: 'umur',
+                    name: 'umur'
+                },
+                {
+                    data: 'jenis',
+                    name: 'jenis'
+                },
+                {
+                    data: 'jumlah',
+                    name: 'jumlah'
+                },
+            ];
+
+            if (userLevel === 'ADMIN' || userLevel === 'PETERNAK') {
+                columns.push({
+                    data: 'aksi',
+                    name: 'aksi',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                });
+            }
 
             var table = $('#obat').DataTable({
                 processing: true,
                 serverSide: true,
-                autoWidth: false,
-                stateSave: true,
-                order: [
-                    [0, "desc"]
-                ],
                 ajax: {
                     url: '{{ route('get.obat') }}',
                     data: function(d) {
@@ -86,51 +116,26 @@
                         }
                     }
                 },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'tanggal',
-                        name: 'tanggal'
-                    },
-                    {
-                        data: 'umur',
-                        name: 'umur'
-                    },
-                    {
-                        data: 'jenis',
-                        name: 'jenis'
-                    },
-                    {
-                        data: 'jumlah',
-                        name: 'jumlah'
-                    },
-                    {
-                        data: 'aksi',
-                        name: 'aksi',
-                        orderable: false,
-                        searchable: false,
-                        'sClass': 'text-center'
-                    }
+                columns: columns,
+                order: [
+                    [0, 'desc']
                 ]
             });
+
             if (userLevel !== 'PETERNAK') {
                 $('#kandang_id').change(function() {
                     table.ajax.reload();
                 });
             }
-        });
-        $('#print-obat').click(function(e) {
-            e.preventDefault();
-            var kandangId = $('#kandang_id').val();
-            var url = '{{ route('print.obat') }}';
-            if (kandangId) {
-                url += '?kandang_id=' + kandangId;
-            }
-            window.open(url, '_blank');
+            $('#print-obat').click(function(e) {
+                e.preventDefault();
+                var kandangId = $('#kandang_id').val();
+                var url = '{{ route('print.obat') }}';
+                if (kandangId) {
+                    url += '?kandang_id=' + kandangId;
+                }
+                window.open(url, '_blank');
+            });
         });
     </script>
 @endpush

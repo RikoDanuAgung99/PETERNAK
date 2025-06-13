@@ -18,9 +18,14 @@
                         @csrf
                         <div class="form-group row mb-3">
                             <label class="form-label col-sm-2">TANGGAL</label>
-                            <div class="col-sm-2">
-                                <input type="date" name="tanggal" class="form-control"
-                                    value="{{ old('tanggal') }}" required>
+                            <div class="col-sm-3">
+                                <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') }}"
+                                    required>
+                            </div>
+                            <label class="form-label col-sm-2">UMUR (HARI)</label>
+                            <div class="col-sm-3">
+                                <input type="text" name="umur" class="form-control" value="{{ old('umur') }}"
+                                    required>
                             </div>
                         </div>
                         <div class="form-group row mb-3">
@@ -30,33 +35,30 @@
                                     value="{{ old('tanggal') }}" required>
                             </div> --}}
 
-                            <label class="form-label col-sm-2">UMUR (HARI)</label>
-                            <div class="col-sm-3">
-                                <input type="text" name="umur" class="form-control"
-                                    value="{{ old('umur') }}" required>
-                            </div>
+
 
                             <label class="form-label col-sm-2">KEMATIAN (EKOR)</label>
                             <div class="col-sm-3">
-                                <input type="number" name="kematian" class="form-control"
-                                    value="{{ old('kematian') }}" required>
+                                <input type="number" name="kematian" class="form-control" value="{{ old('kematian') }}"
+                                    required>
+                            </div>
+                            <label class="form-label col-sm-2">PENYEBAB KEMATIAN</label>
+                            <div class="col-sm-3">
+                                <input type="text" name="keterangan" class="form-control" value="{{ old('keterangan') }}"
+                                    required>
                             </div>
                         </div>
 
-                        <div class="form-group row mb-3">                           
+                        {{-- <div class="form-group row mb-3"> --}}
 
-                            <label class="form-label col-sm-2">STANDAR KEMATIAN (EKOR)</label>
+                            {{-- <label class="form-label col-sm-2">STANDAR KEMATIAN (EKOR)</label>
                             <div class="col-sm-3">
                                 <input type="number" name="std_kematian" class="form-control"
                                     value="{{ old('std_kematian') }}" required>
-                            </div>
+                            </div> --}}
 
-                            <label class="form-label col-sm-2">PENYEBAB KEMATIAN</label>
-                            <div class="col-sm-3">
-                                <input type="text" name="keterangan" class="form-control"
-                                    value="{{ old('keterangan') }}" required>
-                            </div>
-                        </div>
+
+                        {{-- </div> --}}
 
                         <div class="card-footer text-center">
                             <button type="submit" class="btn btn-info" id="simpan">SIMPAN</button>

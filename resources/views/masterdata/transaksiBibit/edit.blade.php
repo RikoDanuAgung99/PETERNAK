@@ -20,13 +20,13 @@
 
                         <div class="form-group row">
                             <label class="col-sm-1 col-form-label">TANGGAL</label>
-                            <div class="col-sm-1">
+                            <div class="col-sm-2">
                                 <input type="date" name="tanggal" class="form-control"
                                     value="{{ isset($bibit) ? $bibit->tanggal : old('tanggal') }}" required>
                             </div>
 
                             <label class="col-sm-1 col-form-label">KANDANG</label>
-                            <div class="col-sm-1">
+                            <div class="col-sm-2">
                                 <select name="kandang_id" id="kandang_id" class="form-control" required>
                                     <option value="">-- Pilih Kandang --</option>
                                     @foreach ($kandang as $item)
@@ -39,13 +39,15 @@
                             </div>
                             
                             <label class="col-sm-1 col-form-label">NO DOC</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <input type="text" name="no_doc" class="form-control"
                                     value="{{ isset($bibit) ? $bibit->no_doc : old('no_doc') }}" required>
-                            </div>
+                            </div>                         
+                        </div>
 
-                            <label class="col-sm-1 col-form-label">JENIS OBAT</label>
-                            <div class="col-sm-3">
+                        <div class="form-group row">
+                             <label class="col-sm-1 col-form-label">JENIS OBAT</label>
+                            <div class="col-sm-2">
                                 <select name="jenis_bibit" class="form-control" required>
                                     <option value=""
                                         {{ (isset($bibit) ? $bibit->jenis_bibit : old('jenis_bibit')) == '' ? 'selected' : '' }}
@@ -58,11 +60,8 @@
                                     </option>
                                 </select>
                             </div>
-                        </div>
-
-                        <div class="form-group row">
                             <label class="col-sm-1 col-form-label">JUMLAH BIBIT</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <input type="text" name="jumlah_bibit" class="form-control"
                                     value="{{ isset($bibit) ? $bibit->jumlah_bibit : old('jumlah_bibit') }}" required>
                             </div>
@@ -70,13 +69,12 @@
 
                             {{-- <div class="form-group row"> --}}
                             <label class="col-sm-1 col-form-label">HARGA BIBIT</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <input type="number" name="harga_bibit" class="form-control"
                                     value="{{ isset($bibit) ? $bibit->harga_bibit : old('harga_bibit') }}">
                             </div>
                             <label class="col-sm-1 col-form-label">TOTAL HARGA</label>
-
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <input type="number" name="total_harga" class="form-control"
                                     value="{{ isset($bibit) ? $bibit->total_harga : old('total_harga') }}" readonly
                                     required>

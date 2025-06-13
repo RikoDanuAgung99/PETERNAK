@@ -108,6 +108,7 @@
             <tr>
                 <th>NO.</th>
                 <th>TANGGAL</th>
+                <th>NO DOC</th>
                 <th>JENIS OBAT</th>
                 <th>JUMLAH OBAT</th>
                 <th>STOK OBAT</th>
@@ -119,6 +120,7 @@
                 <tr>
                     <td>{{ $no++ }}</td>
                     <td>{{ $item->tanggal }}</td>
+                    <td>{{ $item->no_doc }}</td>
                     <td>{{ $item->jenis_obat }}</td>
                     <td>{{ $item->jumlah_obat }}</td>
                     <td>{{ $item->stok_obat }}</td>

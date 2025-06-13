@@ -99,7 +99,7 @@ class ObatController extends Controller
                 $sisaPemakaian = $jumlahPemakaian;
                 $stokList = StokObat::where('kandang_id', $kandangId)
                     ->where('jenis_obat', $jenis)
-                    ->orderBy('id') 
+                    ->orderBy('id')
                     ->get();
 
                 foreach ($stokList as $stok) {
@@ -150,61 +150,77 @@ class ObatController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    // public function edit($id)
+    // {
+    //     $kandang_id = Auth::user()->kandang_id;
+
+    //     $obat = Obat::where('id', $id)
+    //         ->where('kandang_id', $kandang_id)
+    //         ->firstOrFail();
+
+    //     $stokObatReal = StokObat::where('kandang_id', $kandang_id)
+    //         ->where('jenis_obat', $obat->jenis)
+    //         ->sum('stok_obat');
+
+    //     $stokObat[$obat->jenis] = $stokObatReal + $obat->jumlah;
+
+    //     return view('masterdata.obat.edit', compact('obat', 'stokObat'));
+    // }
+    public function edit(Obat $obat)
     {
         $kandang_id = Auth::user()->kandang_id;
 
-        $obat = Obat::where('id', $id)
-            ->where('kandang_id', $kandang_id)
-            ->firstOrFail();
-
-        $stokObatReal = StokObat::where('kandang_id', $kandang_id)
+        $stokObatAwal = StokObat::where('kandang_id', $kandang_id)
             ->where('jenis_obat', $obat->jenis)
-            ->sum('stok_obat');
+            ->value('stok_obat');
 
-        $stokObat[$obat->jenis] = $stokObatReal + $obat->jumlah;
+        $stokObat[$obat->jenis] = $stokObatAwal + $obat->jumlah;
 
         return view('masterdata.obat.edit', compact('obat', 'stokObat'));
     }
 
 
+
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Obat $obat)
     {
         try {
             $this->validate($request, [
                 'tanggal' => 'required|date',
                 'umur' => 'required|numeric',
-                'jenis' => 'required|string|max:255',
                 'jumlah' => 'required|numeric|min:1',
             ]);
 
-            DB::transaction(function () use ($request, $id) {
+            DB::transaction(function () use ($request, $obat) {
                 $kandangId = auth()->user()->kandang_id;
-                $jenis = $request->jenis;
-                $jumlahPemakaian = $request->jumlah;
+                $jenis = $obat->jenis; 
+                $jumlahBaru = $request->jumlah;
+                $jumlahLama = $obat->jumlah;
+                $selisih = $jumlahBaru - $jumlahLama;
 
-                $obat = Obat::where('id', $id)->where('kandang_id', $kandangId)->firstOrFail();
-
-                $totalMasuk = StokObat::where('kandang_id', $kandangId)
+                $stok = StokObat::where('kandang_id', $kandangId)
                     ->where('jenis_obat', $jenis)
-                    ->sum('jumlah_obat');
+                    ->firstOrFail();
 
-                $totalKeluar = Obat::where('kandang_id', $kandangId)
-                    ->where('jenis', $jenis)
-                    ->where('id', '!=', $id)
-                    ->sum('jumlah');
+                if ($selisih > 0) {
+                    if ($stok->stok_obat < $selisih) {
+                        throw new \Exception("Stok tidak mencukupi. Sisa stok: $stok->stok_obat.");
+                    }
+                    $stok->stok_obat -= $selisih;
+                } elseif ($selisih < 0) {
+                    $stok->stok_obat += abs($selisih);
+                }
 
-                $stokTersedia = $totalMasuk - $totalKeluar;
+                $stok->save();
 
                 $obat->update([
                     'tanggal' => $request->tanggal,
                     'umur' => $request->umur,
-                    'jenis' => $jenis,
-                    'jumlah' => $jumlahPemakaian,
-                    'stok_obat' => $stokTersedia - $jumlahPemakaian,
+                    'jumlah' => $jumlahBaru,
+                    'stok_obat' => $stok->stok_obat,
                     'updated_at' => now(),
                 ]);
             });
@@ -225,10 +241,20 @@ class ObatController extends Controller
      */
     public function destroy(Obat $obat)
     {
-        $obat->destroy($obat->id);
-        Alert::success('Sukses', 'Berhasil Menghapus Data Obat ');
+        $stok = StokObat::where('jenis_obat', $obat->jenis)->first();
+
+        if ($stok) {
+            // $stok->jumlah_obat += $obat->jumlah;
+            $stok->stok_obat += $obat->jumlah;
+            $stok->save();
+        }
+
+        $obat->delete();
+
+        Alert::success('Sukses', 'Berhasil Menghapus Data Obat');
         return redirect()->route('obat.index');
     }
+
 
     public function printPdf(Request $request)
     {
