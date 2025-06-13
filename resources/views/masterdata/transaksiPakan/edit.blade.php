@@ -61,12 +61,12 @@
                                     </option>
                                 </select>
                             </div>
-                            <label class="col-sm-1 col-form-label">JUMLAH PAKAN</label>
+                            <label class="col-sm-1 col-form-label">JUMLAH PAKAN (SAK)</label>
                             <div class="col-sm-2">
                                 <input type="number" name="jumlah_pakan" class="form-control"
                                     value="{{ isset($pakan) ? $pakan->jumlah_pakan : old('jumlah_pakan') }}" required>
                             </div>
-                            <label class="col-sm-1 col-form-label">HARGA PAKAN</label>
+                            <label class="col-sm-1 col-form-label">HARGA PAKAN (SAK)</label>
                             <div class="col-sm-2">
                                 <input type="number" name="harga_pakan" class="form-control" id="harga_pakan"
                                     value="{{ isset($pakan) ? $pakan->harga_pakan : old('harga_pakan') }}">

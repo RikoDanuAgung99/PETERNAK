@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"><strong>Edit Data Penggunaan Pakan</strong></h3>
+                    <h3 class="card-title"><strong>EDIT DATA PENGGUNAAN PAKAN</strong></h3>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('pakan.update', $pakan->id) }}" method="post">
@@ -23,7 +23,7 @@
                                 <input type="date" name="tanggal" class="form-control"
                                     value="{{ isset($pakan) ? $pakan->tanggal : old('pakan') }}" required>
                             </div>
-                            <label class="form-label col-sm-1">JENIS PAKAN</label>
+                            <label class="form-label col-sm-2 col-form-label">JENIS PAKAN</label>
                             <div class="col-sm-3">
                                 <select name="jenis" class="form-control" required disabled>
                                     <option value="" selected disabled>-- Pilih Jenis Pakan --
@@ -51,7 +51,7 @@
                                     value="{{ isset($pakan) ? $pakan->umur : old('pakan') }}" required>
                             </div>
                             {{-- <div class="form-group row mb-3"> --}}
-                            <label class="form-label col-sm-1 col-form-label">JUMLAH PAKAN</label>
+                            <label class="form-label col-sm-2 col-form-label">JUMLAH PAKAN (SAK)</label>
                             <div class="col-sm-3">
                                 <input type="number" name="jumlah" class="form-control"
                                     value="{{ isset($pakan) ? $pakan->jumlah : old('pakan') }}" required>

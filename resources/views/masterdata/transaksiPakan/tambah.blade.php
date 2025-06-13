@@ -61,7 +61,7 @@
                             </div>
                             {{-- </div> --}}
                             {{-- <div class="form-group row mb-3"> --}}
-                            <label class="col-sm-1 col-form-label">HARGA PAKAN</label>
+                            <label class="col-sm-1 col-form-label">HARGA PAKAN </label>
                             <div class="col-sm-2">
                                 <input type="number" name="harga_pakan" class="form-control"
                                     value="{{ old('harga_pakan') }}" required>
